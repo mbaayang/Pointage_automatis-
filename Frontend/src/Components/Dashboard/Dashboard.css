@@ -33,6 +33,21 @@
 .icone {
   background-size: cover;
   height: 50vh;
-  font-size:50vh;
+  font-size: 50vh;
   width: 50vh;
+}
+a {
+  cursor: pointer;
+}
+.submit,
+.submit:hover {
+  width: 13vh;
+  height: 4vh;
+  background-color: #81ccb7;
+  color: #306887;
+  font-weight: bold;
+  font-size: 20px;
+}
+.body-modal{
+    margin-top: -30px;
 }
