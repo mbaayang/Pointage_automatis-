@@ -1,11 +1,12 @@
 import './App.css'
+import Connexion from './Components/Connexion/Connexion'
 
 function App() {
 
 
   return (
     <>
-      <p className='text-red-400'>hello</p>
+      <Connexion></Connexion>
     </>
   )
 }
