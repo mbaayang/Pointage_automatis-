@@ -55,6 +55,7 @@ input{
     border: none;
     width: 100%;
     background-color: none;
+    outline: none;
 }
 svg{
     color: grey;
