@@ -1,6 +1,7 @@
 import './Header.css';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -10,6 +11,16 @@ function Header() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const {
+        register,
+        watch,
+        handleSubmit,
+        formState: { errors },
+      } = useForm({ mode: 'onChange' });
+    const onSubmit = (data:any) => { console.log(data); };
+    const password = useRef({})
+    password.current = watch("newPassword", "")
     
     return (
         <>
@@ -72,23 +83,33 @@ function Header() {
             </svg>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label className='text-lg'>Mot de passe actuel</Form.Label>
-                <Form.Control type="password"/>
+                <Form.Control type="password" id='actuelPassword' { ...register("actuelPassword", {required:true, minLength: 6, maxLength: 20})}/>
+                {errors.actuelPassword?.type === 'required' && <p className='text-red-500'>Ce champ est obligatoire</p>}
+                {errors.actuelPassword?.type === 'minLength' && <p className='text-red-500'>Minimum 6 caractères</p>}
+                {errors.actuelPassword?.type === 'maxLength' && <p className='text-red-500'>Maximum 20 caractères</p>}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label className='text-lg'>Nouveau mot de passe</Form.Label>
-                <Form.Control type="password" />
+                <Form.Control type="password" id='newPassword' { ...register("newPassword", {required:true, minLength: 6, maxLength: 20})}/>
+                {errors.newPassword?.type === 'required' && <p className='text-red-500'>Ce champ est obligatoire</p>}
+                {errors.newPassword?.type === 'minLength' && <p className='text-red-500'>Minimum 6 caractères</p>}
+                {errors.newPassword?.type === 'maxLength' && <p className='text-red-500'>Maximum 20 caractères</p>}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label className='text-lg'>Confirmation du mot de passe</Form.Label>
-                <Form.Control type="password" />
+                <Form.Control type="password" id='confirmPassword' {...register("confirmPassword", {
+                              required: {value: true, message: "Ce champ est obligatoire"},
+                              validate: value => password.current === value || "Les deux mots de passe ne correspondent pas"
+                          })}/>
+                {errors.confirmPassword && <p className='text-red-500'>{errors.confirmPassword.message as string}</p>}
               </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-success" onClick={handleClose} >
+            <Button type='submit' variant="outline-success" onClick={handleClose} >
               Modifier
             </Button>
           </Modal.Footer>
