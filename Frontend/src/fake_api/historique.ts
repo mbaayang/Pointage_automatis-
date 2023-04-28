@@ -35,7 +35,7 @@ const etudiant_history: Etudiant[] = [
         date: "2023-04-25",
         heure: "08h02",
         prenom: "Mamadou",
-        nom: "Diop",
+        nom: "Ndiaye",
         email: "diopmamadou@gmail.com",
         etat: "Absent",
         retard: "Non"
@@ -45,7 +45,7 @@ const etudiant_history: Etudiant[] = [
         date: "2023-04-23",
         heure: "08h02",
         prenom: "Mamadou",
-        nom: "Diop",
+        nom: "Fall",
         email: "diopmamadou@gmail.com",
         etat: "Présent",
         retard: "Non"

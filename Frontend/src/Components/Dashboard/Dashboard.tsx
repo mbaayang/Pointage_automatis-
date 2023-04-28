@@ -39,7 +39,6 @@ const Dashboard = () => {
 
         <div className="col">
           <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
-            {" "}
             <svg
               width="40"
               height="42"

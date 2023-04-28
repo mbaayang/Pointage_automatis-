@@ -14,7 +14,7 @@ const Pointage = () => {
   const [profil, setProfil] = useState<string>("Administrateur");
   const [bloquer, setBloquer] = useState<boolean>();
   return (
-    <div className="container container-costumer pt-60">
+    <div className="container container-costumer">
       <div className="row gap-8">
         <div className="col">
           <div

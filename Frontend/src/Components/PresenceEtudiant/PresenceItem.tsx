@@ -15,7 +15,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ data }: PresenceItemProps) 
     let selectStyle =  ''
 
     if (etat === 'en attente') {
-        selectStyle = 'bg-yellow-500 text-white'
+        selectStyle = 'bg-yellow-400 text-white'
     }
 
     if (etat === 'present') {
