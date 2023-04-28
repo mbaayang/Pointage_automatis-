@@ -6,7 +6,7 @@ import PageAdmin from '../Pages/PageAdmin.tsx'
 import PageVigil from '../Pages/PageVigil.tsx'
 import { Historique } from './Components/Historique/Historique.tsx'
 import Dashboard from './Components/Dashboard/Dashboard.tsx'
-import { PresenceEtudiant } from './Components/Presence_Etudiant/Presence_Etudiant.tsx'
+import { PresenceEtudiant } from './Components/Presence_Etudiant/PresenceEtudiant.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

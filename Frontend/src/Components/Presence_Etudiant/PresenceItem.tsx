@@ -11,18 +11,18 @@ type PresenceItemProps = {
 /* Composant PresenceItem qui représente un élément du tableau historique */
 const PresenceItem: React.FC<PresenceItemProps> = ({ data }: PresenceItemProps) => {
 
-    const [etat, setEtat] = useState<string>('1')
+    const [etat, setEtat] = useState<string>('en attente')
     let selectStyle =  ''
 
-    if (etat === '1') {
+    if (etat === 'en attente') {
         selectStyle = 'bg-yellow-500 text-white'
     }
 
-    if (etat === '2') {
+    if (etat === 'present') {
         selectStyle = 'vert'
     }
 
-    if (etat === '3') {
+    if (etat === 'absent') {
         selectStyle = 'bg-red-500 text-white'
     }
 
@@ -57,9 +57,9 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ data }: PresenceItemProps) 
             <td className="border-2 border-gray-300 px-4 py-2">
                 <Form.Select aria-label="Default select example" className={`border-none ${selectStyle}`}
                     onChange={(event) => setEtat(event.target.value)}>
-                    <option selected value="1" className=" text-white">En attente</option>
-                    <option value="2"  className=" text-white">Présent</option>
-                    <option value="3" className=" text-white">Absent</option>
+                    <option value="en attente" className=" text-white">En attente</option>
+                    <option value="present" className=" text-white">Présent</option>
+                    <option value="absent" className=" text-white">Absent</option>
                 </Form.Select>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
