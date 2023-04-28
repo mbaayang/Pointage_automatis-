@@ -1,16 +1,14 @@
-import Dashboard from "../src/Components/Dashboard/Dashboard"
+import { Outlet } from "react-router-dom"
 import Header from "../src/Components/Header/Header"
-import { Historique } from "../src/Components/Historique/Historique"
-import { PresenceEtudiant } from "../src/Components/Presence_Etudiant/Presence_Etudiant"
 
 function PageAdmin() {
 
 
     return (
         <div>
-             <Dashboard/> 
-            <Historique/>
-            <PresenceEtudiant/>
+            <div className="mt-48" style={{marginTop:'12rem'}}>
+            <Outlet />
+            </div>
             <Header/>
         </div>
     )
