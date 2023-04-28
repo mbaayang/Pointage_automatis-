@@ -1,4 +1,5 @@
 import Table from 'react-bootstrap/Table';
+import { Link } from 'react-router-dom';
 import { useState } from "react";
 import etudiant_history, { Etudiant } from "../../fake_api/historique";
 import NoResult from "./NoResult";
@@ -29,13 +30,15 @@ export function Historique() {
     }
 
     return (
-        <div className="flex justify-center w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border" style={{marginLeft:'10%'}}>
-            <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{color:'#81CCB7'}}>
+        <div className="flex justify-center w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border" style={{marginLeft:'10%'}}>
+            <Link to={"../presenceEtudiant"}>
+            <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{color:'#81CCB7', cursor:'pointer'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-7">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
                 <p>Liste présence :</p>
             </div>
+            </Link>
             <div className="flex justify-end">
                 <input type="date" onChange={(e) => search(e)} className="border-2 border-gray-300 rounded-md p-2 w-60" />
             </div>

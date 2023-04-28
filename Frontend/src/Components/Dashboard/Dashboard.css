@@ -13,9 +13,7 @@
   width: auto;
   min-width: 10vh;
 }
-.text-size {
-  font-size: 3rem;
-}
+
 .text-bg {
   background-color: #81ccb7;
   min-width: 30vh;
@@ -30,15 +28,7 @@
   justify-content: center;
   align-items: center;
 }
-.icone {
-  background-size: cover;
-  height: 50vh;
-  font-size: 50vh;
-  width: 50vh;
-}
-a {
-  cursor: pointer;
-}
+
 .submit,
 .submit:hover {
   width: 13vh;
@@ -47,7 +37,4 @@ a {
   color: #306887;
   font-weight: bold;
   font-size: 20px;
-}
-.body-modal{
-    margin-top: -30px;
 }
