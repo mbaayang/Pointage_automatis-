@@ -3,13 +3,18 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import certificat from "../../assets/certificate.svg";
+import { useForm } from "react-hook-form";
+import Button from "react-bootstrap/esm/Button";
+import { MdCloudUpload, MdDelete } from "react-icons/md";
+import { AiFillFileImage } from "react-icons/ai";
 
 const Dashboard = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [prenomError, setPrenomError] = useState<string>("");
-  const [prenomValue, setPrenomValue] = useState<string>("");
+
+  const [image, setImage] = useState(null);
+  const [fileName, setFileName] = useState("No selected file");
   {
     /*
      ****************************************************************************
@@ -17,25 +22,15 @@ const Dashboard = () => {
      ****************************************************************************
      */
   }
-
-  const onSubmit = () => {
-    if (prenomValue == "") {
-      setPrenomError("Ce champs est requis");
-    } else {
-      setPrenomError("");
-      setPrenomValue("");
-      setShow(false);
-    }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+  const onSubmit = (data: any) => {
+    console.log(data);
   };
 
-  const prenomC = (e: any) => {
-    setPrenomValue(e);
-    if (e == "") {
-      setPrenomError("Ce champs est requis");
-    } else {
-      setPrenomError("");
-    }
-  };
   return (
     <div className="container text-center pt-60">
       <div className="row">
@@ -249,21 +244,35 @@ const Dashboard = () => {
           </svg>
         </div>
         <Modal.Body className="body-modal">
-          <Form onSubmit={onSubmit}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="prenom">
               <Form.Label>Prénom</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="issa"
                 autoFocus
-                onChange={(e) => prenomC(e.target.value)}
+                {...register("prenom", {
+                  required: true,
+                })}
               />
-              <span className="text-danger">{prenomError}</span>
+              {errors.prenom?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="nom">
               <Form.Label>Nom</Form.Label>
-              <Form.Control type="text" placeholder="ndiaye" autoFocus />
+              <Form.Control
+                type="text"
+                placeholder="ndiaye"
+                autoFocus
+                {...register("nom", {
+                  required: true,
+                })}
+              />
+              {errors.nom?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email</Form.Label>
@@ -271,11 +280,40 @@ const Dashboard = () => {
                 type="email"
                 placeholder="astouissa@gmail.com"
                 autoFocus
+                {...register("email", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                })}
               />
+              <div>
+                {/* message d'erreur */}
+                {errors.email?.type === "required" && (
+                  <span className="text-red-600">Ce champ est Obligatoire</span>
+                )}
+                {errors.email?.type === "pattern" && (
+                  <span className="text-red-600">
+                    Email entré n'est pas valide
+                  </span>
+                )}
+              </div>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>Mot de passe</Form.Label>
-              <Form.Control type="password" placeholder="*****" autoFocus />
+              <Form.Control
+                type="password"
+                placeholder="*****"
+                autoFocus
+                {...register("password", { required: true, minLength: 6 })}
+              />
+              <div>
+                {/* message d'erreur */}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-red-600">minimum 5 caractère</p>
+                )}
+                {errors.password?.type === "required" && (
+                  <p className="text-red-600">Ce champ est obligatoire</p>
+                )}
+              </div>
             </Form.Group>
             <Form.Group className="mb-3" controlId="matricule">
               <Form.Label>Matricule</Form.Label>
@@ -283,31 +321,54 @@ const Dashboard = () => {
                 type="text"
                 placeholder="9208383576278772"
                 autoFocus
+                {...register("matricule", {
+                  required: true,
+                })}
               />
+              {errors.matricule?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="role">
               <Form.Label>Role</Form.Label>
-              <Form.Control type="select" placeholder="" autoFocus />
+              <Form.Control
+                as="select"
+                {...register("role", {
+                  required: true,
+                })}
+              >
+                <option value=""></option>
+                <option value="professeur">professeur</option>
+                <option value="surveillant">surveillant</option>
+                <option value="administrateur">administrateur</option>
+              </Form.Control>
+              {errors.role?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="photo">
               <Form.Label>photo</Form.Label>
-              <Form.Control type="file" placeholder="" autoFocus />
-            </Form.Group>
-          </Form>
+              <Form.Control
+                accept="image/*"
+                type="file"
+                placeholder=""
+                autoFocus
+                {...register("file", {
+                  required: true,
+                })}
+              />
 
-          <div
-            className="d-flex justify-content-center align-items-center submit"
-            /* onClick={handleClose} */
-          >
-            <a
-              onClick={() => {
-                onSubmit();
-              }}
+              {errors.file?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
+            </Form.Group>
+            <Button
+              className="d-flex justify-content-center align-items-center submit"
+              type="submit"
             >
-              {" "}
               Ajouter
-            </a>
-          </div>
+            </Button>
+          </Form>
         </Modal.Body>
       </Modal>
     </div>
