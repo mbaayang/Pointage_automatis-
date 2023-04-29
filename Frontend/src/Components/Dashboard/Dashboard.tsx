@@ -55,7 +55,7 @@ const Dashboard = () => {
             <p className="h4 text-color">Liste des employés</p>
           </div>
 
-          <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+          <Link to="presenceEmployes" className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
             <p className="h4 text-color">Effectifs</p>
             <div
               className="image-edit"
@@ -63,7 +63,7 @@ const Dashboard = () => {
                 backgroundImage: `url(${certificat})`,}}>
               <span className="text-5xl text-color cursor-pointer"> 16 </span>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/*
@@ -90,17 +90,17 @@ const Dashboard = () => {
           </div>
           <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
             <Link to="presenceEtudiant">
-            <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
+            <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg">
               1 ère année
             </span>
             </Link>
             <Link to="presenceEtudiant">
-            <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg cursor-pointer">
+            <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
               2 ère année
             </span>
             </Link>
             <Link to="presenceEtudiant">
-            <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg cursor-pointer">
+            <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
               3 ère année
             </span>
             </Link>
@@ -156,12 +156,8 @@ const Dashboard = () => {
 
           <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
             <p className="h4 text-color">Modifier</p>
-            <div
-              className="image-edit"
-              style={{
-                backgroundImage: `url(${certificat})`,
-              }}>
-              <span className="cursor-pointer">
+            <Link to="listeEmployes" className="image-edit" style={{ backgroundImage: `url(${certificat})`}}>
+              <span>
                 <svg
                   width="40"
                   height="40"
@@ -179,7 +175,7 @@ const Dashboard = () => {
                     fill="#306887"/>
                 </svg>
               </span>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
