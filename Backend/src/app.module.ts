@@ -3,6 +3,8 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule } from "@nestjs/config";
 import { databaseProviders } from "./database/database.providers";
+import { AuthModule } from './auth/auth.module';
+
 
 const entities = [];
 
@@ -11,6 +13,8 @@ const entities = [];
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AuthModule,
+
   ],
   controllers: [AppController],
   providers: [AppService, ...databaseProviders],
