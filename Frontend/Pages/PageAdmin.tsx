@@ -1,14 +1,14 @@
-import Dashboard from "../src/Components/Dashboard/Dashboard"
+import { Outlet } from "react-router-dom"
 import Header from "../src/Components/Header/Header"
-import { Historique } from "../src/Components/Historique/Historique"
 
 function PageAdmin() {
 
 
     return (
         <div>
-             <Dashboard/> 
-            <Historique/>
+            <div className="mt-48" style={{marginTop:'12rem'}}>
+            <Outlet />
+            </div>
             <Header/>
         </div>
     )
