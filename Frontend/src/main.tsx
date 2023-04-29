@@ -8,6 +8,7 @@ import { Historique } from './Components/Historique/Historique.tsx'
 import Dashboard from './Components/Dashboard/Dashboard.tsx'
 import { PresenceEtudiant } from './Components/PresenceEtudiant/PresenceEtudiant.tsx'
 import Pointage from './Components/Pointage/Pointage.tsx'
+import Connexion from './Components/Connexion/Connexion.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,7 @@ const router = createBrowserRouter(
         <Route path="pointage" element={<Pointage />}></Route>
       </Route>
       <Route path="/vigil" element={<PageVigil />} ></Route>
+      <Route index element= {<Connexion />}></Route>
       <Route path="*" element={<div>Not found</div>} />
     </Route>
   )
