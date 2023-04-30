@@ -36,8 +36,10 @@ function Connexion() {
         } else {
           console.log("connected");
           setError("");
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("token", res.role);
           console.log(res);
-          
         }
       });
   };
@@ -57,7 +59,10 @@ function Connexion() {
         >
           CONNEXION
         </h2>
-        <div  className={`alert alert-danger ${error == "" ? "cacher" : ""}`} role="alert">
+        <div
+          className={`alert alert-danger ${error == "" ? "cacher" : ""}`}
+          role="alert"
+        >
           {error}
         </div>
         <Form.Group>
