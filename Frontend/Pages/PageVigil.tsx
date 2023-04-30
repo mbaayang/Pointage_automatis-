@@ -6,7 +6,9 @@ function PageAdmin() {
 
     return (
         <div>
+            <div className="mt-48" style={{marginTop:'12rem'}}>
             <Pointage/>
+            </div>
             <Header/>
         </div>
     )
