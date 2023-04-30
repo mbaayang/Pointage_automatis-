@@ -4,7 +4,6 @@ import { AppService } from "./app.service";
 /* import { ConfigModule } from "@nestjs/config";
 import { databaseProviders } from "./database/database.providers"; */
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./user/user.entity";
 import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./connexion/entities/connexion.entity";
 
@@ -20,7 +19,7 @@ import { Employes } from "./connexion/entities/connexion.entity";
       username: "root",
       password: "",
       database: "soutenance",
-      entities: [User , Employes],
+      entities: [Employes],
       synchronize: false,
     }),
     ConnexionModule,

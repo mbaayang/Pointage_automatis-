@@ -11,7 +11,6 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("./user/user.entity");
 const connexion_module_1 = require("./connexion/connexion.module");
 const connexion_entity_1 = require("./connexion/entities/connexion.entity");
 let AppModule = class AppModule {
@@ -26,7 +25,7 @@ AppModule = __decorate([
                 username: "root",
                 password: "",
                 database: "soutenance",
-                entities: [user_entity_1.User, connexion_entity_1.Employes],
+                entities: [connexion_entity_1.Employes],
                 synchronize: false,
             }),
             connexion_module_1.ConnexionModule,
