@@ -36,6 +36,8 @@ function Connexion() {
         } else {
           console.log("connected");
           setError("");
+          console.log(res);
+          
         }
       });
   };
