@@ -21,24 +21,47 @@ export class AuthService {
     }
     return null;
   } */
-  async validateUser(email: string, mot_de_passe: string): Promise<Employes | null> {
+  async validateUser(
+    email: string,
+    mot_de_passe: string
+  ): Promise<Employes | null> {
     const user = await this.userRepository.findOne({ where: { email } });
-    if (user && (await bcrypt.compare(mot_de_passe, user.password))) {
-      return user;
+    if (user) {
+      if (user && (await bcrypt.compare(mot_de_passe, user.password))) {
+        const etat = user.etat;
+        if (etat == 1) {
+          throw new UnauthorizedException({
+            correct: false,
+            message: "compte archivé",
+          });
+        } else {
+          return user;
+        }
+      } else {
+        throw new UnauthorizedException({
+          correct: false,
+          message: "mot de passe invalide",
+        });
+      }
+    } else {
+      throw new UnauthorizedException({
+        correct: false,
+        message: "mail invalide",
+      });
     }
-   /*  return null; */
-
-    throw new UnauthorizedException({ correct: false, message: "Mot de passe invalide" });
+    /*  return null; */
   }
 
-
-  
-  async login(user: Employes): Promise<{ access_token: string, id :number , role :string  }> {
+  async login(
+    user: Employes
+  ): Promise<{ access_token: string; id: number; role: string }> {
     const payload = { email: user.email, sub: user.id_employe };
     const id = user.id_employe;
     const role = user.role;
     return {
-      access_token: this.jwtService.sign(payload), id:id, role:role
+      access_token: this.jwtService.sign(payload),
+      id: id,
+      role: role,
     };
   }
 }

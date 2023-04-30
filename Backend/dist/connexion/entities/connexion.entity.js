@@ -29,6 +29,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Employes.prototype, "etat", void 0);
 Employes = __decorate([
     (0, typeorm_1.Entity)()
 ], Employes);

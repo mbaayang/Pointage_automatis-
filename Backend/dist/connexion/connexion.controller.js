@@ -22,9 +22,6 @@ let AuthController = class AuthController {
     }
     async login(user) {
         const validatedUser = await this.authService.validateUser(user.email, user.password);
-        if (!validatedUser) {
-            throw new common_1.UnauthorizedException({ message: "Mot de passe invalide" });
-        }
         return this.authService.login(validatedUser);
     }
 };

@@ -3,4 +3,5 @@ export declare class Employes {
     email: string;
     password: string;
     role: string;
+    etat: number;
 }

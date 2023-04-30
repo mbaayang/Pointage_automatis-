@@ -9,11 +9,11 @@ export class AuthController {
   @Post('auth')
   async login(@Body() user: Employes): Promise<{ access_token: string }> {
     const validatedUser = await this.authService.validateUser(user.email, user.password);
-    if (!validatedUser) {
-     /*  throw new Error('Invalid credentials'); */
+/*     if (!validatedUser) {
+ 
 
-    throw new UnauthorizedException({ message: "Mot de passe invalide" });
-    }
+    throw new UnauthorizedException({ message: "mail ou mot de passe incorrect" });
+    } */
     return this.authService.login(validatedUser);
   }
 }

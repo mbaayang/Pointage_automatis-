@@ -10,13 +10,12 @@ function Connexion() {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-
+  const [error, setError] = useState<string>("");
 
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
   const onSubmit = (data: any) => {
-    //console.log(data);
     fetch("http://localhost:3000/auth", {
       method: "POST",
       headers: {
@@ -25,17 +24,18 @@ function Connexion() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        data
+        email: data.email,
+        password: data.passe,
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.message) {
-        console.log("si");
-        
+      .then((res) => {
+        //console.log(res);
+        if (res.correct == false) {
+          setError(res.message);
         } else {
-          console.log("sinon");
+          console.log("connected");
+          setError("");
         }
       });
   };
@@ -55,6 +55,9 @@ function Connexion() {
         >
           CONNEXION
         </h2>
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
         <Form.Group>
           <Form.Label htmlFor="email" className="text-xl">
             Email{" "}

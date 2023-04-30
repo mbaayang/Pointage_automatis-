@@ -13,4 +13,7 @@ export class Employes {
 
   @Column()
   role: string;
+
+  @Column()
+  etat: number;
 }
