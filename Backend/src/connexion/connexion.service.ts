@@ -29,7 +29,7 @@ export class AuthService {
     if (user) {
       if (user && (await bcrypt.compare(mot_de_passe, user.password))) {
         const etat = user.etat;
-        if (etat == 1) {
+        if (etat == 0) {
           throw new UnauthorizedException({
             correct: false,
             message: "compte archivé",

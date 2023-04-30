@@ -55,7 +55,7 @@ function Connexion() {
         >
           CONNEXION
         </h2>
-        <div className="alert alert-danger" role="alert">
+        <div  className={`alert alert-danger ${error == "" ? "cacher" : ""}`} role="alert">
           {error}
         </div>
         <Form.Group>
