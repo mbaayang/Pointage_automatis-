@@ -26,7 +26,7 @@ function Connexion() {
       },
       body: JSON.stringify({
         email: data.email,
-        password: data.passe,
+        mot_de_passe: data.passe,
       }),
     })
       .then((res) => res.json())

@@ -9,7 +9,7 @@ export class Employes {
   email: string;
 
   @Column()
-  password: string;
+  mot_de_passe: string;
 
   @Column()
   role: string;

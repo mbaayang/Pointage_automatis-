@@ -24,7 +24,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "password", void 0);
+], Employes.prototype, "mot_de_passe", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

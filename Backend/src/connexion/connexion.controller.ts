@@ -13,7 +13,7 @@ export class AuthController {
 
   @Post('auth')
   async login(@Body() user: Employes): Promise<{ access_token: string }> {
-    const validatedUser = await this.authService.validateUser(user.email, user.password);
+    const validatedUser = await this.authService.validateUser(user.email, user.mot_de_passe);
     if (!validatedUser) {
  
     throw new UnauthorizedException({ message: "connect toi" });
