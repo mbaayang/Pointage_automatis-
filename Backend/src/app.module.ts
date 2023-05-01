@@ -6,12 +6,17 @@ import { databaseProviders } from "./database/database.providers"; */
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./connexion/entities/connexion.entity";
+import { PassportModule } from "@nestjs/passport";
+import { JwtModule } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
+import { JwtStrategy } from "./connexion/jwtStrategy";
 
 @Module({
   imports: [
     /* ConfigModule.forRoot({
       isGlobal: true,
     }), */
+ 
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
