@@ -1,17 +1,18 @@
-import { Outlet } from "react-router-dom"
-import Header from "../src/Components/Header/Header"
+import { Navigate, Outlet } from "react-router-dom";
+import Header from "../src/Components/Header/Header";
 
 function PageAdmin() {
-
-
-    return (
-        <div>
-            <div className="mt-48" style={{marginTop:'12rem'}}>
-            <Outlet />
-            </div>
-            <Header/>
-        </div>
-    )
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/" replace />;
   }
-  
-  export default PageAdmin
+  return (
+    <div>
+      <div className="mt-48" style={{ marginTop: "12rem" }}>
+        <Outlet />
+      </div>
+      <Header />
+    </div>
+  );
+}
+export default PageAdmin;

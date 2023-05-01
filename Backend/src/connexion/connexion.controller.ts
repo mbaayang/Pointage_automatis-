@@ -2,8 +2,9 @@ import { Controller, Post, Body, UnauthorizedException, Req, UseGuards, Get} fro
 import { AuthService } from './connexion.service';
 import { Employes } from './entities/connexion.entity';
 import { JwtAuthGuard } from './authGuard';
-import { get } from 'http';
 
+
+type RequestWithUser =  { user: Partial<Employes> };
 
 @Controller()
 export class AuthController {
@@ -18,6 +19,12 @@ export class AuthController {
     throw new UnauthorizedException({ message: "connect toi" });
     } 
     return this.authService.login(validatedUser);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/etat')
+  profile(@Req() request: RequestWithUser) {
+    return request.user;
   }
 
 }

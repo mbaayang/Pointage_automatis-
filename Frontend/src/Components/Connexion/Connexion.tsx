@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import "./Connexion.css";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Connexion() {
   const {
@@ -11,7 +12,7 @@ function Connexion() {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const [error, setError] = useState<string>("");
-
+  const navigate = useNavigate();
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
@@ -34,12 +35,19 @@ function Connexion() {
         if (res.correct == false) {
           setError(res.message);
         } else {
-          console.log("connected");
-          setError("");
+          //console.log("connected");
+          //setError("");
+
           localStorage.setItem("id", res.id);
-          localStorage.setItem("token", res.token);
+          localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
-          console.log(res);
+          if (localStorage.getItem("role") == "vigil") {
+            navigate("/vigil");
+          } else {
+            navigate("/admin");
+          }
+
+          //.log(res);
         }
       });
   };
