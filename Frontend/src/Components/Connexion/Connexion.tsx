@@ -35,9 +35,6 @@ function Connexion() {
         if (res.correct == false) {
           setError(res.message);
         } else {
-          //console.log("connected");
-          //setError("");
-
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
@@ -46,8 +43,6 @@ function Connexion() {
           } else {
             navigate("/admin");
           }
-
-          //.log(res);
         }
       });
   };
