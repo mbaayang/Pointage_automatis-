@@ -41,7 +41,9 @@ function Header() {
       <div className="w-full h-20 fixed-top header">
         <Link to={"/admin"}>
           <div
-            className=" text-white absolute ml-8 mt-4"
+            className={` text-white absolute ml-8 mt-4 ${
+              localStorage.getItem("role") == "vigil" ? "cacher" : ""
+            }`}
             data-toggle="tooltip"
             data-placement="top"
             title="Page d'acceuil"
