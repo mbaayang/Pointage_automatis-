@@ -38,7 +38,7 @@ function Connexion() {
           setError("");
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.token);
-          localStorage.setItem("token", res.role);
+          localStorage.setItem("role", res.role);
           console.log(res);
         }
       });

@@ -24,7 +24,7 @@ const Dashboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: unknown) => {
     console.log(data);
   };
   {
