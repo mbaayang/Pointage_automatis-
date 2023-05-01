@@ -10,22 +10,31 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const config_1 = require("@nestjs/config");
-const database_providers_1 = require("./database/database.providers");
-const auth_module_1 = require("./auth/auth.module");
-const entities = [];
+const employes_module_1 = require("./employes/employes.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const connexion_module_1 = require("./connexion/connexion.module");
+const connexion_entity_1 = require("./connexion/entities/connexion.entity");
+const employe_entity_1 = require("./employes/entities/employe.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
-                isGlobal: true,
+            typeorm_1.TypeOrmModule.forRoot({
+                type: "mysql",
+                host: "localhost",
+                port: 3306,
+                username: "root",
+                password: "",
+                database: "Pointage",
+                entities: [employe_entity_1.Employes, connexion_entity_1.Employess],
+                synchronize: true,
             }),
-            auth_module_1.AuthModule,
+            employes_module_1.EmployesModule,
+            connexion_module_1.ConnexionModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, ...database_providers_1.databaseProviders],
+        providers: [app_service_1.AppService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

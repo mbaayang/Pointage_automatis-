@@ -2,23 +2,28 @@ import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule } from "@nestjs/config";
-import { databaseProviders } from "./database/database.providers";
-import { AuthModule } from './auth/auth.module';
 import { EmployesModule } from './employes/employes.module';
-
-
-const entities = [];
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConnexionModule } from "./connexion/connexion.module";
+import { Employess } from "./connexion/entities/connexion.entity";
+import { Employes } from "./employes/entities/employe.entity";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
+    TypeOrmModule.forRoot({
+      type: "mysql",
+      host: "localhost",
+      port: 3306,
+      username: "root",
+      password: "",
+      database: "Pointage",
+      entities: [Employes,Employess],
+      synchronize: true,
     }),
-    AuthModule,
     EmployesModule,
-
+    ConnexionModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ...databaseProviders],
+  providers: [AppService],
 })
 export class AppModule {}

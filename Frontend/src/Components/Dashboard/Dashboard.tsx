@@ -15,6 +15,14 @@ const Dashboard = () => {
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
+  const [prenom, setPrenom] = useState<string>();
+  const [nom, setNom] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [mdp, setMdp] = useState<string>();
+  const [matricule, setMatricule] = useState<string>();
+  const [role, setRole] = useState<string>();
+  const [errorBack, setErrorBack] = useState("");
+  const [etat, setEtat] = useState<boolean>(false);
 
     const Eye = () => {
       if (password == "password") {
@@ -48,8 +56,33 @@ const Dashboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data:any) => {
+    fetch("http://localhost:3000/employes/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+            prenom: prenom,
+            nom: nom,
+            email: email,
+            mot_de_passe: mdp,
+            matricule: matricule,
+            role: role
+        }),
+      })
+      .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          
+          if(data){
+            setErrorBack(data.message);
+            setEtat(true);
+          }
+          
+        });
   };
 
   return (
@@ -233,6 +266,13 @@ const Dashboard = () => {
               fill="#797777"/>
           </svg>
         </div>
+        <div
+                    className={`alert alert-danger text-center ${
+                      !etat ? "cacher" : ""
+                    }`}
+                  >
+                    {errorBack}
+                  </div>
         <Modal.Body className="-mt-8">
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="prenom">
@@ -244,6 +284,7 @@ const Dashboard = () => {
                 {...register("prenom", {
                   required: true,
                 })}
+                onChange={(e) => setPrenom(e.target.value)}
               />
               {errors.prenom?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -259,6 +300,7 @@ const Dashboard = () => {
                 {...register("nom", {
                   required: true,
                 })}
+                onChange={(e) => setNom(e.target.value)}
               />
               {errors.nom?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -274,6 +316,7 @@ const Dashboard = () => {
                   required: true,
                   pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
                 })}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <div>
                 {/* message d'erreur */}
@@ -296,6 +339,7 @@ const Dashboard = () => {
                 {...register("matricule", {
                   required: true,
                 })}
+                onChange={(e) => setMatricule(e.target.value)}
               />
               {errors.matricule?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -308,6 +352,7 @@ const Dashboard = () => {
                             required:true
                             })
                         }
+                        onChange={(e) => setRole(e.target.value)}
                       >
                         <option placeholder="Choisir un rôle"></option>
                         <option value="Admin" className=" text-black">Admin</option>
@@ -325,6 +370,7 @@ const Dashboard = () => {
                   placeholder="*****"
                   autoFocus
                   {...register("password", { required: true, minLength: 6 })}
+                  onChange={(e) => setMdp(e.target.value)}
                 />
                 <InputGroup.Text>
                   <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
@@ -338,7 +384,7 @@ const Dashboard = () => {
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
+            {/* <Form.Group className="mb-3" controlId="password">
               <Form.Label>Confirmer mot de passe</Form.Label>
               <InputGroup>
                 <Form.Control
@@ -351,7 +397,6 @@ const Dashboard = () => {
                   <i onClick={() => { Eye1();}} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
                 </InputGroup.Text>
               </InputGroup>
-                {/* message d'erreur */}
                 {errors.password1?.type === "minLength" && (
                   <p className="text-red-600">Minimum 6 caractère</p>
                 )}
@@ -374,7 +419,7 @@ const Dashboard = () => {
               {errors.file?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
-            </Form.Group>
+            </Form.Group> */}
             <Button
               variant="outline-success"
               className="d-flex justify-content-center align-items-center submit"

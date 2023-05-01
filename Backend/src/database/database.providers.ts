@@ -1,17 +1,21 @@
-import { createConnection } from 'mysql2/promise';
+import { DataSource } from 'typeorm';
 
 export const databaseProviders = [
   {
-    provide: 'DATABASE_CONNECTION',
+    provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const connection = await createConnection({
-        host: 'localhost', // l'hôte de la base de données
-        port: 3306, // le port de la base de données
-        user: 'root', // votre nom d'utilisateur MySQL
-        password: 'root', // votre mot de passe MySQL
-        database: 'soutenance', // le nom de la base de données que vous souhaitez utiliser
+      const dataSource = new DataSource({
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: '',
+        database: 'Pointage',
+        entities: [__dirname + '/../**/*.entity{.ts,.js}',],
+        synchronize: false,
       });
-      return connection;
+
+      return dataSource.initialize();
     },
   },
 ];
