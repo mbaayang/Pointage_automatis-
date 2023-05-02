@@ -6,7 +6,7 @@ import certificat from "../../assets/certificate.svg";
 import { useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import DashboardProf from "../DashboardProf/DashboardProf";
 const Dashboard = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -84,7 +84,10 @@ const Dashboard = () => {
 
       });
   };
-
+  if (
+    localStorage.getItem("role") == "administrateur" ||
+    localStorage.getItem("role") == "surveillant"
+  ) {
   return (
     <div className="container text-center">
       <div className="row">
@@ -206,7 +209,9 @@ const Dashboard = () => {
          ************************** MODIFIER UN EMPLOYER******************************
          ****************************************************************************
          */}
-        <div className="col">
+        <div className={`col ${
+              localStorage.getItem("role") == "surveillant" ? "cacher" : ""
+            } `}>
           <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
             {" "}
             <p className="h4 text-color">Modifier un employé</p>
@@ -431,7 +436,10 @@ const Dashboard = () => {
         </Modal.Body>
       </Modal>
     </div>
-  );
+  );}
+  else{
+    return <DashboardProf/>
+  }
 };
 
 export default Dashboard;

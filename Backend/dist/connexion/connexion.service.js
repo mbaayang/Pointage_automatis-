@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const connexion_entity_1 = require("./entities/connexion.entity");
+const employe_entity_1 = require("../employes/entities/employe.entity");
 const bcrypt = require("bcryptjs");
 let AuthService = class AuthService {
     constructor(userRepository, jwtService) {
@@ -29,7 +29,7 @@ let AuthService = class AuthService {
         if (user) {
             if (user && (await bcrypt.compare(mot_de_passe, user.mot_de_passe))) {
                 const etat = user.etat;
-                if (etat == 0) {
+                if (etat == false) {
                     throw new common_1.UnauthorizedException({
                         correct: false,
                         message: "compte archivé",
@@ -66,7 +66,7 @@ let AuthService = class AuthService {
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(connexion_entity_1.Employes)),
+    __param(0, (0, typeorm_1.InjectRepository)(employe_entity_1.Employes)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService])
 ], AuthService);
