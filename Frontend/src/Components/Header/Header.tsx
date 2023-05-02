@@ -30,9 +30,7 @@ function Header() {
 
   //Deconnexion
   const deconnexion = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    localStorage.removeItem("role");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -68,8 +66,10 @@ function Header() {
           <img src="" alt="" />
         </div>
         <div className="text-white text-lg absolute ml-60 mt-4">
-          <p>Prenom NOM</p>
-          <p>Profil</p>
+          <p>
+            {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
+          </p>
+          <p>{localStorage.getItem("role")}</p>
         </div>
         <div className="d-flex place-content-end">
           <div className="icone absolute">

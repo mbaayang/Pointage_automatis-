@@ -42,6 +42,9 @@ function Connexion() {
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
+          localStorage.setItem("prenom", res.prenom);
+          localStorage.setItem("nom", res.nom);
+          localStorage.setItem("email", res.email);
           if (localStorage.getItem("role") == "vigil") {
             navigate("/vigil");
           } else {
