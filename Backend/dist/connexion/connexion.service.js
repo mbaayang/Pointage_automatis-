@@ -57,10 +57,16 @@ let AuthService = class AuthService {
         const payload = { email: user.email, sub: user.id_employe };
         const id = user.id_employe;
         const role = user.role;
+        const prenom = user.prenom;
+        const nom = user.nom;
+        const email = user.email;
         return {
             access_token: this.jwtService.sign(payload),
             id: id,
             role: role,
+            prenom: prenom,
+            nom: nom,
+            email: email,
         };
     }
 };
