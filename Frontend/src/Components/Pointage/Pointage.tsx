@@ -9,9 +9,9 @@ const Pointage = () => {
     "En attente du pointage..."
   );
   const [prenom, setPrenom] = useState<string>("- -");
-  const [nom, setNom] = useState<string>("GUEYE");
-  const [matricule, setMatricule] = useState<string>("8479783688838838");
-  const [profil, setProfil] = useState<string>("Administrateur");
+  const [nom, setNom] = useState<string>("- -");
+  const [matricule, setMatricule] = useState<string>("- -");
+  const [profil, setProfil] = useState<string>("- -");
   const [bloquer, setBloquer] = useState<boolean>();
   return (
     <div className="container container-costumer">
@@ -43,7 +43,7 @@ const Pointage = () => {
         <div className="col">
           <div className="d-flex justify-content-center align-items-center information">
             <div className="pt-4 profil">
-              <span className={`text ${prenom == "- -" ? "" : "cacher"}`}>
+              <span className={`text ${matricule == "- -" ? "" : "cacher"}`}>
                 {" "}
                 <p>{defaultText}</p>
               </span>

@@ -4,10 +4,42 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import certificat from "../../assets/certificate.svg";
 import { useForm } from "react-hook-form";
-import Button from "react-bootstrap/esm/Button";
+import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
+  const [eye, seteye] = useState<boolean>(true);
+  const [password, setpassword] = useState<string>("password");
+  const [eye1, seteye1] = useState<boolean>(true);
+  const [password1, setpassword1] = useState<string>("password");
+  const [prenom, setPrenom] = useState<string>();
+  const [nom, setNom] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [mdp, setMdp] = useState<string>();
+  const [matricule, setMatricule] = useState<string>();
+  const [role, setRole] = useState<string>();
+  const [errorBack, setErrorBack] = useState("");
+  const [etat, setEtat] = useState<boolean>(false);
+
+  const Eye = () => {
+    if (password == "password") {
+      setpassword("text");
+      seteye(false);
+    } else {
+      setpassword("password");
+      seteye(true);
+    }
+  };
+
+  const Eye1 = () => {
+    if (password1 == "password") {
+      setpassword1("text");
+      seteye1(false);
+    } else {
+      setpassword1("password");
+      seteye1(true);
+    }
+  };
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -28,9 +60,32 @@ const Dashboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
+  const onSubmit = (data: any) => {
+    fetch("http://localhost:3000/employes/post", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        prenom: prenom,
+        nom: nom,
+        email: email,
+        mot_de_passe: mdp,
+        matricule: matricule,
+        role: role
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
 
-  const onSubmit1 = (data: any) => {
-    console.log(data);
+        if (data) {
+          setErrorBack(data.message);
+          setEtat(true);
+        }
+      });
   };
 
   const onSubmit2 = () => {
@@ -181,76 +236,146 @@ const Dashboard = () => {
       <Modal show={show1} onHide={handleClose1}>
         <div className="d-flex justify-content-between p-3">
           <Modal.Title className="h4 text-color">
-            Inscire un employé
+            Inscrire un employé
           </Modal.Title>
           <svg className="cursor-pointer" onClick={handleClose1} width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M27.3266 12.9283C27.4815 13.0831 27.6045 13.2669 27.6883 13.4693C27.7722 13.6716 27.8154 13.8885 27.8154 14.1075C27.8154 14.3265 27.7722 14.5434 27.6883 14.7457C27.6045 14.9481 27.4815 15.1319 27.3266 15.2867L22.3566 20.255L26.8166 24.7133C27.1293 25.0261 27.305 25.4502 27.305 25.8925C27.305 26.3348 27.1293 26.7589 26.8166 27.0717C26.5038 27.3844 26.0797 27.5601 25.6374 27.5601C25.1951 27.5601 24.771 27.3844 24.4582 27.0717L19.9999 22.6117L15.5416 27.0717C15.2288 27.3844 14.8047 27.5601 14.3624 27.5601C13.9201 27.5601 13.496 27.3844 13.1832 27.0717C12.8705 26.7589 12.6948 26.3348 12.6948 25.8925C12.6948 25.4502 12.8705 25.0261 13.1832 24.7133L17.6432 20.255L12.6732 15.2867C12.5184 15.1317 12.3956 14.9478 12.3118 14.7454C12.2281 14.5429 12.185 14.326 12.1851 14.1069C12.1851 13.8879 12.2284 13.6709 12.3123 13.4686C12.3962 13.2662 12.5191 13.0824 12.6741 12.9275C12.829 12.7727 13.013 12.6499 13.2154 12.5661C13.4178 12.4823 13.6348 12.4393 13.8538 12.4393C14.0729 12.4394 14.2898 12.4826 14.4922 12.5665C14.6945 12.6504 14.8784 12.7734 15.0332 12.9283L19.9999 17.9L24.9682 12.93C25.123 12.7751 25.3068 12.6521 25.5092 12.5682C25.7115 12.4844 25.9284 12.4412 26.1474 12.4412C26.3664 12.4412 26.5833 12.4844 26.7856 12.5682C26.988 12.6521 27.1718 12.7734 27.3266 12.9283Z" fill="#797777" />
             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.66663 1.66663C5.34054 1.66663 4.06877 2.19341 3.13109 3.13109C2.19341 4.06877 1.66663 5.34054 1.66663 6.66663V33.3333C1.66663 34.6594 2.19341 35.9311 3.13109 36.8688C4.06877 37.8065 5.34054 38.3333 6.66663 38.3333H33.3333C34.6594 38.3333 35.9311 37.8065 36.8688 36.8688C37.8065 35.9311 38.3333 34.6594 38.3333 33.3333V6.66663C38.3333 5.34054 37.8065 4.06877 36.8688 3.13109C35.9311 2.19341 34.6594 1.66663 33.3333 1.66663H6.66663ZM33.3333 4.99996H6.66663C6.2246 4.99996 5.80067 5.17555 5.48811 5.48811C5.17555 5.80068 4.99996 6.2246 4.99996 6.66663V33.3333C4.99996 33.7753 5.17555 34.1992 5.48811 34.5118C5.80067 34.8244 6.2246 35 6.66663 35H33.3333C33.7753 35 34.1992 34.8244 34.5118 34.5118C34.8244 34.1992 35 33.7753 35 33.3333V6.66663C35 6.2246 34.8244 5.80068 34.5118 5.48811C34.1992 5.17555 33.7753 4.99996 33.3333 4.99996Z" fill="#797777" />
           </svg>
         </div>
+        <div
+          className={`alert alert-danger text-center ${!etat ? "cacher" : ""
+            }`}
+        >
+          {errorBack}
+        </div>
         <Modal.Body className="-mt-8">
-          <Form onSubmit={handleSubmit(onSubmit1)}>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="prenom">
               <Form.Label>Prénom</Form.Label>
-              <Form.Control type="text" placeholder="issa" autoFocus {...register("prenom", { required: true, })} />
+              <Form.Control
+                type="text"
+                placeholder="issa"
+                autoFocus
+                {...register("prenom", {
+                  required: true,
+                })}
+                onChange={(e) => setPrenom(e.target.value)}
+              />
               {errors.prenom?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>)}
             </Form.Group>
             <Form.Group className="mb-3" controlId="nom">
               <Form.Label>Nom</Form.Label>
-              <Form.Control type="text" placeholder="ndiaye" autoFocus {...register("nom", { required: true, })} />
+              <Form.Control
+                type="text"
+                placeholder="ndiaye"
+                autoFocus
+                {...register("nom", {
+                  required: true,
+                })}
+                onChange={(e) => setNom(e.target.value)}
+              />
               {errors.nom?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>)}
             </Form.Group>
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="astouissa@gmail.com" autoFocus {...register("email", {
-                required: true,
-                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-              })} />
+              <Form.Control
+                type="email"
+                placeholder="astouissa@gmail.com"
+                autoFocus
+                {...register("email", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                })}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <div>
                 {/* message d'erreur */}
                 {errors.email?.type === "required" && (
                   <p className="text-red-600">Ce champ est Obligatoire</p>
                 )}
                 {errors.email?.type === "pattern" && (
-                  <p className="text-red-600"> Email entré n'est pas valide </p>
-                )}
-              </div>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Mot de passe</Form.Label>
-              <Form.Control type="password" placeholder="*****" autoFocus
-                {...register("password", { required: true, minLength: 6 })} />
-              <div>
-                {/* message d'erreur */}
-                {errors.password?.type === "minLength" && (
-                  <p className="text-red-600">Minimum 6 caractère</p>
-                )}
-                {errors.password?.type === "required" && (
-                  <p className="text-red-600">Ce champ est obligatoire</p>
+                  <span className="text-red-600">
+                    Entrer un email valide
+                  </span>
                 )}
               </div>
             </Form.Group>
             <Form.Group className="mb-3" controlId="matricule">
               <Form.Label>Matricule</Form.Label>
-              <Form.Control type="text" placeholder="9208383576278772" autoFocus
-                {...register("matricule", { required: true, })} />
+              <Form.Control
+                type="text"
+                placeholder="9208383576278772"
+                autoFocus
+                {...register("matricule", {
+                  required: true,
+                })}
+                onChange={(e) => setMatricule(e.target.value)}
+              />
               {errors.matricule?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="role">
-              <Form.Label>Role</Form.Label>
-              <Form.Control as="select" {...register("role", { required: true, })} >
-                <option value=""></option>
-                <option value="professeur">professeur</option>
-                <option value="surveillant">surveillant</option>
-                <option value="administrateur">administrateur</option>
-              </Form.Control>
-              {errors.role?.type === "required" && (
-                <p className="text-red-500">Ce champ est obligatoire</p>
+            <Form.Group className="mb-3">
+              <Form.Label>Rôle<span className='text-danger'>*</span></Form.Label>
+              <Form.Select placeholder="Choisir un rôle"
+                {...register("role", {
+                  required: true
+                })
+                }
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option placeholder="Choisir un rôle"></option>
+                <option value="Admin" className=" text-black">Admin</option>
+                <option value="Surveillant" className=" text-black">Surveillant</option>
+                <option value="Professeur" className=" text-black">Professeur</option>
+                <option value="Vigile" className=" text-black">Vigile</option>
+              </Form.Select>
+              {errors.role?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Mot de passe</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type={password}
+                  placeholder="*****"
+                  autoFocus
+                  {...register("password", { required: true, minLength: 6 })}
+                  onChange={(e) => setMdp(e.target.value)}
+                />
+                <InputGroup.Text>
+                  <i onClick={() => { Eye(); }} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                </InputGroup.Text>
+              </InputGroup>
+              {/* message d'erreur */}
+              {errors.password?.type === "minLength" && (
+                <p className="text-red-600">Minimum 6 caractère</p>
               )}
+              {errors.password?.type === "required" && (
+                <p className="text-red-600">Ce champ est obligatoire</p>
+              )}
+            </Form.Group>
+            {/* <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Confirmer mot de passe</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type={password1}
+                  placeholder="*****"
+                  autoFocus
+                  {...register("password1", { required: true, minLength: 6 })}
+                />
+                <InputGroup.Text>
+                  <i onClick={() => { Eye1();}} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                </InputGroup.Text>
+              </InputGroup>
+                {errors.password1?.type === "minLength" && (
+                  <p className="text-red-600">Minimum 6 caractère</p>
+                )}
+                {errors.password1?.type === "required" && (
+                  <p className="text-red-600">Ce champ est obligatoire</p>
+                )}
             </Form.Group>
             <Form.Group className="mb-3" controlId="photo">
               <Form.Label>photo</Form.Label>
@@ -259,7 +384,7 @@ const Dashboard = () => {
               {errors.file?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
-            </Form.Group>
+              </Form.Group>*/}
             <Button variant="outline-success" type="submit"
               className="d-flex justify-content-center align-items-center">
               Ajouter
@@ -354,6 +479,6 @@ const Dashboard = () => {
       </Modal>
     </div>
   );
-};
+}
 
 export default Dashboard;
