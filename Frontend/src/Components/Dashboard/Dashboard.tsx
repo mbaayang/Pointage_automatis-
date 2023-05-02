@@ -85,7 +85,6 @@ const Dashboard = () => {
           setErrorBack(data.message);
           setEtat(true);
         }
-
       });
   };
 

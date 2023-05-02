@@ -1,6 +1,6 @@
 import { JwtService } from "@nestjs/jwt";
 import { Repository } from "typeorm";
-import { Employes } from "./entities/connexion.entity";
+import { Employes } from "../employes/entities/employe.entity";
 export declare class AuthService {
     private readonly userRepository;
     private readonly jwtService;
@@ -10,5 +10,8 @@ export declare class AuthService {
         access_token: string;
         id: number;
         role: string;
+        prenom: string;
+        nom: string;
+        email: string;
     }>;
 }
