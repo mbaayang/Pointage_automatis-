@@ -384,7 +384,7 @@ const Dashboard = () => {
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
             </Form.Group>
-            {/* <Form.Group className="mb-3" controlId="password">
+            <Form.Group className="mb-3" controlId="password">
               <Form.Label>Confirmer mot de passe</Form.Label>
               <InputGroup>
                 <Form.Control
@@ -419,7 +419,7 @@ const Dashboard = () => {
               {errors.file?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
-            </Form.Group> */}
+            </Form.Group>
             <Button
               variant="outline-success"
               className="d-flex justify-content-center align-items-center submit"

@@ -15,7 +15,6 @@ const typeorm_1 = require("@nestjs/typeorm");
 const connexion_module_1 = require("./connexion/connexion.module");
 const connexion_entity_1 = require("./connexion/entities/connexion.entity");
 const employe_entity_1 = require("./employes/entities/employe.entity");
-const platform_express_1 = require("@nestjs/platform-express");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,9 +32,6 @@ AppModule = __decorate([
             }),
             employes_module_1.EmployesModule,
             connexion_module_1.ConnexionModule,
-            platform_express_1.MulterModule.register({
-                dest: './images',
-            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

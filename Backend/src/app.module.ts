@@ -23,9 +23,6 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     EmployesModule,
     ConnexionModule,
-    MulterModule.register({
-      dest: './images',
-    }),
   ],
   controllers: [AppController],
   providers: [AppService],

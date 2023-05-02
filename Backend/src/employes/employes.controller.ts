@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseFilePipe, UploadedFile, FileTypeValidator, MaxFileSizeValidator, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('employes')
 export class EmployesController {
@@ -31,4 +32,5 @@ export class EmployesController {
   remove(@Param('id') id: string) {
     return this.employesService.remove(+id);
   }
+
 }
