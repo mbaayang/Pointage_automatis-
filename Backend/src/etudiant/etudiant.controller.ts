@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { EtudiantService } from './etudiant.service';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('etudiant')
 export class EtudiantController {
@@ -9,7 +10,7 @@ export class EtudiantController {
 
   @Post()
   create(@Body() createEtudiantDto: CreateEtudiantDto) {
-    return this.etudiantService.create(createEtudiantDto);
+    return this.etudiantService.create(createEtudiantDto)
   }
 
   @Get()

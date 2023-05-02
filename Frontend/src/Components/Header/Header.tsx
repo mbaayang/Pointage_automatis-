@@ -112,7 +112,7 @@ function Header() {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button type='submit' variant="outline-success" onClick={handleClose} >
+            <Button type='submit' variant="outline-success" >
               Modifier
             </Button>
           </Modal.Footer>

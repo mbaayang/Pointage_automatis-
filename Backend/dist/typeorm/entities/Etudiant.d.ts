@@ -1,3 +1,4 @@
+/// <reference types="node" />
 export declare class Etudiant {
     id_etudiant: number;
     prenom: string;
@@ -5,7 +6,7 @@ export declare class Etudiant {
     email: string;
     matricule: string;
     niveau: string;
-    photo: string;
+    photo: Buffer;
     etat: string;
     date_inscription: Date;
 }
