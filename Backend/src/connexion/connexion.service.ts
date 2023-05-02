@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Employes } from "./entities/connexion.entity";
+import { Employes } from "../employes/entities/employe.entity";
 import * as bcrypt from "bcryptjs";
 
 @Injectable()
@@ -29,7 +29,7 @@ export class AuthService {
     if (user) {
       if (user && (await bcrypt.compare(mot_de_passe, user.mot_de_passe))) {
         const etat = user.etat;
-        if (etat == 0) {
+        if (etat == false) {
           throw new UnauthorizedException({
             correct: false,
             message: "compte archivé",

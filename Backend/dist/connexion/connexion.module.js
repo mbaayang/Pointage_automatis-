@@ -12,7 +12,7 @@ const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const connexion_service_1 = require("./connexion.service");
-const connexion_entity_1 = require("./entities/connexion.entity");
+const employe_entity_1 = require("../employes/entities/employe.entity");
 const connexion_controller_1 = require("./connexion.controller");
 const jwtStrategy_1 = require("./jwtStrategy");
 let ConnexionModule = class ConnexionModule {
@@ -20,7 +20,7 @@ let ConnexionModule = class ConnexionModule {
 ConnexionModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([connexion_entity_1.Employes]),
+            typeorm_1.TypeOrmModule.forFeature([employe_entity_1.Employes]),
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
                 secret: "secretKey",

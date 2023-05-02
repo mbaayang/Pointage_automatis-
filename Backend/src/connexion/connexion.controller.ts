@@ -1,6 +1,6 @@
 import { Controller, Post, Body, UnauthorizedException, Req, UseGuards, Get} from '@nestjs/common';
 import { AuthService } from './connexion.service';
-import { Employes } from './entities/connexion.entity';
+import { Employes } from '../employes/entities/employe.entity';
 import { JwtAuthGuard } from './authGuard';
 
 
