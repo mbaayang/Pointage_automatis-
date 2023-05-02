@@ -7,6 +7,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./employes/entities/employe.entity";
 import { MulterModule } from '@nestjs/platform-express';
+import { EtudiantModule } from './etudiant/etudiant.module';
+import { Etudiant } from './typeorm/entities/Etudiant';
 
 @Module({
   imports: [
@@ -18,11 +20,13 @@ import { MulterModule } from '@nestjs/platform-express';
       password: "",
       database: "Pointage",
       entities: [Employes],
-      synchronize: false,
+      synchronize: true,
     }),
     EmployesModule,
     ConnexionModule,
+    EtudiantModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })

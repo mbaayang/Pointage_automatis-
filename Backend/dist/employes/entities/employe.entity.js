@@ -42,6 +42,14 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'longblob' }),
+    __metadata("design:type", Buffer)
+], Employes.prototype, "photo", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Employes.prototype, "date_inscription", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);

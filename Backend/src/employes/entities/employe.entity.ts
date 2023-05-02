@@ -22,6 +22,12 @@ export class Employes {
   @Column()
   role: string;
 
+  @Column({type:'longblob'})
+  photo: Buffer;
+
+  @Column()
+  date_inscription: Date;
+
   @Column({ default: true })
   etat: boolean;
 }

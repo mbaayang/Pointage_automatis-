@@ -21,4 +21,6 @@ export class CreateEmployeDto {
 
     @IsBoolean()
     etat: boolean;
+
+    photo: Buffer;
 }
