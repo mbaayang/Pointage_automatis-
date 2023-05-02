@@ -13,6 +13,10 @@ function Connexion() {
   } = useForm({ mode: "onChange" });
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+
+  const [eye, seteye] = useState<boolean>(true);
+  const [password, setpassword] = useState<string>("password");
+  
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
@@ -47,6 +51,15 @@ function Connexion() {
       });
   };
 
+    const Eye = () => {
+      if (password == "password") {
+        setpassword("text");
+        seteye(false);
+      } else {
+        setpassword("password");
+        seteye(true);
+      }
+    };
   return (
     <div
       className="w-full h-screen d-flex justify-center align-items-center"
@@ -118,11 +131,11 @@ function Connexion() {
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
               </svg>
             </InputGroup.Text>
-            <Form.Control
-              type="password"
-              placeholder="Entrer mot de passe"
-              {...register("passe", { required: true, minLength: 6 })}
-            />
+            <Form.Control type={password} placeholder="Entrer mot de passe" 
+              {...register("passe", { required: true, minLength: 6 })}/>
+            <InputGroup.Text>
+              <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+            </InputGroup.Text>
           </InputGroup>
           {errors.passe?.type === "required" && (
             <p className="text-red-500">Ce champs est requis</p>
