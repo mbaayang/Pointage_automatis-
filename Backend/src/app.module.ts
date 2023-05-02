@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConnexionModule } from "./connexion/connexion.module";
 import { Employess } from "./connexion/entities/connexion.entity";
 import { Employes } from "./employes/entities/employe.entity";
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -22,6 +23,9 @@ import { Employes } from "./employes/entities/employe.entity";
     }),
     EmployesModule,
     ConnexionModule,
+    MulterModule.register({
+      dest: './images',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
