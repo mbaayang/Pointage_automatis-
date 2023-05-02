@@ -11,3 +11,6 @@
 .space-x-3:hover{
     color: #81CCB7;
 }
+.cacher{
+    display: none;
+}

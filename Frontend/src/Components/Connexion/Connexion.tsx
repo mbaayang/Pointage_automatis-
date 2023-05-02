@@ -1,14 +1,58 @@
-import Form from 'react-bootstrap/Form';
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import './Connexion.css'
-import { Button, InputGroup } from 'react-bootstrap';
+import Form from "react-bootstrap/Form";
+import { useForm } from "react-hook-form";
+import "./Connexion.css";
+import { Button, InputGroup } from "react-bootstrap";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Connexion() {
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onChange" });
-  const onSubmit = (data: any) => console.log(data);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
+
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
+  
+  /**************************************************************************************
+   ****************************RECUPERATION DONNEE API **********************************
+   **************************************************************************************/
+  const onSubmit = (data: any) => {
+    fetch("http://localhost:3000/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email: data.email,
+        mot_de_passe: data.passe,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        //console.log(res);
+        if (res.correct == false) {
+          setError(res.message);
+        } else {
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("token", res.access_token);
+          localStorage.setItem("role", res.role);
+          localStorage.setItem("prenom", res.prenom);
+          localStorage.setItem("nom", res.nom);
+          localStorage.setItem("email", res.email);
+          if (localStorage.getItem("role") == "vigil") {
+            navigate("/vigil");
+          } else {
+            navigate("/admin");
+          }
+        }
+      });
+  };
 
     const Eye = () => {
       if (password == "password") {
@@ -34,6 +78,12 @@ function Connexion() {
         >
           CONNEXION
         </h2>
+        <div
+          className={`alert alert-danger ${error == "" ? "cacher" : ""}`}
+          role="alert"
+        >
+          {error}
+        </div>
         <Form.Group>
           <Form.Label htmlFor="email" className="text-xl">
             Email{" "}

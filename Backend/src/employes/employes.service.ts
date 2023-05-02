@@ -38,7 +38,6 @@ export class EmployesService {
       role,
       etat
     });
-    throw new UnauthorizedException({ message: "Inscription réussie" });
 
     return user;
   }

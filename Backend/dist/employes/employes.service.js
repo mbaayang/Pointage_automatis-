@@ -38,7 +38,6 @@ let EmployesService = class EmployesService {
             role,
             etat
         });
-        throw new common_1.UnauthorizedException({ message: "Inscription réussie" });
         return user;
     }
     findAll() {

@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const connexion_entity_1 = require("./entities/connexion.entity");
+const employe_entity_1 = require("../employes/entities/employe.entity");
 const bcrypt = require("bcryptjs");
 let AuthService = class AuthService {
     constructor(userRepository, jwtService) {
@@ -26,23 +26,53 @@ let AuthService = class AuthService {
     }
     async validateUser(email, mot_de_passe) {
         const user = await this.userRepository.findOne({ where: { email } });
-        if (user && (await bcrypt.compare(mot_de_passe, user.password))) {
-            return user;
+        if (user) {
+            if (user && (await bcrypt.compare(mot_de_passe, user.mot_de_passe))) {
+                const etat = user.etat;
+                if (etat == false) {
+                    throw new common_1.UnauthorizedException({
+                        correct: false,
+                        message: "compte archivé",
+                    });
+                }
+                else {
+                    return user;
+                }
+            }
+            else {
+                throw new common_1.UnauthorizedException({
+                    correct: false,
+                    message: "mot de passe invalide",
+                });
+            }
         }
-        throw new common_1.UnauthorizedException({ correct: false, message: "Mot de passe invalide" });
+        else {
+            throw new common_1.UnauthorizedException({
+                correct: false,
+                message: "mail invalide",
+            });
+        }
     }
     async login(user) {
         const payload = { email: user.email, sub: user.id_employe };
         const id = user.id_employe;
         const role = user.role;
+        const prenom = user.prenom;
+        const nom = user.nom;
+        const email = user.email;
         return {
-            access_token: this.jwtService.sign(payload), id: id, role: role
+            access_token: this.jwtService.sign(payload),
+            id: id,
+            role: role,
+            prenom: prenom,
+            nom: nom,
+            email: email,
         };
     }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(connexion_entity_1.Employess)),
+    __param(0, (0, typeorm_1.InjectRepository)(employe_entity_1.Employes)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService])
 ], AuthService);

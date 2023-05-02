@@ -12,21 +12,22 @@ const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const connexion_service_1 = require("./connexion.service");
-const connexion_entity_1 = require("./entities/connexion.entity");
+const employe_entity_1 = require("../employes/entities/employe.entity");
 const connexion_controller_1 = require("./connexion.controller");
+const jwtStrategy_1 = require("./jwtStrategy");
 let ConnexionModule = class ConnexionModule {
 };
 ConnexionModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([connexion_entity_1.Employess]),
+            typeorm_1.TypeOrmModule.forFeature([employe_entity_1.Employes]),
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
-                secret: process.env.JWT_SECRET || "jwt_secret",
-                signOptions: { expiresIn: "60s" },
+                secret: "secretKey",
+                signOptions: { expiresIn: "3600s" },
             }),
         ],
-        providers: [connexion_service_1.AuthService],
+        providers: [connexion_service_1.AuthService, jwtStrategy_1.JwtStrategy],
         controllers: [connexion_controller_1.AuthController],
         exports: [connexion_service_1.AuthService],
     })

@@ -9,28 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppController = void 0;
+exports.JwtStrategy = void 0;
+const passport_jwt_1 = require("passport-jwt");
+const passport_1 = require("@nestjs/passport");
 const common_1 = require("@nestjs/common");
-const app_service_1 = require("./app.service");
-const authGuard_1 = require("./connexion/authGuard");
-let AppController = class AppController {
-    constructor(appService) {
-        this.appService = appService;
+let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
+    constructor() {
+        super({
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            ignoreExpiration: false,
+            secretOrKey: "secretKey",
+        });
+        console.log(passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken());
     }
-    getHello() {
-        return this.appService.getHello();
+    async validate(payload) {
+        return {
+            verified: true,
+        };
     }
 };
-__decorate([
-    (0, common_1.Get)(""),
-    (0, common_1.UseGuards)(authGuard_1.JwtAuthGuard),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
-AppController = __decorate([
-    (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [app_service_1.AppService])
-], AppController);
-exports.AppController = AppController;
-//# sourceMappingURL=app.controller.js.map
+JwtStrategy = __decorate([
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [])
+], JwtStrategy);
+exports.JwtStrategy = JwtStrategy;
+//# sourceMappingURL=jwtStrategy.js.map
