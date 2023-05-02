@@ -1,19 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.databaseProviders = void 0;
-const promise_1 = require("mysql2/promise");
+const typeorm_1 = require("typeorm");
 exports.databaseProviders = [
     {
-        provide: "DATABASE_CONNECTION",
+        provide: 'DATA_SOURCE',
         useFactory: async () => {
-            const connection = await (0, promise_1.createConnection)({
-                host: "localhost",
+            const dataSource = new typeorm_1.DataSource({
+                type: 'mysql',
+                host: 'localhost',
                 port: 3306,
-                user: "root",
-                password: "",
-                database: "soutenance",
+                username: 'root',
+                password: '',
+                database: 'Pointage',
+                entities: [__dirname + '/../**/*.entity{.ts,.js}',],
+                synchronize: false,
             });
-            return connection;
+            return dataSource.initialize();
         },
     },
 ];
