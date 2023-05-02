@@ -10,18 +10,12 @@ export class EtudiantController {
 
   @Post()
   @UseInterceptors(FileInterceptor('photo'))
-  create(@UploadedFile() photo,@Body() createEtudiantDto: CreateEtudiantDto) {
-    const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
-    const etudiant = {
-      prenom,
-      nom,
-      email,
-      matricule,
-      niveau,
+  async create(@UploadedFile() photo, @Body() createEtudiantDto: CreateEtudiantDto) {
+    const etudiant = await this.etudiantService.create({
+      ...createEtudiantDto,
       photo: photo.buffer
-    }
-    return this.etudiantService.create(etudiant);
-    // return this.etudiantService.create(createEtudiantDto)
+    });
+    return etudiant;
   }
 
   @Get()

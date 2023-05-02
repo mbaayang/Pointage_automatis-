@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
 import { Etudiant } from './entities/etudiant.entity';
@@ -13,6 +13,14 @@ export class EtudiantService {
   ){}
 
   async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
+    const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
+
+      // Vérifier si un étudiant avec la même adresse e-mail existe déjà dans la base de données
+      const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
+      if (existingEtudiant) {
+        throw new ConflictException('Adresse e-mail déjà prise');
+      }
+
     const etudiant = new Etudiant();
     etudiant.prenom = createEtudiantDto.prenom;
     etudiant.nom = createEtudiantDto.nom;
@@ -21,12 +29,8 @@ export class EtudiantService {
     etudiant.niveau = createEtudiantDto.niveau;
     etudiant.photo = createEtudiantDto.photo;
     etudiant.date_inscription = new Date();
+
     return await this.etudiantRepository.save(etudiant);
-    /* const createEtudiant = this.etudiantRepository.create({
-      ...createEtudiantDto,
-      date_inscription: new Date()
-    });
-    return this.etudiantRepository.save(createEtudiant); */
   }
 
   findAll() {
