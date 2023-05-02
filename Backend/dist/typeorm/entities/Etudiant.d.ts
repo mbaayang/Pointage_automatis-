@@ -7,6 +7,5 @@ export declare class Etudiant {
     matricule: string;
     niveau: string;
     photo: Buffer;
-    etat: string;
     date_inscription: Date;
 }

@@ -17,12 +17,22 @@ const common_1 = require("@nestjs/common");
 const etudiant_service_1 = require("./etudiant.service");
 const create_etudiant_dto_1 = require("./dto/create-etudiant.dto");
 const update_etudiant_dto_1 = require("./dto/update-etudiant.dto");
+const platform_express_1 = require("@nestjs/platform-express");
 let EtudiantController = class EtudiantController {
     constructor(etudiantService) {
         this.etudiantService = etudiantService;
     }
-    create(createEtudiantDto) {
-        return this.etudiantService.create(createEtudiantDto);
+    create(photo, createEtudiantDto) {
+        const { prenom, nom, email, matricule, niveau } = createEtudiantDto;
+        const etudiant = {
+            prenom,
+            nom,
+            email,
+            matricule,
+            niveau,
+            photo: photo.buffer
+        };
+        return this.etudiantService.create(etudiant);
     }
     findAll() {
         return this.etudiantService.findAll();
@@ -33,9 +43,11 @@ let EtudiantController = class EtudiantController {
 };
 __decorate([
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('photo')),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_etudiant_dto_1.CreateEtudiantDto]),
+    __metadata("design:paramtypes", [Object, create_etudiant_dto_1.CreateEtudiantDto]),
     __metadata("design:returntype", void 0)
 ], EtudiantController.prototype, "create", null);
 __decorate([

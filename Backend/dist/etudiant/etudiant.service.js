@@ -21,9 +21,16 @@ let EtudiantService = class EtudiantService {
     constructor(etudiantRepository) {
         this.etudiantRepository = etudiantRepository;
     }
-    create(createEtudiantDto) {
-        const createEtudiant = this.etudiantRepository.create(Object.assign(Object.assign({}, createEtudiantDto), { date_inscription: new Date() }));
-        return this.etudiantRepository.save(createEtudiant);
+    async create(createEtudiantDto) {
+        const etudiant = new etudiant_entity_1.Etudiant();
+        etudiant.prenom = createEtudiantDto.prenom;
+        etudiant.nom = createEtudiantDto.nom;
+        etudiant.email = createEtudiantDto.email;
+        etudiant.matricule = createEtudiantDto.matricule;
+        etudiant.niveau = createEtudiantDto.niveau;
+        etudiant.photo = createEtudiantDto.photo;
+        etudiant.date_inscription = new Date();
+        return await this.etudiantRepository.save(etudiant);
     }
     findAll() {
         return this.etudiantRepository.find();

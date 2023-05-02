@@ -9,8 +9,19 @@ export class EtudiantController {
   constructor(private readonly etudiantService: EtudiantService) {}
 
   @Post()
-  create(@Body() createEtudiantDto: CreateEtudiantDto) {
-    return this.etudiantService.create(createEtudiantDto)
+  @UseInterceptors(FileInterceptor('photo'))
+  create(@UploadedFile() photo,@Body() createEtudiantDto: CreateEtudiantDto) {
+    const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
+    const etudiant = {
+      prenom,
+      nom,
+      email,
+      matricule,
+      niveau,
+      photo: photo.buffer
+    }
+    return this.etudiantService.create(etudiant);
+    // return this.etudiantService.create(createEtudiantDto)
   }
 
   @Get()

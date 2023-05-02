@@ -38,13 +38,9 @@ __decorate([
     __metadata("design:type", String)
 ], Etudiant.prototype, "niveau", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ nullable: true, type: 'longblob' }),
+    (0, typeorm_1.Column)({ type: 'longblob' }),
     __metadata("design:type", Buffer)
 ], Etudiant.prototype, "photo", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Etudiant.prototype, "etat", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Date)

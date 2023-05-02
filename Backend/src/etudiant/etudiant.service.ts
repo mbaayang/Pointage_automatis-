@@ -12,12 +12,21 @@ export class EtudiantService {
     @InjectRepository(Etudiant) private etudiantRepository: Repository<Etudiant>
   ){}
 
-  create(createEtudiantDto: CreateEtudiantDto) {
-    const createEtudiant = this.etudiantRepository.create({
+  async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
+    const etudiant = new Etudiant();
+    etudiant.prenom = createEtudiantDto.prenom;
+    etudiant.nom = createEtudiantDto.nom;
+    etudiant.email = createEtudiantDto.email;
+    etudiant.matricule = createEtudiantDto.matricule;
+    etudiant.niveau = createEtudiantDto.niveau;
+    etudiant.photo = createEtudiantDto.photo;
+    etudiant.date_inscription = new Date();
+    return await this.etudiantRepository.save(etudiant);
+    /* const createEtudiant = this.etudiantRepository.create({
       ...createEtudiantDto,
       date_inscription: new Date()
     });
-    return this.etudiantRepository.save(createEtudiant);
+    return this.etudiantRepository.save(createEtudiant); */
   }
 
   findAll() {
