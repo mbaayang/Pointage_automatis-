@@ -23,7 +23,7 @@ import { JwtStrategy } from "./connexion/jwtStrategy";
       port: 3306,
       username: "root",
       password: "",
-      database: "soutenance",
+      database: "Pointage",
       entities: [Employes],
       synchronize: false,
     }),

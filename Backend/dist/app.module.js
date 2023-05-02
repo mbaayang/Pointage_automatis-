@@ -24,7 +24,7 @@ AppModule = __decorate([
                 port: 3306,
                 username: "root",
                 password: "",
-                database: "soutenance",
+                database: "Pointage",
                 entities: [connexion_entity_1.Employes],
                 synchronize: false,
             }),
