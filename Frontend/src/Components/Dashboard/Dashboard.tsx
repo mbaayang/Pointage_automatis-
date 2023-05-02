@@ -33,7 +33,7 @@ const Dashboard = () => {
     console.log(data);
   };
 
-  const onSubmit2 = (data: any) => {
+  const onSubmit2 = () => {
     const formData =  new FormData();
     formData.append('prenom2', prenom2);
     formData.append('nom2', nom2);
@@ -53,7 +53,7 @@ const Dashboard = () => {
     .then(res => res.json())
     .then(data => console.log(data))
     .catch(error => console.log(error))
-    console.log(data);
+    console.log(formData);
   };
 
   return (
@@ -289,14 +289,14 @@ const Dashboard = () => {
             <Form.Group className="mb-3">
               <Form.Label>Prénom</Form.Label>
               <Form.Control type="text" placeholder="issa" autoFocus id="prenom2"
-              {...register("prenom2", { required: true, })} onChange={(event) => setPrenom2(event.target.value)}/>
+              {...register("prenom2", { required: true, })} value={prenom2} onChange={(event) => setPrenom2(event.target.value)}/>
               {errors.prenom2?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>)}
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Nom</Form.Label>
               <Form.Control type="text" placeholder="ndiaye" autoFocus id="nom2"
-              {...register("nom2", { required: true, })} onChange={(event) => setNom2(event.target.value)}/>
+              {...register("nom2", { required: true, })} value={nom2} onChange={(event) => setNom2(event.target.value)}/>
               {errors.nom2?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>)}
             </Form.Group>
@@ -306,7 +306,7 @@ const Dashboard = () => {
               {...register("email2", {
                 required: true,
                 pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-              })} onChange={(event) => setEmail2(event.target.value)}/>
+              })} value={email2} onChange={(event) => setEmail2(event.target.value)}/>
               <div>
                 {/* message d'erreur */}
                 {errors.Email?.type === "required" && (
@@ -319,7 +319,7 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Matricule</Form.Label>
-              <Form.Control type="text" placeholder="9208383576278772" autoFocus id="matricule2"
+              <Form.Control type="text" placeholder="9208383576278772" autoFocus id="matricule2" value={matricule2}
                 {...register("matricule2", { required: true, })} onChange={(event) => setMatricule2(event.target.value)}/>
               {errors.matricule2?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -327,7 +327,7 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Niveau</Form.Label>
-              <Form.Control as="select" {...register("niveau2", { required: true, })} id="niveau2" onChange={(event) => setNiveau2(event.target.value)}>
+              <Form.Control as="select" value={niveau2} {...register("niveau2", { required: true, })} id="niveau2" onChange={(event) => setNiveau2(event.target.value)}>
                 <option value=""></option>
                 <option value="professeur">1 ère année</option>
                 <option value="surveillant">2 ème année</option>
@@ -339,7 +339,7 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>photo</Form.Label>
-              <Form.Control accept="image/*" type="file" placeholder="" autoFocus id="photo"
+              <Form.Control accept="image/*" type="file" placeholder="" autoFocus id="photo" value={photo}
                 {...register("photo", { required: true, })} onChange={(event) => setPhoto(event.target.value)}/>
               {errors.photo?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
