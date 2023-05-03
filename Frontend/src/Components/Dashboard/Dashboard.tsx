@@ -101,19 +101,20 @@ const Dashboard = () => {
     fetch("http://localhost:3000/etudiant", {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
+        'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
-      body: formData,
+      body: JSON.stringify(formData)
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
     console.log(formData);
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
-    localStorage.getItem("role") == "administrateur"
+    localStorage.getItem("role") == "surveillant"
   ) {
     return (
       <div className="container text-center">
@@ -203,46 +204,56 @@ const Dashboard = () => {
 
           {/*
            ****************************************************************************
-           ************************** AJOUTER UN EMPLOYER******************************
+           ************************** AJOUTER ******************************
            ****************************************************************************
            */}
-
-          <div className="col">
-            <div className="d-flex justify-content-center align-items-center rounded-top space-x-2 nav">
-              <svg
-                fill="#306887"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 50 50"
-                width="45px"
-                height="45px"
-              >
-                {" "}
-                <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z" />
-              </svg>
-              <p className="h4 text-color"> Ajouter </p>
-            </div>
-            <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
-              {/* <div className="image-edit" style={{ backgroundImage: `url(${certificat})`,}}>
-              <span onClick={handleShow1} className="text-5xl text-color cursor-pointer">
-                <svg width="50" height="50" viewBox="0 0 200 182" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M108.333 98.5833V151.667C108.333 153.678 107.455 155.607 105.893 157.029C104.33 158.451 102.21 159.25 100 159.25C97.7899 159.25 95.6702 158.451 94.1074 157.029C92.5446 155.607 91.6667 153.678 91.6667 151.667V98.5833H33.3333C31.1232 98.5833 29.0036 97.7844 27.4408 96.3622C25.878 94.9401 25 93.0112 25 91C25 88.9888 25.878 87.0599 27.4408 85.6378C29.0036 84.2156 31.1232 83.4167 33.3333 83.4167H91.6667V30.3333C91.6667 28.3221 92.5446 26.3933 94.1074 24.9711C95.6702 23.549 97.7899 22.75 100 22.75C102.21 22.75 104.33 23.549 105.893 24.9711C107.455 26.3933 108.333 28.3221 108.333 30.3333V83.4167H166.667C168.877 83.4167 170.996 84.2156 172.559 85.6378C174.122 87.0599 175 88.9888 175 91C175 93.0112 174.122 94.9401 172.559 96.3622C170.996 97.7844 168.877 98.5833 166.667 98.5833H108.333Z" fill="#306887" />
+          {localStorage.getItem("role") == "administrateur" &&
+            <div className="col">
+              <div className="d-flex justify-content-center align-items-center rounded-top space-x-2 nav">
+                <svg
+                  fill="#306887"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 50 50"
+                  width="45px"
+                  height="45px"
+                >
+                  {" "}
+                  <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z" />
                 </svg>
-              </span>
-            </div> */}
-              <span
-                onClick={handleShow1}
-                className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
-              >
-                Un employé
-              </span>
-              <span
-                onClick={handleShow2}
-                className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
-              >
-                Un étudiant
-              </span>
+                <p className="h4 text-color"> Ajouter </p>
+              </div>
+              <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+                <span
+                  onClick={handleShow1}
+                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
+                >
+                  Un employé
+                </span>
+                <span
+                  onClick={handleShow2}
+                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
+                >
+                  Un étudiant
+                </span>
+              </div>
+            </div>}
+          {localStorage.getItem("role") == "surveillant" &&
+            <div className="col">
+              <div className="d-flex justify-content-center align-items-center rounded-top space-x-2 nav">
+                <p className="h4 text-color"> Ajouter un étudiant</p>
+              </div>
+              <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+                <p className="h4 text-color">Ajout</p>
+                <div className="image-edit" style={{ backgroundImage: `url(${certificat})`, }}>
+                  <span onClick={handleShow2} className="text-5xl text-color cursor-pointer">
+                    <svg width="50" height="50" viewBox="0 0 200 182" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M108.333 98.5833V151.667C108.333 153.678 107.455 155.607 105.893 157.029C104.33 158.451 102.21 159.25 100 159.25C97.7899 159.25 95.6702 158.451 94.1074 157.029C92.5446 155.607 91.6667 153.678 91.6667 151.667V98.5833H33.3333C31.1232 98.5833 29.0036 97.7844 27.4408 96.3622C25.878 94.9401 25 93.0112 25 91C25 88.9888 25.878 87.0599 27.4408 85.6378C29.0036 84.2156 31.1232 83.4167 33.3333 83.4167H91.6667V30.3333C91.6667 28.3221 92.5446 26.3933 94.1074 24.9711C95.6702 23.549 97.7899 22.75 100 22.75C102.21 22.75 104.33 23.549 105.893 24.9711C107.455 26.3933 108.333 28.3221 108.333 30.3333V83.4167H166.667C168.877 83.4167 170.996 84.2156 172.559 85.6378C174.122 87.0599 175 88.9888 175 91C175 93.0112 174.122 94.9401 172.559 96.3622C170.996 97.7844 168.877 98.5833 166.667 98.5833H108.333Z" fill="#306887" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          }
 
           {/*
            ****************************************************************************
@@ -250,9 +261,8 @@ const Dashboard = () => {
            ****************************************************************************
            */}
           <div
-            className={`col ${
-              localStorage.getItem("role") == "surveillant" ? "cacher" : ""
-            } `}
+            className={`col ${localStorage.getItem("role") == "surveillant" ? "cacher" : ""
+              } `}
           >
             <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
               <p className="h4 text-color">Modifier un employé</p>
@@ -324,9 +334,8 @@ const Dashboard = () => {
             </svg>
           </div>
           <div
-            className={`alert alert-danger text-center ${
-              !etat ? "cacher" : ""
-            }`}
+            className={`alert alert-danger text-center ${!etat ? "cacher" : ""
+              }`}
           >
             {errorBack}
           </div>
@@ -432,14 +441,14 @@ const Dashboard = () => {
               <Form.Group className="mb-3" controlId="password">
                 <Form.Label>Mot de passe</Form.Label>
                 <InputGroup>
-                  <Form.Control
+                  <Form.Control style={{borderRight:'none'}}
                     type={password}
                     placeholder="*****"
                     autoFocus
                     {...register("password", { required: true, minLength: 6 })}
                     onChange={(e) => setMdp(e.target.value)}
                   />
-                  <InputGroup.Text>
+                  <InputGroup.Text className="bg-white">
                     <i
                       onClick={() => {
                         Eye();

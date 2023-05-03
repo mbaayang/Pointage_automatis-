@@ -11,6 +11,9 @@ import { Etudiant } from './typeorm/entities/Etudiant';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
