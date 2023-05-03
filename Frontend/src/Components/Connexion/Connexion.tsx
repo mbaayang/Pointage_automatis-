@@ -13,6 +13,10 @@ function Connexion() {
   } = useForm({ mode: "onChange" });
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+
+  const [eye, seteye] = useState<boolean>(true);
+  const [password, setpassword] = useState<string>("password");
+
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
@@ -38,6 +42,9 @@ function Connexion() {
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
+          localStorage.setItem("prenom", res.prenom);
+          localStorage.setItem("nom", res.nom);
+          localStorage.setItem("email", res.email);
           if (localStorage.getItem("role") == "vigil") {
             navigate("/vigil");
           } else {
@@ -47,6 +54,15 @@ function Connexion() {
       });
   };
 
+  const Eye = () => {
+    if (password == "password") {
+      setpassword("text");
+      seteye(false);
+    } else {
+      setpassword("password");
+      seteye(true);
+    }
+  };
   return (
     <div
       className="w-full h-screen d-flex justify-center align-items-center"
@@ -119,10 +135,18 @@ function Connexion() {
               </svg>
             </InputGroup.Text>
             <Form.Control
-              type="password"
+              type={password}
               placeholder="Entrer mot de passe"
               {...register("passe", { required: true, minLength: 6 })}
             />
+            <InputGroup.Text>
+              <i
+                onClick={() => {
+                  Eye();
+                }}
+                className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}
+              ></i>
+            </InputGroup.Text>
           </InputGroup>
           {errors.passe?.type === "required" && (
             <p className="text-red-500">Ce champs est requis</p>

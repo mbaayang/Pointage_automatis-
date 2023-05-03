@@ -10,6 +10,7 @@ function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [error, setError] = useState<any>("")
   const navigate = useNavigate();
   const {
     register,
@@ -24,15 +25,37 @@ function Header() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+     fetch(`http://localhost:3000/employes/password/${localStorage.getItem("email")}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        mot_de_passe: data.actuelPassword,
+        NewPassword: data.newPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message);
+        console.log(localStorage.getItem("email"))
+        if (res.message == "Le mot de passe est incorrect") {
+          setError("actuel mot de passe incorrect")
+        }
+        if (res.message == "reussi"){
+          setError("update");
+        }
+      
+      }); 
   };
   const password = useRef({});
   password.current = watch("newPassword", "");
 
   //Deconnexion
   const deconnexion = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    localStorage.removeItem("role");
+    localStorage.clear();
     navigate("/");
   };
 
@@ -68,8 +91,10 @@ function Header() {
           <img src="" alt="" />
         </div>
         <div className="text-white text-lg absolute ml-60 mt-4">
-          <p>Prenom NOM</p>
-          <p>Profil</p>
+          <p>
+            {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
+          </p>
+          <p>{localStorage.getItem("role")}</p>
         </div>
         <div className="d-flex place-content-end">
           <div className="icone absolute">
@@ -117,6 +142,7 @@ function Header() {
                     </svg>
                     <p>Modifier mot de passe</p>
                   </div>
+                  {localStorage.getItem("role") == "administrateur" &&
                   <Link to="pointage" className="flex space-x-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +159,7 @@ function Header() {
                       />
                     </svg>
                     <p>Pointage</p>
-                  </Link>
+                  </Link>}
                   <div className="d-flex space-x-3 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +206,7 @@ function Header() {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
+            <div className={`alert alert-danger ${error == "" ? "cacher" : ""} `} >{error}</div>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label className="text-lg">Mot de passe actuel</Form.Label>
               <Form.Control
@@ -245,13 +272,14 @@ function Header() {
                 </p>
               )}
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit" variant="outline-success" onClick={handleClose}>
+            <Button  type="submit" variant="outline-success" >
             Modifier
           </Button>
-        </Modal.Footer>
+          </Form>
+        </Modal.Body>
+      {/*   <Modal.Footer>
+          
+        </Modal.Footer> */}
       </Modal>
     </>
   );

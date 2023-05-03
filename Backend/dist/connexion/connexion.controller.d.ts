@@ -1,5 +1,5 @@
 import { AuthService } from './connexion.service';
-import { Employes } from './entities/connexion.entity';
+import { Employes } from '../employes/entities/employe.entity';
 type RequestWithUser = {
     user: Partial<Employes>;
 };

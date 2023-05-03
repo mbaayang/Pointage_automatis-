@@ -2,8 +2,8 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Employes } from "./entities/connexion.entity";
-import * as bcrypt from "bcrypt";
+import { Employes } from "../employes/entities/employe.entity";
+import * as bcrypt from "bcryptjs";
 
 @Injectable()
 export class AuthService {
@@ -29,7 +29,7 @@ export class AuthService {
     if (user) {
       if (user && (await bcrypt.compare(mot_de_passe, user.mot_de_passe))) {
         const etat = user.etat;
-        if (etat == 0) {
+        if (etat == false) {
           throw new UnauthorizedException({
             correct: false,
             message: "compte archivé",
@@ -54,14 +54,20 @@ export class AuthService {
 
   async login(
     user: Employes
-  ): Promise<{ access_token: string; id: number; role: string }> {
+  ): Promise<{ access_token: string; id: number; role: string; prenom: string; nom: string; email: string }> {
     const payload = { email: user.email, sub: user.id_employe };
     const id = user.id_employe;
     const role = user.role;
+    const prenom = user.prenom;
+    const nom = user.nom;
+    const email = user.email;
     return {
       access_token: this.jwtService.sign(payload),
       id: id,
       role: role,
+      prenom: prenom,
+      nom: nom,
+      email: email,
     };
   }
 }
