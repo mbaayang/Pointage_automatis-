@@ -142,6 +142,7 @@ function Header() {
                     </svg>
                     <p>Modifier mot de passe</p>
                   </div>
+                  {localStorage.getItem("role") == "administrateur" &&
                   <Link to="pointage" className="flex space-x-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +159,7 @@ function Header() {
                       />
                     </svg>
                     <p>Pointage</p>
-                  </Link>
+                  </Link>}
                   <div className="d-flex space-x-3 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
