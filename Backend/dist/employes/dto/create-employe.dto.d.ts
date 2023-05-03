@@ -1,4 +1,5 @@
 export declare class CreateEmployeDto {
+    id_employe: number;
     prenom: string;
     nom: string;
     email: string;

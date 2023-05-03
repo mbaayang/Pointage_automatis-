@@ -15,6 +15,7 @@ export class Employes {
 
   @Column()
   mot_de_passe: string;
+  
 
   @Column()
   matricule: string;

@@ -1,6 +1,8 @@
 import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateEmployeDto {
+    id_employe: number;
+
     @IsString()
     prenom: string;
 
