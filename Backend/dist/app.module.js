@@ -14,6 +14,8 @@ const employes_module_1 = require("./employes/employes.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const connexion_module_1 = require("./connexion/connexion.module");
 const employe_entity_1 = require("./employes/entities/employe.entity");
+const etudiant_module_1 = require("./etudiant/etudiant.module");
+const Etudiant_1 = require("./typeorm/entities/Etudiant");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,10 +28,11 @@ AppModule = __decorate([
                 username: "root",
                 password: "",
                 database: "Pointage",
-                entities: [employe_entity_1.Employes],
+                entities: [employe_entity_1.Employes, Etudiant_1.Etudiant],
                 synchronize: false,
             }),
             employes_module_1.EmployesModule,
+            etudiant_module_1.EtudiantModule,
             connexion_module_1.ConnexionModule,
         ],
         controllers: [app_controller_1.AppController],
