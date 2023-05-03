@@ -20,7 +20,7 @@ export class Etudiant{
     @Column()
     niveau: string;
 
-    @Column({type:'longblob'})
+    @Column({nullable:true, type:'longblob'})
     photo: Buffer;
 
 /*     @Column()

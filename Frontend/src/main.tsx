@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import App from "./App";
 import "./index.css";
 import {
   Route,
@@ -7,15 +7,15 @@ import {
   RouterProvider,
   createRoutesFromElements,
 } from "react-router-dom";
-import PageAdmin from "../Pages/PageAdmin.tsx";
-import PageVigil from "../Pages/PageVigil.tsx";
-import { Historique } from "./Components/Historique/Historique.tsx";
-import Dashboard from "./Components/Dashboard/Dashboard.tsx";
-import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant.tsx";
-import Pointage from "./Components/Pointage/Pointage.tsx";
-import Connexion from "./Components/Connexion/Connexion.tsx";
-import Liste_Employes from "./Components/Liste_Employes/Liste_Employes.tsx";
-import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes.tsx";
+import PageAdmin from "../Pages/PageAdmin";
+import PageVigil from "../Pages/PageVigil";
+import { Historique } from "./Components/Historique/Historique";
+import Dashboard from "./Components/Dashboard/Dashboard";
+import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant";
+import Pointage from "./Components/Pointage/Pointage";
+import Connexion from "./Components/Connexion/Connexion";
+import Liste_Employes from "./Components/Liste_Employes/Liste_Employes";
+import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

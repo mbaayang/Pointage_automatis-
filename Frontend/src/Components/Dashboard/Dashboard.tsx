@@ -100,14 +100,15 @@ const Dashboard = () => {
     fetch('http://localhost:3000/etudiant', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data'
+        'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
-      body: formData
+      body: JSON.stringify(formData)
     })
     .then(res => res.json())
     .then(data => console.log(data))
-    .catch(error => console.log(error))
+    .catch(error => console.log(error)) 
     console.log(formData);
   };
 
@@ -470,7 +471,7 @@ const Dashboard = () => {
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
             </Form.Group>
-            <Button variant="outline-success" type="submit"
+          <Button variant="outline-success" type="submit" onClick={()=>{onSubmit2()}}
               className="d-flex justify-content-center align-items-center">
               Ajouter
             </Button>
