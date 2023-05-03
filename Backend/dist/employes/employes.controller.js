@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const employes_service_1 = require("./employes.service");
 const create_employe_dto_1 = require("./dto/create-employe.dto");
 const update_employe_dto_1 = require("./dto/update-employe.dto");
+const updatePassword_dto_1 = require("./dto/updatePassword.dto");
 let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
@@ -33,12 +34,15 @@ let EmployesController = class EmployesController {
     update(id, updateEmployeDto) {
         return this.employesService.update(+id, updateEmployeDto);
     }
+    async updatePassword(email, updatePasswordDto) {
+        await this.employesService.updatePassword(email, updatePasswordDto);
+    }
     remove(id) {
         return this.employesService.remove(+id);
     }
 };
 __decorate([
-    (0, common_1.Post)('post'),
+    (0, common_1.Post)("post"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto]),
@@ -51,29 +55,37 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_employe_dto_1.UpdateEmployeDto]),
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "update", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Patch)("password/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, updatePassword_dto_1.UpdatePasswordDto]),
+    __metadata("design:returntype", Promise)
+], EmployesController.prototype, "updatePassword", null);
+__decorate([
+    (0, common_1.Delete)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "remove", null);
 EmployesController = __decorate([
-    (0, common_1.Controller)('employes'),
+    (0, common_1.Controller)("employes"),
     __metadata("design:paramtypes", [employes_service_1.EmployesService])
 ], EmployesController);
 exports.EmployesController = EmployesController;

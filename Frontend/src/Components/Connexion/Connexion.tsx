@@ -16,7 +16,7 @@ function Connexion() {
 
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
-  
+
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
@@ -54,15 +54,15 @@ function Connexion() {
       });
   };
 
-    const Eye = () => {
-      if (password == "password") {
-        setpassword("text");
-        seteye(false);
-      } else {
-        setpassword("password");
-        seteye(true);
-      }
-    };
+  const Eye = () => {
+    if (password == "password") {
+      setpassword("text");
+      seteye(false);
+    } else {
+      setpassword("password");
+      seteye(true);
+    }
+  };
   return (
     <div
       className="w-full h-screen d-flex justify-center align-items-center"
@@ -137,7 +137,7 @@ function Connexion() {
             <Form.Control type={password} placeholder="Entrer mot de passe" style={{borderRight:'none'}}
               {...register("passe", { required: true, minLength: 6 })}/>
             <InputGroup.Text className="bg-white">
-              <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+              <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
             </InputGroup.Text>
           </InputGroup>
           {errors.passe?.type === "required" && (
