@@ -49,6 +49,10 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
+/*   const photos = (e: any) => {
+    setPhoto(e.target.files[0]);
+  }; */
+
   const [prenom2, setPrenom2] = useState("");
   const [nom2, setNom2] = useState("");
   const [email2, setEmail2] = useState("");
@@ -90,27 +94,33 @@ const Dashboard = () => {
   };
 
   const onSubmit2 = () => {
-    const formData = new FormData();
+/*     const formData = new FormData();
     formData.append("prenom2", prenom2);
     formData.append("nom2", nom2);
     formData.append("email2", email2);
     formData.append("matricule2", matricule2);
     formData.append("niveau2", niveau2);
-    formData.append("photo", photo);
+    formData.append("photo", photo); */
 
     fetch("http://localhost:3000/etudiant", {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        prenom2,
+        nom2,
+        email2,
+        matricule2,
+        niveau2,
+        photo,
+      })
     })
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(error => console.log(error))
-    console.log(formData);
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -642,13 +652,13 @@ const Dashboard = () => {
                   id="photo"
                   value={photo}
                   {...register("photo", { required: true })}
-                  onChange={(event) => setPhoto(event.target.value)}
+                  onChange={ (event) => setPhoto(event.target.value)}
                 />
                 {errors.photo?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Button
+              <Button onClick={onSubmit2}
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center"
