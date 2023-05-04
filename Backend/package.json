@@ -38,6 +38,11 @@
     "npm": "^9.6.5",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+<<<<<<< HEAD
+=======
+    "@nestjs/serve-static": "^3.0.1",
+    "multer": "^1.4.5-lts.1",
+>>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.15"

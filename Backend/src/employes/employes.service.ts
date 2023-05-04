@@ -21,8 +21,7 @@ export class EmployesService {
   ) {}
 
   async create(createEmployeDto: CreateEmployeDto) {
-    const { prenom, nom, email, mot_de_passe, matricule, role, etat } =
-      createEmployeDto;
+    const { prenom, nom, email, mot_de_passe, matricule, role, etat, photo } = createEmployeDto;
 
     const mail = await this.employesRepository.findOne({ where: { email } });
 
@@ -39,9 +38,9 @@ export class EmployesService {
       mot_de_passe: hashedPassword,
       matricule,
       role,
-      etat,
+      photo,
+      etat
     });
-    /*     throw new UnauthorizedException({ message: "Inscription réussie" }); */
 
     return user;
   }

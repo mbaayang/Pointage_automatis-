@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Controller,
   Get,
@@ -12,6 +13,15 @@ import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 @Controller("employes")
+=======
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseFilePipe, UploadedFile, FileTypeValidator, MaxFileSizeValidator, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { EmployesService } from './employes.service';
+import { CreateEmployeDto } from './dto/create-employe.dto';
+import { UpdateEmployeDto } from './dto/update-employe.dto';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+
+@Controller('employes')
+>>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
 export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
 
@@ -47,4 +57,5 @@ export class EmployesController {
   remove(@Param("id") id: string) {
     return this.employesService.remove(+id);
   }
+
 }

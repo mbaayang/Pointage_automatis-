@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { EmployesService } from "./employes.service";
 import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
+=======
+/// <reference types="node" />
+import { EmployesService } from './employes.service';
+import { CreateEmployeDto } from './dto/create-employe.dto';
+import { UpdateEmployeDto } from './dto/update-employe.dto';
+>>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
 export declare class EmployesController {
     private readonly employesService;
     constructor(employesService: EmployesService);
@@ -12,6 +19,7 @@ export declare class EmployesController {
         mot_de_passe: any;
         matricule: string;
         role: string;
+        photo: Buffer;
         etat: boolean;
     } & import("./entities/employe.entity").Employes>;
     findAll(): Promise<import("./entities/employe.entity").Employes[]>;

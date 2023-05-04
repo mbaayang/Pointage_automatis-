@@ -1,3 +1,4 @@
+/// <reference types="node" />
 export declare class Employes {
     id_employe: number;
     prenom: string;
@@ -6,5 +7,7 @@ export declare class Employes {
     mot_de_passe: string;
     matricule: string;
     role: string;
+    photo: Buffer;
+    date_inscription: Date;
     etat: boolean;
 }

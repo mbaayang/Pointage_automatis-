@@ -1,3 +1,4 @@
+/// <reference types="node" />
 export declare class CreateEmployeDto {
     id_employe: number;
     prenom: string;
@@ -7,4 +8,5 @@ export declare class CreateEmployeDto {
     matricule: string;
     role: string;
     etat: boolean;
+    photo: Buffer;
 }
