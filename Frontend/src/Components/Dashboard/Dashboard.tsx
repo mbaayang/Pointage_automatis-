@@ -14,17 +14,6 @@ const Dashboard = () => {
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
-<<<<<<< HEAD
-  const [prenom, setPrenom] = useState<string>();
-  const [nom, setNom] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [mdp, setMdp] = useState<string>();
-  const [matricule, setMatricule] = useState<string>();
-  const [role, setRole] = useState<string>();
-  const [errorBack, setErrorBack] = useState("");
-  const [etat, setEtat] = useState<boolean>(false);
-=======
->>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
 
   const Eye = () => {
     if (password == "password") {
