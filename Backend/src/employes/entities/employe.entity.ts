@@ -23,8 +23,8 @@ export class Employes {
   @Column()
   role: string;
 
-  @Column()
-  photo: string;
+  /* @Column()
+  photo: string; */
 
   /* @Column()
   date_inscription: Date; */

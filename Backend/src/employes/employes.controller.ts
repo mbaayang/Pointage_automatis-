@@ -67,11 +67,11 @@ import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 @Controller("employes")
 export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
-
-  @Post("post")
+*/
+  @Post("submit")
   create(@Body() createEmployeDto: CreateEmployeDto) {
     return this.employesService.create(createEmployeDto);
-  } */
+  } 
 
   @Get()
   findAll() {

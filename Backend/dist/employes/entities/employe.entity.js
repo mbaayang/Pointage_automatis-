@@ -42,10 +42,6 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Employes.prototype, "photo", void 0);
-__decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);

@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployesController = void 0;
 const common_1 = require("@nestjs/common");
 const employes_service_1 = require("./employes.service");
+const create_employe_dto_1 = require("./dto/create-employe.dto");
 const update_employe_dto_1 = require("./dto/update-employe.dto");
 const updatePassword_dto_1 = require("./dto/updatePassword.dto");
 const platform_express_1 = require("@nestjs/platform-express");
@@ -37,6 +38,9 @@ let EmployesController = class EmployesController {
         return {
             prenom, nom, email, mot_de_passe, matricule, role, photo: file.filename,
         };
+    }
+    create(createEmployeDto) {
+        return this.employesService.create(createEmployeDto);
     }
     findAll() {
         return this.employesService.findAll();
@@ -74,6 +78,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], EmployesController.prototype, "submitForm", null);
+__decorate([
+    (0, common_1.Post)("submit"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto]),
+    __metadata("design:returntype", void 0)
+], EmployesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

@@ -6,6 +6,5 @@ export declare class Employes {
     mot_de_passe: string;
     matricule: string;
     role: string;
-    photo: string;
     etat: boolean;
 }

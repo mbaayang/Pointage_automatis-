@@ -8,12 +8,19 @@ import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
-import axios from "axios";
 const Dashboard = () => {
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
+  const [prenom, setPrenom] = useState<string>();
+  const [nom, setNom] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [mdp, setMdp] = useState<string>();
+  const [matricule, setMatricule] = useState<string>();
+  const [role, setRole] = useState<string>();
+  const [errorBack, setErrorBack] = useState("");
+  const [etat, setEtat] = useState<boolean>(false);
 
   const Eye = () => {
     if (password == "password") {
@@ -42,6 +49,10 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
+/*   const photos = (e: any) => {
+    setPhoto(e.target.files[0]);
+  }; */
+
   const [prenom2, setPrenom2] = useState("");
   const [nom2, setNom2] = useState("");
   const [email2, setEmail2] = useState("");
@@ -49,46 +60,12 @@ const Dashboard = () => {
   const [niveau2, setNiveau2] = useState("");
   const [photo, setPhoto] = useState("");
 
-  const [prenom, setPrenom] = useState<string>("");
-  const [nom, setNom] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [mdp, setMdp] = useState<string>("");
-  const [matricule, setMatricule] = useState<string>("");
-  const [role, setRole] = useState<string>("");
-  const [etat, setEtat] = useState<boolean>(false);
-  const [file,setFile] = useState<any>();
-  const [errorBack, setErrorBack] = useState("");
-
-  const setimgfile = (e:any)=>{
-    setFile(e.target.files[0])
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const onSubmit = async (event:any) => {
-    event.preventDefault();
-
-        console.log(mdp,nom,prenom,email,matricule,role,file);
-        
-
-        const formData = new FormData();
-          formData.append("prenom", prenom);
-          formData.append("nom", nom);
-          formData.append("email", email);
-          formData.append("matricule", matricule);
-          formData.append("role", role);
-          formData.append("mot_de_passe", mdp);
-          formData.append("photo", file);
-        try {
-          const response = await axios.post("http://localhost:3000/employes/post", formData);
-          console.log(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-  };
-  /* const onSubmit = (data: any) => {
+  const onSubmit = (data: any) => {
     fetch("http://localhost:3000/employes/post", {
       method: "POST",
       headers: {
@@ -114,30 +91,36 @@ const Dashboard = () => {
           setEtat(true);
         }
       });
-  }; */
+  };
 
   const onSubmit2 = () => {
-    const formData = new FormData();
+/*     const formData = new FormData();
     formData.append("prenom2", prenom2);
     formData.append("nom2", nom2);
     formData.append("email2", email2);
     formData.append("matricule2", matricule2);
     formData.append("niveau2", niveau2);
-    formData.append("photo", photo);
+    formData.append("photo", photo); */
 
     fetch("http://localhost:3000/etudiant", {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify({
+        prenom2,
+        nom2,
+        email2,
+        matricule2,
+        niveau2,
+        photo,
+      })
     })
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(error => console.log(error))
-    console.log(formData);
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -669,13 +652,13 @@ const Dashboard = () => {
                   id="photo"
                   value={photo}
                   {...register("photo", { required: true })}
-                  onChange={(event) => setPhoto(event.target.value)}
+                  onChange={ (event) => setPhoto(event.target.value)}
                 />
                 {errors.photo?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Button
+              <Button onClick={onSubmit2}
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center"
@@ -690,7 +673,6 @@ const Dashboard = () => {
   } else {
     return <DashboardProf></DashboardProf>;
   }
-};
 };
 
 export default Dashboard;

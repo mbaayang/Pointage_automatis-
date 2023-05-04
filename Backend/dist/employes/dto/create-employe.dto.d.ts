@@ -1,10 +1,3 @@
-export declare class CreateEmployeDto {
-    id_employe: number;
-    prenom: string;
-    nom: string;
-    email: string;
-    mot_de_passe: string;
-    matricule: string;
-    role: string;
-    etat: boolean;
+import { Employes } from "../entities/employe.entity";
+export declare class CreateEmployeDto extends Employes {
 }
