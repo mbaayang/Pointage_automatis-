@@ -113,7 +113,7 @@ const Dashboard = () => {
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
-    localStorage.getItem("role") == "administrateur"
+    localStorage.getItem("role") == "surveillant"
   ) {
     return (
       <div className="container text-center">
