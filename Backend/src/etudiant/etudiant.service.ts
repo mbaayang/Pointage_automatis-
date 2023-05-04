@@ -14,7 +14,6 @@ export class EtudiantService {
 
   async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
     const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
-
       // Vérifier si un étudiant avec la même adresse e-mail existe déjà dans la base de données
       const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
       if (existingEtudiant) {
@@ -29,7 +28,7 @@ export class EtudiantService {
     etudiant.niveau = createEtudiantDto.niveau;
     etudiant.photo = createEtudiantDto.photo;
     etudiant.date_inscription = new Date();
-
+    
     return await this.etudiantRepository.save(etudiant);
   }
 

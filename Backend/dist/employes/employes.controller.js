@@ -15,15 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmployesController = void 0;
 const common_1 = require("@nestjs/common");
 const employes_service_1 = require("./employes.service");
-const create_employe_dto_1 = require("./dto/create-employe.dto");
 const update_employe_dto_1 = require("./dto/update-employe.dto");
 const updatePassword_dto_1 = require("./dto/updatePassword.dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
+const promise_1 = require("mysql2/promise");
 let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
     }
-    create(createEmployeDto) {
-        return this.employesService.create(createEmployeDto);
+    async submitForm(file, body) {
+        const { prenom, nom, email, mot_de_passe, matricule, role } = body;
+        const connection = await (0, promise_1.createConnection)({
+            host: "localhost",
+            user: "root",
+            password: "",
+            database: "Pointage",
+        });
+        const [results, fields] = await connection.execute("INSERT INTO employess (prenom, nom, email, mot_de_passe, matricule, role, photo) VALUES (?, ?, ?, ?, ?, ?, ?)", [prenom, nom, email, mot_de_passe, matricule, role, file.filename]);
+        return {
+            prenom, nom, email, mot_de_passe, matricule, role, photo: file.filename,
+        };
     }
     findAll() {
         return this.employesService.findAll();
@@ -43,11 +56,24 @@ let EmployesController = class EmployesController {
 };
 __decorate([
     (0, common_1.Post)("post"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("image", {
+        storage: (0, multer_1.diskStorage)({
+            destination: "./images",
+            filename: (req, file, callback) => {
+                const randomName = Array(32)
+                    .fill(null)
+                    .map(() => Math.round(Math.random() * 16).toString(16))
+                    .join("");
+                callback(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
+            },
+        }),
+    })),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto]),
-    __metadata("design:returntype", void 0)
-], EmployesController.prototype, "create", null);
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], EmployesController.prototype, "submitForm", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
@@ -85,7 +111,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "remove", null);
 EmployesController = __decorate([
-    (0, common_1.Controller)("employes"),
+    (0, common_1.Controller)('employes'),
     __metadata("design:paramtypes", [employes_service_1.EmployesService])
 ], EmployesController);
 exports.EmployesController = EmployesController;

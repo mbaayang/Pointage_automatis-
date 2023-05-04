@@ -21,26 +21,27 @@ export class EmployesService {
   ) {}
 
   async create(createEmployeDto: CreateEmployeDto) {
-    const { prenom, nom, email, mot_de_passe, matricule, role, etat, photo } = createEmployeDto;
+    const { prenom, nom, email, mot_de_passe, matricule, role, etat } =
+      createEmployeDto;
 
     const mail = await this.employesRepository.findOne({ where: { email } });
 
     if (mail) {
       throw new UnauthorizedException({ message: "Cet email existe déjà" });
-    }
+    } 
 
     const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
     //a mettre apres API
-    const user = await this.employesRepository.save({
+     const user = await this.employesRepository.save({
       prenom,
       nom,
       email,
       mot_de_passe: hashedPassword,
       matricule,
       role,
-      photo,
-      etat
+      etat,
     });
+
 
     return user;
   }

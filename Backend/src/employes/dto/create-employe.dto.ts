@@ -1,3 +1,4 @@
+
 import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateEmployeDto {
@@ -23,6 +24,16 @@ export class CreateEmployeDto {
 
     @IsBoolean()
     etat: boolean;
-
-    photo: Buffer;
 }
+
+
+/* export class CreateEmployeDto{
+    prenom: string;
+    nom: string;
+    email: string;
+    mot_de_passe: string;
+    matricule: string;
+    role: string;
+    etat: boolean;
+    photo: Buffer
+} */
