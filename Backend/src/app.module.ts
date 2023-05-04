@@ -8,9 +8,16 @@ import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./employes/entities/employe.entity";
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
+import { MulterModule } from "@nestjs/platform-express";
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './files',
+      limits: {
+        fileSize: 1024 * 1024 * 5
+      }
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",

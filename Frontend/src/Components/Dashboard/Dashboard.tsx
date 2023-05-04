@@ -8,8 +8,9 @@ import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
+import axios from "axios";
 const Dashboard = () => {
-  const [eye, seteye] = useState<boolean>(true);
+ /*  const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
@@ -40,7 +41,7 @@ const Dashboard = () => {
       setpassword1("password");
       seteye1(true);
     }
-  };
+  }; */
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -49,16 +50,13 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
-/*   const photos = (e: any) => {
-    setPhoto(e.target.files[0]);
-  }; */
 
-  const [prenom2, setPrenom2] = useState("");
-  const [nom2, setNom2] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [matricule2, setMatricule2] = useState("");
-  const [niveau2, setNiveau2] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [prenom, setPrenom2] = useState("");
+  const [nom, setNom2] = useState("");
+  const [email, setEmail2] = useState("");
+  const [matricule, setMatricule2] = useState("");
+  const [niveau, setNiveau2] = useState("");
+  const [photo, setPhoto] = useState<any>();
 
   const {
     register,
@@ -66,7 +64,7 @@ const Dashboard = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const onSubmit = (data: any) => {
-    fetch("http://localhost:3000/employes/post", {
+    /* fetch("http://localhost:3000/employes/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,37 +88,27 @@ const Dashboard = () => {
           setErrorBack(data.message);
           setEtat(true);
         }
-      });
+      }); */
+  };
+  const handleImageChange = (event:any) => {
+    setPhoto(event.target.files[0]);
   };
 
   const onSubmit2 = () => {
-/*     const formData = new FormData();
-    formData.append("prenom2", prenom2);
-    formData.append("nom2", nom2);
-    formData.append("email2", email2);
-    formData.append("matricule2", matricule2);
-    formData.append("niveau2", niveau2);
-    formData.append("photo", photo); */
+    const formData = new FormData();
+    formData.append("prenom", prenom);
+    formData.append("nom", nom);
+    formData.append("email", email);
+    formData.append("matricule", matricule);
+    formData.append("niveau", niveau);
+    formData.append("photo", photo); 
 
-    fetch("http://localhost:3000/etudiant", {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        prenom2,
-        nom2,
-        email2,
-        matricule2,
-        niveau2,
-        photo,
-      })
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
+      try {
+        const response = axios.post("http://localhost:3000/etudiant", formData); 
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -317,7 +305,7 @@ const Dashboard = () => {
          ****************************************************************************
          */}
 
-        <Modal show={show1} onHide={handleClose1}>
+{/*         <Modal show={show1} onHide={handleClose1}>
           <div className="d-flex justify-content-between p-3">
             <Modal.Title className="h4 text-color">
               Inscrire un employé
@@ -395,7 +383,6 @@ const Dashboard = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <div>
-                  {/* message d'erreur */}
                   {errors.email?.type === "required" && (
                     <p className="text-red-600">Ce champ est Obligatoire</p>
                   )}
@@ -467,14 +454,13 @@ const Dashboard = () => {
                     ></i>
                   </InputGroup.Text>
                 </InputGroup>
-                {/* message d'erreur */}
                 {errors.password?.type === "minLength" && (
                   <p className="text-red-600">Minimum 6 caractère</p>
                 )}
                 {errors.password?.type === "required" && (
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
-              </Form.Group>
+              </Form.Group> */}
               {/* <Form.Group className="mb-3" controlId="password">
               <Form.Label>Confirmer mot de passe</Form.Label>
               <InputGroup>
@@ -503,7 +489,7 @@ const Dashboard = () => {
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
               </Form.Group>*/}
-              <Button
+              {/* <Button
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center"
@@ -512,7 +498,7 @@ const Dashboard = () => {
               </Button>
             </Form>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
 
         {/*
          ****************************************************************************
@@ -557,9 +543,9 @@ const Dashboard = () => {
                   type="text"
                   placeholder="issa"
                   autoFocus
-                  id="prenom2"
+                  id="prenom"
                   {...register("prenom2", { required: true })}
-                  value={prenom2}
+                  value={prenom}
                   onChange={(event) => setPrenom2(event.target.value)}
                 />
                 {errors.prenom2?.type === "required" && (
@@ -572,9 +558,9 @@ const Dashboard = () => {
                   type="text"
                   placeholder="ndiaye"
                   autoFocus
-                  id="nom2"
+                  id="nom"
                   {...register("nom2", { required: true })}
-                  value={nom2}
+                  value={nom}
                   onChange={(event) => setNom2(event.target.value)}
                 />
                 {errors.nom2?.type === "required" && (
@@ -587,13 +573,13 @@ const Dashboard = () => {
                   type="email"
                   placeholder="astouissa@gmail.com"
                   autoFocus
-                  id="email2"
+                  id="email"
                   {...register("email2", {
                     required: true,
                     pattern:
                       /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
                   })}
-                  value={email2}
+                  value={email}
                   onChange={(event) => setEmail2(event.target.value)}
                 />
                 <div>
@@ -615,8 +601,8 @@ const Dashboard = () => {
                   type="text"
                   placeholder="9208383576278772"
                   autoFocus
-                  id="matricule2"
-                  value={matricule2}
+                  id="matricule"
+                  value={matricule}
                   {...register("matricule2", { required: true })}
                   onChange={(event) => setMatricule2(event.target.value)}
                 />
@@ -628,9 +614,9 @@ const Dashboard = () => {
                 <Form.Label>Niveau</Form.Label>
                 <Form.Control
                   as="select"
-                  value={niveau2}
+                  value={niveau}
                   {...register("niveau2", { required: true })}
-                  id="niveau2"
+                  id="niveau"
                   onChange={(event) => setNiveau2(event.target.value)}
                 >
                   <option value=""></option>
@@ -650,9 +636,8 @@ const Dashboard = () => {
                   placeholder=""
                   autoFocus
                   id="photo"
-                  value={photo}
                   {...register("photo", { required: true })}
-                  onChange={ (event) => setPhoto(event.target.value)}
+                  onChange={ handleImageChange}
                 />
                 {errors.photo?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>

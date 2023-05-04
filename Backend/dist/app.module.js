@@ -16,11 +16,18 @@ const connexion_module_1 = require("./connexion/connexion.module");
 const employe_entity_1 = require("./employes/entities/employe.entity");
 const etudiant_module_1 = require("./etudiant/etudiant.module");
 const Etudiant_1 = require("./typeorm/entities/Etudiant");
+const platform_express_1 = require("@nestjs/platform-express");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            platform_express_1.MulterModule.register({
+                dest: './files',
+                limits: {
+                    fileSize: 1024 * 1024 * 5
+                }
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: "mysql",
                 host: "localhost",
