@@ -36,21 +36,39 @@ let EmployesService = class EmployesService {
             mot_de_passe: hashedPassword,
             matricule,
             role,
-            etat
+            etat,
         });
         return user;
     }
-    findAll() {
-        return `This action returns all employes`;
+    async findAll() {
+        return await this.employesRepository.find({});
     }
-    findOne(id) {
-        return `This action returns a #${id} employe`;
+    async findOne(id) {
+        return await this.employesRepository.findOneById(id);
     }
-    update(id, updateEmployeDto) {
-        return `This action updates a #${id} employe`;
+    async update(id, updateEmployeDto) {
+        const updatedEmploye = employe_entity_1.Employes;
+        Object.keys(updateEmployeDto).forEach((key) => {
+            updatedEmploye[key] = updateEmployeDto[key];
+        });
+        return await this.employesRepository.update(id, updateEmployeDto);
     }
-    remove(id) {
-        return `This action removes a #${id} employe`;
+    async remove(id) {
+        await this.employesRepository.delete(id);
+    }
+    async updatePassword(email, updatePassword) {
+        const user = await this.employesRepository.findOne({ where: { email } });
+        if (!user) {
+            throw new common_1.NotFoundException("User not found");
+        }
+        const isPasswordValid = await bcrypt.compare(updatePassword.mot_de_passe, user.mot_de_passe);
+        if (!isPasswordValid) {
+            throw new common_1.BadRequestException("Le mot de passe est incorrect");
+        }
+        const hashedNewPassword = await bcrypt.hash(updatePassword.NewPassword, 10);
+        user.mot_de_passe = hashedNewPassword;
+        await this.employesRepository.save(user);
+        throw new common_1.BadRequestException("reussi");
     }
 };
 EmployesService = __decorate([

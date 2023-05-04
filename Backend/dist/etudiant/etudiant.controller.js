@@ -22,17 +22,9 @@ let EtudiantController = class EtudiantController {
     constructor(etudiantService) {
         this.etudiantService = etudiantService;
     }
-    create(photo, createEtudiantDto) {
-        const { prenom, nom, email, matricule, niveau } = createEtudiantDto;
-        const etudiant = {
-            prenom,
-            nom,
-            email,
-            matricule,
-            niveau,
-            photo: photo.buffer
-        };
-        return this.etudiantService.create(etudiant);
+    async create(photo, createEtudiantDto) {
+        const etudiant = await this.etudiantService.create(Object.assign(Object.assign({}, createEtudiantDto), { photo: photo.buffer }));
+        return etudiant;
     }
     findAll() {
         return this.etudiantService.findAll();
@@ -48,7 +40,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, create_etudiant_dto_1.CreateEtudiantDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], EtudiantController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),

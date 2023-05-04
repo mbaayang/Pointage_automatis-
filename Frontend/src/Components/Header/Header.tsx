@@ -10,6 +10,7 @@ function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [error, setError] = useState<any>("")
   const navigate = useNavigate();
   const {
     register,
@@ -24,6 +25,30 @@ function Header() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+     fetch(`http://localhost:3000/employes/password/${localStorage.getItem("email")}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        mot_de_passe: data.actuelPassword,
+        NewPassword: data.newPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message);
+        console.log(localStorage.getItem("email"))
+        if (res.message == "Le mot de passe est incorrect") {
+          setError("actuel mot de passe incorrect")
+        }
+        if (res.message == "reussi"){
+          setError("update");
+        }
+      
+      }); 
   };
   const password = useRef({});
   password.current = watch("newPassword", "");
@@ -117,6 +142,7 @@ function Header() {
                     </svg>
                     <p>Modifier mot de passe</p>
                   </div>
+                  {localStorage.getItem("role") == "administrateur" &&
                   <Link to="pointage" className="flex space-x-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +159,7 @@ function Header() {
                       />
                     </svg>
                     <p>Pointage</p>
-                  </Link>
+                  </Link>}
                   <div className="d-flex space-x-3 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -158,49 +184,105 @@ function Header() {
         </div>
       </div>
 
-  
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header>
-            <Modal.Title>Modifier le mot de passe</Modal.Title>
-            <svg onClick={handleClose} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 flex" style={{cursor:'pointer'}}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label className='text-lg'>Mot de passe actuel</Form.Label>
-                <Form.Control type="password" id='actuelPassword' { ...register("actuelPassword", {required:true, minLength: 6, maxLength: 20})}/>
-                {errors.actuelPassword?.type === 'required' && <p className='text-red-500'>Ce champ est obligatoire</p>}
-                {errors.actuelPassword?.type === 'minLength' && <p className='text-red-500'>Minimum 6 caractères</p>}
-                {errors.actuelPassword?.type === 'maxLength' && <p className='text-red-500'>Maximum 20 caractères</p>}
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label className='text-lg'>Nouveau mot de passe</Form.Label>
-                <Form.Control type="password" id='newPassword' { ...register("newPassword", {required:true, minLength: 6, maxLength: 20})}/>
-                {errors.newPassword?.type === 'required' && <p className='text-red-500'>Ce champ est obligatoire</p>}
-                {errors.newPassword?.type === 'minLength' && <p className='text-red-500'>Minimum 6 caractères</p>}
-                {errors.newPassword?.type === 'maxLength' && <p className='text-red-500'>Maximum 20 caractères</p>}
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label className='text-lg'>Confirmation du mot de passe</Form.Label>
-                <Form.Control type="password" id='confirmPassword' {...register("confirmPassword", {
-                              required: {value: true, message: "Ce champ est obligatoire"},
-                              validate: value => password.current === value || "Les deux mots de passe ne correspondent pas"
-                          })}/>
-                {errors.confirmPassword && <p className='text-red-500'>{errors.confirmPassword.message as string}</p>}
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type='submit' variant="outline-success" >
-              Modifier
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    )
-  }
-  
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title>Modifier le mot de passe</Modal.Title>
+          <svg
+            onClick={handleClose}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-7 h-7 flex"
+            style={{ cursor: "pointer" }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <div className={`alert alert-danger ${error == "" ? "cacher" : ""} `} >{error}</div>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="text-lg">Mot de passe actuel</Form.Label>
+              <Form.Control
+                type="password"
+                id="actuelPassword"
+                {...register("actuelPassword", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 20,
+                })}
+              />
+              {errors.actuelPassword?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
+              {errors.actuelPassword?.type === "minLength" && (
+                <p className="text-red-500">Minimum 6 caractères</p>
+              )}
+              {errors.actuelPassword?.type === "maxLength" && (
+                <p className="text-red-500">Maximum 20 caractères</p>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="text-lg">Nouveau mot de passe</Form.Label>
+              <Form.Control
+                type="password"
+                id="newPassword"
+                {...register("newPassword", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 20,
+                })}
+              />
+              {errors.newPassword?.type === "required" && (
+                <p className="text-red-500">Ce champ est obligatoire</p>
+              )}
+              {errors.newPassword?.type === "minLength" && (
+                <p className="text-red-500">Minimum 6 caractères</p>
+              )}
+              {errors.newPassword?.type === "maxLength" && (
+                <p className="text-red-500">Maximum 20 caractères</p>
+              )}
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label className="text-lg">
+                Confirmation du mot de passe
+              </Form.Label>
+              <Form.Control
+                type="password"
+                id="confirmPassword"
+                {...register("confirmPassword", {
+                  required: {
+                    value: true,
+                    message: "Ce champ est obligatoire",
+                  },
+                  validate: (value) =>
+                    password.current === value ||
+                    "Les deux mots de passe ne correspondent pas",
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="text-red-500">
+                  {errors.confirmPassword.message as string}
+                </p>
+              )}
+            </Form.Group>
+            <Button  type="submit" variant="outline-success" >
+            Modifier
+          </Button>
+          </Form>
+        </Modal.Body>
+      {/*   <Modal.Footer>
+          
+        </Modal.Footer> */}
+      </Modal>
+    </>
+  );
+}
 
 export default Header;

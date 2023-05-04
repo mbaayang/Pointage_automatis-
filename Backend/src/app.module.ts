@@ -11,8 +11,12 @@ import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
 import { FormModule } from './form/form.module';
 
+
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
@@ -20,10 +24,11 @@ import { FormModule } from './form/form.module';
       username: "root",
       password: "",
       database: "Pointage",
-      entities: [],
-      synchronize: true,
+      entities: [Employes, Etudiant],
+      synchronize: false,
     }),
     EmployesModule,
+    EtudiantModule,
     ConnexionModule,
     EtudiantModule,
     FormModule,
