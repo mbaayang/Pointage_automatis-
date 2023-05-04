@@ -1,20 +1,17 @@
-/// <reference types="node" />
 import { EmployesService } from './employes.service';
-import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
 export declare class EmployesController {
     private readonly employesService;
     constructor(employesService: EmployesService);
-    create(createEmployeDto: CreateEmployeDto): Promise<{
-        prenom: string;
-        nom: string;
-        email: string;
+    submitForm(file: any, body: any): Promise<{
+        prenom: any;
+        nom: any;
+        email: any;
         mot_de_passe: any;
-        matricule: string;
-        role: string;
-        photo: Buffer;
-        etat: boolean;
-    } & import("./entities/employe.entity").Employes>;
+        matricule: any;
+        role: any;
+        photo: any;
+    }>;
     findAll(): string;
     findOne(id: string): string;
     update(id: string, updateEmployeDto: UpdateEmployeDto): string;

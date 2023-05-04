@@ -8,14 +8,15 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import PageAdmin from "../Pages/PageAdmin.tsx";
-import PageVigil from "../Pages/PageVigil.tsx";
-import { Historique } from "./Components/Historique/Historique.tsx";
+import PageVigil from "../Pages/PageVigil";
+import { Historique } from "./Components/Historique/Historique";
 import Dashboard from "./Components/Dashboard/Dashboard.tsx";
 import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant.tsx";
 import Pointage from "./Components/Pointage/Pointage.tsx";
 import Connexion from "./Components/Connexion/Connexion.tsx";
 import Liste_Employes from "./Components/Liste_Employes/Liste_Employes.tsx";
 import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes.tsx";
+import  Form  from "./Components/form";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/vigil" element={<PageVigil />}></Route>
       <Route index element={<Connexion />}></Route>
+      <Route path="form" element={<Form />}></Route>
       <Route path="*" element={<div>Not found</div>} />
     </Route>
   )

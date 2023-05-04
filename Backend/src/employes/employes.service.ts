@@ -18,25 +18,37 @@ export class EmployesService {
     private employesRepository: Repository<Employes>,
   ) {}
 
-  async create(createEmployeDto: CreateEmployeDto) {
-    const { prenom, nom, email, mot_de_passe, matricule, role, etat, photo } = createEmployeDto;
+  async create(createEmployeDto: CreateEmployeDto)/* : Promise<Employes> */ {
+    
+    /* const employe = new Employes();
+    employe.prenom = createEmployeDto.prenom
+    employe.nom = createEmployeDto.nom
+    employe.email = createEmployeDto.email
+    employe.mot_de_passe = createEmployeDto.mot_de_passe
+    employe.matricule = createEmployeDto.matricule
+    employe.role = createEmployeDto.role
+    employe.photo = createEmployeDto.photo
+    employe.date_inscription= new Date()
+
+    return await this.employesRepository.save(employe) */
+    
+    const { prenom, nom, email, mot_de_passe, matricule, role, etat } = createEmployeDto;
 
     const mail = await this.employesRepository.findOne({ where: { email } });
 
     if (mail) {
       throw new UnauthorizedException({ message: "Cet email existe déjà" });
-    }
+    } 
 
     const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
     //a mettre apres API
-    const user = await this.employesRepository.save({
+     const user = await this.employesRepository.save({
       prenom,
       nom,
       email,
       mot_de_passe: hashedPassword,
       matricule,
       role,
-      photo,
       etat
     });
 

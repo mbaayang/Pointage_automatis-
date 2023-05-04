@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { Repository } from 'typeorm';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
@@ -13,7 +12,6 @@ export declare class EmployesService {
         mot_de_passe: any;
         matricule: string;
         role: string;
-        photo: Buffer;
         etat: boolean;
     } & Employes>;
     findAll(): string;

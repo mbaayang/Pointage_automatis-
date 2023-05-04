@@ -9,6 +9,7 @@ import { Employes } from "./employes/entities/employe.entity";
 import { MulterModule } from '@nestjs/platform-express';
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
+import { FormModule } from './form/form.module';
 
 @Module({
   imports: [
@@ -19,13 +20,15 @@ import { Etudiant } from './typeorm/entities/Etudiant';
       username: "root",
       password: "",
       database: "Pointage",
-      entities: [Employes],
+      entities: [],
       synchronize: true,
     }),
     EmployesModule,
     ConnexionModule,
     EtudiantModule,
+    FormModule,
   ],
+  
 
   controllers: [AppController],
   providers: [AppService],

@@ -6,6 +6,7 @@ import certificat from "../../assets/certificate.svg";
 import { useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Dashboard = () => {
   const [show, setShow] = useState(false);
@@ -15,15 +16,15 @@ const Dashboard = () => {
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
-  const [prenom, setPrenom] = useState<string>();
-  const [nom, setNom] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [mdp, setMdp] = useState<string>();
-  const [matricule, setMatricule] = useState<string>();
-  const [role, setRole] = useState<string>();
+  const [prenom, setPrenom] = useState<string>("");
+  const [nom, setNom] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [mdp, setMdp] = useState<string>("");
+  const [matricule, setMatricule] = useState<string>("");
+  const [role, setRole] = useState<string>("");
   const [errorBack, setErrorBack] = useState("");
   const [etat, setEtat] = useState<boolean>(false);
-  const [file,setFile] = useState("");
+  const [file,setFile] = useState<any>();
 
   const setimgfile = (e:any)=>{
     setFile(e.target.files[0])
@@ -61,8 +62,12 @@ const Dashboard = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
-  const onSubmit = (data:any) => {
-    fetch("http://localhost:3000/employes/post", {
+
+  
+
+  const onSubmit = async (event:any) => {
+    event.preventDefault();
+    /* fetch("http://localhost:3000/employes/post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,13 +75,13 @@ const Dashboard = () => {
           "Access-Control-Allow-Origin": "*",
         },
         body: JSON.stringify({
-            prenom: prenom,
-            nom: nom,
-            email: email,
-            mot_de_passe: mdp,
-            matricule: matricule,
-            role: role,
-            photo: file
+            prenom,
+            nom,
+            email,
+            mdp,
+            matricule,
+            role,
+            file
         }),
       })
       .then((res) => res.json())
@@ -88,7 +93,25 @@ const Dashboard = () => {
             setEtat(true);
           }
           
-        });
+        }); */
+
+        console.log(mdp,nom,prenom,email,matricule,role,file);
+        
+
+        const formData = new FormData();
+          formData.append("prenom", prenom);
+          formData.append("nom", nom);
+          formData.append("email", email);
+          formData.append("matricule", matricule);
+          formData.append("role", role);
+          formData.append("mot_de_passe", mdp);
+          formData.append("photo", file);
+        try {
+          const response = await axios.post("http://localhost:3000/employes/post", formData);
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
   };
 
   return (
@@ -280,10 +303,12 @@ const Dashboard = () => {
                     {errorBack}
                   </div>
         <Modal.Body className="-mt-8">
-          <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+          <Form onSubmit={onSubmit} >
             <Form.Group className="mb-3" controlId="prenom">
               <Form.Label>Prénom</Form.Label>
-              <Form.Control
+              <input
+                id="prenom"
+                value={prenom}
                 type="text"
                 placeholder="issa"
                 autoFocus
@@ -299,7 +324,9 @@ const Dashboard = () => {
 
             <Form.Group className="mb-3" controlId="nom">
               <Form.Label>Nom</Form.Label>
-              <Form.Control
+              <input
+                id="nom"
+                value={nom}
                 type="text"
                 placeholder="ndiaye"
                 autoFocus
@@ -314,7 +341,9 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control
+              <input
+                id="email"
+                value={email}
                 type="email"
                 placeholder="astouissa@gmail.com"
                 autoFocus
@@ -338,7 +367,9 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="matricule">
               <Form.Label>Matricule</Form.Label>
-              <Form.Control
+              <input
+                id="matricule"
+                value={matricule}
                 type="text"
                 placeholder="9208383576278772"
                 autoFocus
@@ -353,7 +384,10 @@ const Dashboard = () => {
             </Form.Group>
             <Form.Group className="mb-3">
                     <Form.Label>Rôle<span className='text-danger'>*</span></Form.Label>
-                    <Form.Select placeholder="Choisir un rôle"  
+                    <select
+                      id="role" 
+                      value={role}
+                      placeholder="Choisir un rôle"  
                         {...register("role", {
                             required:true
                             })
@@ -365,13 +399,15 @@ const Dashboard = () => {
                         <option value="Surveillant" className=" text-black">Surveillant</option>
                         <option value="Professeur" className=" text-black">Professeur</option>
                         <option value="Vigile" className=" text-black">Vigile</option>
-                    </Form.Select>
+                    </select>
                     {errors.role?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>Mot de passe</Form.Label>
               <InputGroup>
-                <Form.Control
+                <input
+                  id="mot_de_passe"
+                  value={mdp}
                   type={password}
                   placeholder="*****"
                   autoFocus
@@ -412,7 +448,8 @@ const Dashboard = () => {
             </Form.Group> */}
             <Form.Group className="mb-3" controlId="photo">
               <Form.Label>Photo</Form.Label>
-              <Form.Control
+              <input
+                id="photo"
                 accept="image/*"
                 type="file"
                 placeholder=""
@@ -420,7 +457,7 @@ const Dashboard = () => {
                 {...register("file", {
                   required: true,
                 })}
-                onChange={setimgfile}
+                onChange={e=>setimgfile(e)}
               />
 
               {errors.file?.type === "required" && (

@@ -23,7 +23,7 @@ let EmployesService = class EmployesService {
         this.employesRepository = employesRepository;
     }
     async create(createEmployeDto) {
-        const { prenom, nom, email, mot_de_passe, matricule, role, etat, photo } = createEmployeDto;
+        const { prenom, nom, email, mot_de_passe, matricule, role, etat } = createEmployeDto;
         const mail = await this.employesRepository.findOne({ where: { email } });
         if (mail) {
             throw new common_1.UnauthorizedException({ message: "Cet email existe déjà" });
@@ -36,7 +36,6 @@ let EmployesService = class EmployesService {
             mot_de_passe: hashedPassword,
             matricule,
             role,
-            photo,
             etat
         });
         return user;
