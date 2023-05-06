@@ -662,12 +662,8 @@ const Dashboard = () => {
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-<<<<<<< HEAD
-              <Button onClick={onSubmit2}
-=======
               <FormGroup>
               <Button
->>>>>>> 6e3c3ae140070252a826a49ffc6cd16b5463a98a
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center">
