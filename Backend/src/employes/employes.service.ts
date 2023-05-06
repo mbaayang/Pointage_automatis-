@@ -51,19 +51,13 @@ export class EmployesService {
     return await this.employesRepository.findOneById(id);
   }
 
-  async update(id_employe: number, updateEmployeDto: UpdateEmployeDto) {
+  async update(id: number, updateEmployeDto: UpdateEmployeDto) {
     const updatedEmploye = Employes;
-    const email = Employes[3]
-    const existeDeja = await this.employesRepository.findOne({ where: { email } });
-    if (existeDeja) {
-      console.log(email)
-      throw new UnauthorizedException({ message: "Cet email existe déjà" });
-     
-    }
+
     Object.keys(updateEmployeDto).forEach((key) => {
       updatedEmploye[key] = updateEmployeDto[key];
     });
-    return await this.employesRepository.update(id_employe, updateEmployeDto);
+    return await this.employesRepository.update(id, updateEmployeDto);
   }
 
   async remove(id: number) {
