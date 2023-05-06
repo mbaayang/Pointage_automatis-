@@ -9,39 +9,40 @@ import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
 import axios from "axios";
+import Swal from "sweetalert2";
 const Dashboard = () => {
- /*  const [eye, seteye] = useState<boolean>(true);
-  const [password, setpassword] = useState<string>("password");
-  const [eye1, seteye1] = useState<boolean>(true);
-  const [password1, setpassword1] = useState<string>("password");
-  const [prenom, setPrenom] = useState<string>();
-  const [nom, setNom] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [mdp, setMdp] = useState<string>();
-  const [matricule, setMatricule] = useState<string>();
-  const [role, setRole] = useState<string>();
-  const [errorBack, setErrorBack] = useState("");
-  const [etat, setEtat] = useState<boolean>(false);
-
-  const Eye = () => {
-    if (password == "password") {
-      setpassword("text");
-      seteye(false);
-    } else {
-      setpassword("password");
-      seteye(true);
-    }
-  };
-
-  const Eye1 = () => {
-    if (password1 == "password") {
-      setpassword1("text");
-      seteye1(false);
-    } else {
-      setpassword1("password");
-      seteye1(true);
-    }
-  }; */
+  /*  const [eye, seteye] = useState<boolean>(true);
+   const [password, setpassword] = useState<string>("password");
+   const [eye1, seteye1] = useState<boolean>(true);
+   const [password1, setpassword1] = useState<string>("password");
+   const [prenom, setPrenom] = useState<string>();
+   const [nom, setNom] = useState<string>();
+   const [email, setEmail] = useState<string>();
+   const [mdp, setMdp] = useState<string>();
+   const [matricule, setMatricule] = useState<string>();
+   const [role, setRole] = useState<string>();
+   const [errorBack, setErrorBack] = useState("");
+   const [etat, setEtat] = useState<boolean>(false);
+ 
+   const Eye = () => {
+     if (password == "password") {
+       setpassword("text");
+       seteye(false);
+     } else {
+       setpassword("password");
+       seteye(true);
+     }
+   };
+ 
+   const Eye1 = () => {
+     if (password1 == "password") {
+       setpassword1("text");
+       seteye1(false);
+     } else {
+       setpassword1("password");
+       seteye1(true);
+     }
+   }; */
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -57,11 +58,14 @@ const Dashboard = () => {
   const [matricule, setMatricule2] = useState("");
   const [niveau, setNiveau2] = useState("");
   const [photo, setPhoto] = useState<any>();
+  const [errorBack, setErrorBack] = useState("");
+  const [succes, setSucces] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onChange" });
   const onSubmit = (data: any) => {
     /* fetch("http://localhost:3000/employes/post", {
@@ -90,9 +94,18 @@ const Dashboard = () => {
         }
       }); */
   };
-  const handleImageChange = (event:any) => {
+  const handleImageChange = (event: any) => {
     setPhoto(event.target.files[0]);
   };
+
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Inscription réussie!",
+      icon: "success",
+      timer: 3000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
 
   const onSubmit2 = () => {
     const formData = new FormData();
@@ -101,14 +114,18 @@ const Dashboard = () => {
     formData.append("email", email);
     formData.append("matricule", matricule);
     formData.append("niveau", niveau);
-    formData.append("photo", photo); 
+    formData.append("photo", photo);
 
-      try {
-        const response = axios.post("http://localhost:3000/etudiant", formData); 
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const response = axios.post("http://localhost:3000/etudiant", formData);
+      console.log(response);
+      showSuccessAlert();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -142,7 +159,7 @@ const Dashboard = () => {
               <p className="h4 text-color">Liste des employés</p>
             </div>
             <Link
-              to="presenceEmployes"
+              to="presenceEmploye"
               className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc"
             >
               <p className="h4 text-color">Effectifs</p>
@@ -305,7 +322,7 @@ const Dashboard = () => {
          ****************************************************************************
          */}
 
-{/*         <Modal show={show1} onHide={handleClose1}>
+        {/*         <Modal show={show1} onHide={handleClose1}>
           <div className="d-flex justify-content-between p-3">
             <Modal.Title className="h4 text-color">
               Inscrire un employé
@@ -461,7 +478,7 @@ const Dashboard = () => {
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
               </Form.Group> */}
-              {/* <Form.Group className="mb-3" controlId="password">
+        {/* <Form.Group className="mb-3" controlId="password">
               <Form.Label>Confirmer mot de passe</Form.Label>
               <InputGroup>
                 <Form.Control
@@ -489,7 +506,7 @@ const Dashboard = () => {
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
               </Form.Group>*/}
-              {/* <Button
+        {/* <Button
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center"
@@ -637,17 +654,16 @@ const Dashboard = () => {
                   autoFocus
                   id="photo"
                   {...register("photo", { required: true })}
-                  onChange={ handleImageChange}
+                  onChange={handleImageChange}
                 />
                 {errors.photo?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Button onClick={onSubmit2}
+              <Button
                 variant="outline-success"
                 type="submit"
-                className="d-flex justify-content-center align-items-center"
-              >
+                className="d-flex justify-content-center align-items-center">
                 Ajouter
               </Button>
             </Form>

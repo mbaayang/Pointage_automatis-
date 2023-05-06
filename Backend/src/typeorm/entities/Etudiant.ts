@@ -27,5 +27,5 @@ export class Etudiant{
     etat: string; */
 
     @Column()
-    date_inscription: Date;
+    date_inscription: string;
 }

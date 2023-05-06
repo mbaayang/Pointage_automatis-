@@ -9,22 +9,24 @@ import {
 } from "react-router-dom";
 import PageAdmin from "../Pages/PageAdmin";
 import PageVigil from "../Pages/PageVigil";
-import { Historique } from "./Components/Historique/Historique";
+import { HistoriqueEtudiant } from "./Components/HistoriqueEtudiant/Historique";
+import { HistoriqueEmploye } from "./Components/HistoriqueEmploye/Historique";
 import Dashboard from "./Components/Dashboard/Dashboard";
-import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant";
 import Pointage from "./Components/Pointage/Pointage";
 import Connexion from "./Components/Connexion/Connexion";
 import Liste_Employes from "./Components/Liste_Employes/Liste_Employes";
 import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes";
+import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/admin" element={<PageAdmin />}>
         <Route index element={<Dashboard />}></Route>
-        <Route path="historique" element={<Historique />}></Route>
+        <Route path="historiqueEtudiant" element={<HistoriqueEtudiant />}></Route>
+        <Route path="historiqueEmploye" element={<HistoriqueEmploye />}></Route>
         <Route path="presenceEtudiant" element={<PresenceEtudiant />}></Route>
-        <Route path="presenceEmployes" element={<PresenceEmployes />}></Route>
+        <Route path="presenceEmploye" element={<PresenceEmployes />}></Route>
         <Route path="pointage" element={<Pointage />}></Route>
         <Route path="listeEmployes" element={<Liste_Employes />}></Route>
       </Route>
