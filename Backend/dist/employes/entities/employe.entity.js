@@ -47,14 +47,14 @@ __decorate([
 ], Employes.prototype, "image", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Employes.prototype, "date_inscription", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);
 Employes = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ name: "employes" })
 ], Employes);
 exports.Employes = Employes;
 //# sourceMappingURL=employe.entity.js.map

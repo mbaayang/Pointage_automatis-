@@ -15,7 +15,7 @@ export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
 
   @Post('post')
-  @UseInterceptors(FileInterceptor('photo',{
+  @UseInterceptors(FileInterceptor('image',{
     limits: { fileSize: 1024 * 1024 * 5 },
     storage: diskStorage({
       destination: './files',
@@ -25,10 +25,10 @@ export class EmployesController {
       }
     })
   }))
-  async create(@UploadedFile() photo: Express.Multer.File, @Body() createEmployeDto: CreateEmployeDto) {
+  async create(@UploadedFile() image: Express.Multer.File, @Body() createEmployeDto: CreateEmployeDto) {
     const employe = await this.employesService.create({
       ...createEmployeDto,
-      image: photo.filename
+      image: image.filename
     });
     return employe;
   }

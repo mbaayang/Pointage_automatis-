@@ -25,8 +25,8 @@ let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
     }
-    async create(photo, createEmployeDto) {
-        const employe = await this.employesService.create(Object.assign(Object.assign({}, createEmployeDto), { image: photo.filename }));
+    async create(image, createEmployeDto) {
+        const employe = await this.employesService.create(Object.assign(Object.assign({}, createEmployeDto), { image: image.filename }));
         return employe;
     }
     findAll() {
@@ -47,13 +47,13 @@ let EmployesController = class EmployesController {
 };
 __decorate([
     (0, common_1.Post)('post'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('photo', {
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
         limits: { fileSize: 1024 * 1024 * 5 },
         storage: (0, multer_1.diskStorage)({
             destination: './files',
             filename: (req, file, cb) => {
                 const filename = (0, uuid_1.v4)();
-                console.log(...oo_oo(`80a581b4_0`, filename));
+                console.log(...oo_oo(`e5144583_0`, filename));
                 cb(null, `${filename}${file.originalname}`);
             }
         })

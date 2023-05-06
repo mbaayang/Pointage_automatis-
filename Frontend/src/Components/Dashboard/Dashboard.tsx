@@ -4,12 +4,14 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import certificat from "../../assets/certificate.svg";
 import { useForm } from "react-hook-form";
-import { Button, InputGroup } from "react-bootstrap";
+import { Button, FormGroup, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
 import axios from "axios";
 import Swal from "sweetalert2";
+
+
 const Dashboard = () => {
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
@@ -63,28 +65,7 @@ const Dashboard = () => {
   const setimgfile = (e:any)=>{
     setFile(e.target.files[0])
   }
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({ mode: "onChange" });
-  const onSubmit = () => {
-        const formData = new FormData();
-          formData.append("prenom1", prenom1);
-          formData.append("nom1", nom1);
-          formData.append("email1", email1);
-          formData.append("matricule1", matricule1);
-          formData.append("role", role);
-          formData.append("mot_de_passe", mdp);
-          formData.append("photo", file);
-        try {
-          const response = axios.post("http://localhost:3000/employes/post", formData);
-          console.log(response);
-        } catch (error) {
-          console.log(error);
-        }
-  };
+
   const handleImageChange = (event: any) => {
     setPhoto(event.target.files[0]);
   };
@@ -98,6 +79,33 @@ const Dashboard = () => {
     });
   }
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: "onChange" });
+
+  const onSubmit = () => {
+        const formData = new FormData();
+          formData.append("prenom1", prenom1);
+          formData.append("nom1", nom1);
+          formData.append("email1", email1);
+          formData.append("matricule1", matricule1);
+          formData.append("role", role);
+          formData.append("mot_de_passe", mdp);
+          formData.append("image", file);
+        try {
+          const response = axios.post("http://localhost:3000/employes/post", formData);
+          console.log(response);
+          showSuccessAlert();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } catch (error) {
+          console.log(error);
+        }
+  };
+
   const onSubmit2 = () => {
     const formData = new FormData();
     formData.append("prenom", prenom);
@@ -106,7 +114,6 @@ const Dashboard = () => {
     formData.append("matricule", matricule);
     formData.append("niveau", niveau);
     formData.append("photo", photo);
-
     try {
       const response = axios.post("http://localhost:3000/etudiant", formData);
       console.log(response);
@@ -231,14 +238,12 @@ const Dashboard = () => {
               <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
                 <span
                   onClick={handleShow1}
-                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
-                >
+                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
                   Un employé
                 </span>
                 <span
                   onClick={handleShow2}
-                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
-                >
+                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
                   Un étudiant
                 </span>
               </div>
@@ -347,7 +352,7 @@ const Dashboard = () => {
           </div>
           <Modal.Body className="-mt-8">
             <Form onSubmit={onSubmit} encType="multipart/form-data">
-              <Form.Group className="mb-3" controlId="prenom">
+              <Form.Group className="mb-3">
                 <Form.Label>Prénom</Form.Label>
                 <Form.Control
                   id="prenom1"
@@ -364,7 +369,7 @@ const Dashboard = () => {
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Form.Group className="mb-3" controlId="nom">
+              <Form.Group className="mb-3">
                 <Form.Label>Nom</Form.Label>
                 <Form.Control
                   id="nom1"
@@ -381,7 +386,7 @@ const Dashboard = () => {
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Form.Group className="mb-3" controlId="email">
+              <Form.Group className="mb-3">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   id="email1"
@@ -405,7 +410,7 @@ const Dashboard = () => {
                   )}
                 </div>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="matricule">
+              <Form.Group className="mb-3">
                 <Form.Label>Matricule</Form.Label>
                 <Form.Control
                   id="matricule1"
@@ -453,7 +458,7 @@ const Dashboard = () => {
                   <p className="text-red-500">Ce champ est requis</p>
                 )}
               </Form.Group>
-              <Form.Group className="mb-3" controlId="password">
+              <Form.Group className="mb-3">
                 <Form.Label>Mot de passe</Form.Label>
                 <InputGroup>
                   <Form.Control style={{borderRight:'none'}}
@@ -496,9 +501,9 @@ const Dashboard = () => {
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
             </Form.Group> */}
-            <Form.Group className="mb-3" controlId="photo">
+            <Form.Group className="mb-3">
               <Form.Label>photo</Form.Label>
-              <Form.Control type="file" placeholder="" autoFocus accept="image/*"
+              <Form.Control type="file" placeholder="" autoFocus accept="image/*" id="image"
                 {...register("file", { required: true, })} 
                 onChange={setimgfile}/>
               {errors.file?.type === "required" && (
@@ -550,10 +555,7 @@ const Dashboard = () => {
             </svg>
           </div>
           <Modal.Body className="-mt-8">
-            <Form
-              onSubmit={handleSubmit(onSubmit2)}
-              encType="multipart/form-data"
-            >
+            <Form onSubmit={handleSubmit(onSubmit2)} encType="multipart/form-data">
               <Form.Group className="mb-3">
                 <Form.Label>Prénom</Form.Label>
                 <Form.Control
@@ -601,10 +603,10 @@ const Dashboard = () => {
                 />
                 <div>
                   {/* message d'erreur */}
-                  {errors.Email?.type === "required" && (
+                  {errors.email2?.type === "required" && (
                     <p className="text-red-600">Ce champ est Obligatoire</p>
                   )}
-                  {errors.Email?.type === "pattern" && (
+                  {errors.email2?.type === "pattern" && (
                     <p className="text-red-600">
                       {" "}
                       Email entré n'est pas valide{" "}
@@ -637,9 +639,9 @@ const Dashboard = () => {
                   onChange={(event) => setNiveau2(event.target.value)}
                 >
                   <option value=""></option>
-                  <option value="professeur">1 ère année</option>
-                  <option value="surveillant">2 ème année</option>
-                  <option value="administrateur">3 ème année</option>
+                  <option value="1 ère année">1 ère année</option>
+                  <option value="2 ème année">2 ème année</option>
+                  <option value="3 ème année">3 ème année</option>
                 </Form.Control>
                 {errors.niveau2?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>
@@ -654,18 +656,24 @@ const Dashboard = () => {
                   autoFocus
                   id="photo"
                   {...register("photo", { required: true })}
-                  onChange={ (event) => setPhoto(event.target.value)}
+                  onChange={handleImageChange}
                 />
                 {errors.photo?.type === "required" && (
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
+<<<<<<< HEAD
               <Button onClick={onSubmit2}
+=======
+              <FormGroup>
+              <Button
+>>>>>>> 6e3c3ae140070252a826a49ffc6cd16b5463a98a
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center">
                 Ajouter
               </Button>
+              </FormGroup>
             </Form>
           </Modal.Body>
         </Modal>
