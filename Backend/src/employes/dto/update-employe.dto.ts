@@ -5,7 +5,7 @@ export class UpdateEmployeDto extends PartialType(CreateEmployeDto) {
     readonly id_employe: number
     readonly prenom: string;
     readonly nom: string;
-    readonly email: string;
+    readonly email1: string;
     readonly role: string;
 
 }

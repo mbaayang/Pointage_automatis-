@@ -4,7 +4,7 @@ export declare class UpdateEmployeDto extends UpdateEmployeDto_base {
     readonly id_employe: number;
     readonly prenom: string;
     readonly nom: string;
-    readonly email: string;
+    readonly email1: string;
     readonly role: string;
 }
 export {};

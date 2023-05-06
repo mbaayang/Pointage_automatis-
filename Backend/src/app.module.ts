@@ -14,8 +14,11 @@ import { FormModule } from './form/form.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
+    MulterModule.register({
+      dest: './files',
+      limits: {
+        fileSize: 1024 * 1024 * 5
+      }
     }),
     TypeOrmModule.forRoot({
       type: "mysql",

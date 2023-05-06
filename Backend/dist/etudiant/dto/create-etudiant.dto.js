@@ -38,7 +38,7 @@ __decorate([
 ], CreateEtudiantDto.prototype, "niveau", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", Buffer)
+    __metadata("design:type", String)
 ], CreateEtudiantDto.prototype, "photo", void 0);
 exports.CreateEtudiantDto = CreateEtudiantDto;
 //# sourceMappingURL=create-etudiant.dto.js.map

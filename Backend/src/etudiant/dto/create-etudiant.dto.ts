@@ -24,5 +24,5 @@ export class CreateEtudiantDto {
     niveau: string;
 
     @IsNotEmpty()
-    photo: Buffer;
+    photo: string;
 }

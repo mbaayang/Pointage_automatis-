@@ -3,17 +3,29 @@ import { EtudiantService } from './etudiant.service';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import path from 'path';
 
 @Controller('etudiant')
 export class EtudiantController {
   constructor(private readonly etudiantService: EtudiantService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('photo'))
-  async create(@UploadedFile() photo, @Body() createEtudiantDto: CreateEtudiantDto) {
+  @UseInterceptors(FileInterceptor('photo',{
+    limits: { fileSize: 1024 * 1024 * 5 },
+    storage: diskStorage({
+      destination: './files',
+      filename:(req, file, cb) => {
+        const filename: string = uuidv4(); console.log(filename)
+        cb(null, `${filename}${file.originalname}`);
+      }
+    })
+  }))
+  async create(@UploadedFile() photo: Express.Multer.File, @Body() createEtudiantDto: CreateEtudiantDto) {
     const etudiant = await this.etudiantService.create({
       ...createEtudiantDto,
-      photo: photo.buffer
+      photo: photo.filename
     });
     return etudiant;
   }

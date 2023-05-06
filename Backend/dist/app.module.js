@@ -10,11 +10,11 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
-const config_1 = require("@nestjs/config");
 const employes_module_1 = require("./employes/employes.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const connexion_module_1 = require("./connexion/connexion.module");
 const employe_entity_1 = require("./employes/entities/employe.entity");
+const platform_express_1 = require("@nestjs/platform-express");
 const etudiant_module_1 = require("./etudiant/etudiant.module");
 const Etudiant_1 = require("./typeorm/entities/Etudiant");
 const form_module_1 = require("./form/form.module");
@@ -23,8 +23,11 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({
-                isGlobal: true,
+            platform_express_1.MulterModule.register({
+                dest: './files',
+                limits: {
+                    fileSize: 1024 * 1024 * 5
+                }
             }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: "mysql",
