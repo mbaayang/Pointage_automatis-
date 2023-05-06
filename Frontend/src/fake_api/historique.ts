@@ -16,7 +16,7 @@ const etudiant_history: Etudiant[] = [
         heure: "08h02",
         prenom: "Mamadou",
         nom: "Diop",
-        email: "diopmamadou@gmail.com",
+        email: "diop@gmail.com",
         etat: "Présent",
         retard: "Non"
     },
@@ -26,7 +26,7 @@ const etudiant_history: Etudiant[] = [
         heure: "08h02",
         prenom: "Mamadou",
         nom: "Diop",
-        email: "diopmamadou@gmail.com",
+        email: "amadou@gmail.com",
         etat: "Présent",
         retard: "Oui"
     },

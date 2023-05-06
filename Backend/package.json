@@ -27,26 +27,18 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/serve-static": "^3.0.1",
     "@nestjs/typeorm": "^9.0.1",
     "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.0",
     "install": "^0.13.0",
     "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.2.4",
     "npm": "^9.6.5",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    "@nestjs/serve-static": "^3.0.1",
-    "multer": "^1.4.5-lts.1",
->>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
-=======
-    "@nestjs/serve-static": "^3.0.1",
-    "multer": "^1.4.5-lts.1",
->>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.15"

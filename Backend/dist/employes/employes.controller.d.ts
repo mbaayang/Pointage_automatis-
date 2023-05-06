@@ -1,20 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { EmployesService } from "./employes.service";
-import { CreateEmployeDto } from "./dto/create-employe.dto";
-import { UpdateEmployeDto } from "./dto/update-employe.dto";
-import { UpdatePasswordDto } from "./dto/updatePassword.dto";
-=======
-/// <reference types="node" />
-import { EmployesService } from './employes.service';
-import { CreateEmployeDto } from './dto/create-employe.dto';
-import { UpdateEmployeDto } from './dto/update-employe.dto';
->>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
-=======
 import { EmployesService } from './employes.service';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
->>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
 export declare class EmployesController {
     private readonly employesService;
     constructor(employesService: EmployesService);

@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
@@ -69,8 +67,6 @@ import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 @Controller("employes")
-<<<<<<< HEAD
-=======
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseFilePipe, UploadedFile, FileTypeValidator, MaxFileSizeValidator, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
@@ -78,7 +74,6 @@ import { UpdateEmployeDto } from './dto/update-employe.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('employes')
->>>>>>> eb8de19c1d32c16f0a83ffb344613fdd68d931ac
 =======
 >>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
 export class EmployesController {
