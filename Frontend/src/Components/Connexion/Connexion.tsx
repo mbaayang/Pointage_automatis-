@@ -29,7 +29,7 @@ function Connexion() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        email: data.email,
+        email1: data.email,
         mot_de_passe: data.passe,
       }),
     })
@@ -39,12 +39,12 @@ function Connexion() {
         if (res.correct == false) {
           setError(res.message);
         } else {
-          localStorage.setItem("id", res.id);
+          localStorage.setItem("id", res.id_employe);
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
           localStorage.setItem("prenom", res.prenom1);
           localStorage.setItem("nom", res.nom1);
-          localStorage.setItem("email", res.email);
+          localStorage.setItem("email", res.email1);
           if (localStorage.getItem("role") == "vigil") {
             navigate("/vigil");
           } else {

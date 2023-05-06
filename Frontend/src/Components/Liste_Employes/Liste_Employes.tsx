@@ -49,11 +49,11 @@ function Liste_Employes() {
     fetch("http://localhost:3000/Employes/")
       .then((res) => res.json())
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         setUsers(
           res.filter((data: any) => {
             if (recherche != "") {
-              const value = data.email
+              const value = data.email1
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
               return value;
@@ -156,17 +156,17 @@ function Liste_Employes() {
 
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.prenom}</span>
+                  <span>{user.prenom1}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.nom}</span>
+                  <span>{user.nom1}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.email}</span>
+                  <span>{user.email1}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
