@@ -5,23 +5,29 @@ export class Employes {
   id_employe: number;
 
   @Column()
-  prenom: string;
+  prenom1: string;
 
   @Column()
-  nom: string;
+  nom1: string;
 
-  @Column()
-  email: string;
+  @Column({unique: true})
+  email1: string;
 
   @Column()
   mot_de_passe: string;
   
 
-  @Column()
-  matricule: string;
+  @Column({unique: true})
+  matricule1: string;
 
   @Column()
   role: string;
+
+  @Column()
+  image: string;
+
+  @Column()
+  date_inscription: Date;
 
   @Column({ default: true })
   etat: boolean;

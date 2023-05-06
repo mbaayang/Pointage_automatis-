@@ -6,11 +6,19 @@ import { EmployesModule } from './employes/employes.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./employes/entities/employe.entity";
+import { MulterModule } from '@nestjs/platform-express';
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
 
+
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './files',
+      limits: {
+        fileSize: 1024 * 1024 * 5
+      }
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
@@ -24,7 +32,10 @@ import { Etudiant } from './typeorm/entities/Etudiant';
     EmployesModule,
     EtudiantModule,
     ConnexionModule,
+    EtudiantModule,
   ],
+  
+
   controllers: [AppController],
   providers: [AppService],
 })
