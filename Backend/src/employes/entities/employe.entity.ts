@@ -6,20 +6,20 @@ export class Employes {
   id_employe: number;
 
   @Column()
-  prenom1: string;
+  prenom: string;
 
   @Column()
-  nom1: string;
+  nom: string;
 
   @Column({unique: true})
-  email1: string;
+  email: string;
 
   @Column()
   mot_de_passe: string;
   
 
   @Column({unique: true})
-  matricule1: string;
+  matricule: string;
 
   @Column()
   role: string;

@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
-import { FormGroup } from "react-bootstrap";
 
 function Header() {
   const [show, setShow] = useState(false);
@@ -304,9 +303,6 @@ function Header() {
             </Button>
           </Form>
         </Modal.Body>
-        {/*   <Modal.Footer>
-          
-        </Modal.Footer> */}
       </Modal>
     </>
   );

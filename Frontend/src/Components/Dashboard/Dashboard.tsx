@@ -1,51 +1,16 @@
 import "./Dashboard.css";
 import { useState } from "react";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import certificat from "../../assets/certificate.svg";
-import { useForm } from "react-hook-form";
-import { Button, FormGroup, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
-import axios from "axios";
-import Swal from "sweetalert2";
+import AjoutEtudiant from "../Ajout/AjoutEtudiant";
+import AjoutEmploye from "../Ajout/AjoutEmploye";
 
 
 const Dashboard = () => {
-  const [eye, seteye] = useState<boolean>(true);
-  const [password, setpassword] = useState<string>("password");
-  const [eye1, seteye1] = useState<boolean>(true);
-  const [password1, setpassword1] = useState<string>("password");
-  const [prenom1, setPrenom] = useState<string>("");
-  const [nom1, setNom] = useState<string>("");
-  const [email1, setEmail] = useState<string>("");
-  const [mdp, setMdp] = useState<string>("");
-  const [matricule1, setMatricule] = useState<string>("");
-  const [role, setRole] = useState<string>("");
-  const [errorBack, setErrorBack] = useState("");
-  const [etat, setEtat] = useState<boolean>(false);
-  const [file,setFile] = useState<any>();
 
-  const Eye = () => {
-    if (password == "password") {
-      setpassword("text");
-      seteye(false);
-    } else {
-      setpassword("password");
-      seteye(true);
-    }
-  };
-
-  const Eye1 = () => {
-    if (password1 == "password") {
-      setpassword1("text");
-      seteye1(false);
-    } else {
-      setpassword1("password");
-      seteye1(true);
-    }
-  }; 
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -54,77 +19,6 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
-
-  const [prenom, setPrenom2] = useState("");
-  const [nom, setNom2] = useState("");
-  const [email, setEmail2] = useState("");
-  const [matricule, setMatricule2] = useState("");
-  const [niveau, setNiveau2] = useState("");
-  const [photo, setPhoto] = useState<any>();
-
-  const setimgfile = (e:any)=>{
-    setFile(e.target.files[0])
-  }
-
-  const handleImageChange = (event: any) => {
-    setPhoto(event.target.files[0]);
-  };
-
-  function showSuccessAlert() {
-    Swal.fire({
-      title: "Inscription réussie!",
-      icon: "success",
-      timer: 3000, // Affiche la boîte de dialogue pendant 3 secondes
-      showConfirmButton: false, // Supprime le bouton "OK"
-    });
-  }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: "onChange" });
-
-  const onSubmit = () => {
-        const formData = new FormData();
-          formData.append("prenom1", prenom1);
-          formData.append("nom1", nom1);
-          formData.append("email1", email1);
-          formData.append("matricule1", matricule1);
-          formData.append("role", role);
-          formData.append("mot_de_passe", mdp);
-          formData.append("image", file);
-        try {
-          const response = axios.post("http://localhost:3000/employes/post", formData);
-          console.log(response);
-          showSuccessAlert();
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        } catch (error) {
-          console.log(error);
-        }
-  };
-
-  const onSubmit2 = () => {
-    const formData = new FormData();
-    formData.append("prenom", prenom);
-    formData.append("nom", nom);
-    formData.append("email", email);
-    formData.append("matricule", matricule);
-    formData.append("niveau", niveau);
-    formData.append("photo", photo);
-    try {
-      const response = axios.post("http://localhost:3000/etudiant", formData);
-      console.log(response);
-      showSuccessAlert();
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   if (
     localStorage.getItem("role") == "administrateur" ||
     localStorage.getItem("role") == "surveillant"
@@ -185,8 +79,7 @@ const Dashboard = () => {
                 height="42"
                 viewBox="0 0 47 42"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M33.5085 26.3L23.5 34.1254L13.4915 26.3C5.9904 26.5543 0 31.3529 0 37.2752V38.0627C0 40.2364 2.25558 42 5.03571 42H41.9643C44.7444 42 47 40.2364 47 38.0627V37.2752C47 31.3529 41.0096 26.5543 33.5085 26.3ZM1.42679 6.54783L2.09821 6.67087V11.4613C1.36384 11.8058 0.839286 12.4046 0.839286 13.1264C0.839286 13.8154 1.32188 14.3896 2.00379 14.7423L0.367188 19.8526C0.188839 20.4186 0.5875 21.001 1.16451 21.001H5.54978C6.12679 21.001 6.52545 20.4186 6.3471 19.8526L4.71049 14.7423C5.39241 14.3896 5.875 13.8154 5.875 13.1264C5.875 12.4046 5.35045 11.8058 4.61607 11.4613V7.14662L11.5402 8.45086C10.6379 9.86173 10.0714 11.4366 10.0714 13.1264C10.0714 18.9257 16.0828 23.6259 23.5 23.6259C30.9172 23.6259 36.9286 18.9257 36.9286 13.1264C36.9286 11.4366 36.3725 9.86173 35.4598 8.45086L45.5627 6.54783C47.4721 6.18691 47.4721 4.32489 45.5627 3.96397L25.5877 0.190713C24.2239 -0.0635711 22.7866 -0.0635711 21.4228 0.190713L1.42679 3.95576C-0.472098 4.31668 -0.472098 6.18691 1.42679 6.54783Z"
                   fill="#306887"
@@ -318,209 +211,22 @@ const Dashboard = () => {
          ****************************************************************************
          */}
 
-        <Modal show={show1} onHide={handleClose1}>
-          <div className="d-flex justify-content-between p-3">
-            <Modal.Title className="h4 text-color">
-              Inscrire un employé
-            </Modal.Title>
-            <svg
-              className="cursor-pointer"
-              onClick={handleClose1}
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M27.3266 12.9283C27.4815 13.0831 27.6045 13.2669 27.6883 13.4693C27.7722 13.6716 27.8154 13.8885 27.8154 14.1075C27.8154 14.3265 27.7722 14.5434 27.6883 14.7457C27.6045 14.9481 27.4815 15.1319 27.3266 15.2867L22.3566 20.255L26.8166 24.7133C27.1293 25.0261 27.305 25.4502 27.305 25.8925C27.305 26.3348 27.1293 26.7589 26.8166 27.0717C26.5038 27.3844 26.0797 27.5601 25.6374 27.5601C25.1951 27.5601 24.771 27.3844 24.4582 27.0717L19.9999 22.6117L15.5416 27.0717C15.2288 27.3844 14.8047 27.5601 14.3624 27.5601C13.9201 27.5601 13.496 27.3844 13.1832 27.0717C12.8705 26.7589 12.6948 26.3348 12.6948 25.8925C12.6948 25.4502 12.8705 25.0261 13.1832 24.7133L17.6432 20.255L12.6732 15.2867C12.5184 15.1317 12.3956 14.9478 12.3118 14.7454C12.2281 14.5429 12.185 14.326 12.1851 14.1069C12.1851 13.8879 12.2284 13.6709 12.3123 13.4686C12.3962 13.2662 12.5191 13.0824 12.6741 12.9275C12.829 12.7727 13.013 12.6499 13.2154 12.5661C13.4178 12.4823 13.6348 12.4393 13.8538 12.4393C14.0729 12.4394 14.2898 12.4826 14.4922 12.5665C14.6945 12.6504 14.8784 12.7734 15.0332 12.9283L19.9999 17.9L24.9682 12.93C25.123 12.7751 25.3068 12.6521 25.5092 12.5682C25.7115 12.4844 25.9284 12.4412 26.1474 12.4412C26.3664 12.4412 26.5833 12.4844 26.7856 12.5682C26.988 12.6521 27.1718 12.7734 27.3266 12.9283Z"
-                fill="#797777"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M6.66663 1.66663C5.34054 1.66663 4.06877 2.19341 3.13109 3.13109C2.19341 4.06877 1.66663 5.34054 1.66663 6.66663V33.3333C1.66663 34.6594 2.19341 35.9311 3.13109 36.8688C4.06877 37.8065 5.34054 38.3333 6.66663 38.3333H33.3333C34.6594 38.3333 35.9311 37.8065 36.8688 36.8688C37.8065 35.9311 38.3333 34.6594 38.3333 33.3333V6.66663C38.3333 5.34054 37.8065 4.06877 36.8688 3.13109C35.9311 2.19341 34.6594 1.66663 33.3333 1.66663H6.66663ZM33.3333 4.99996H6.66663C6.2246 4.99996 5.80067 5.17555 5.48811 5.48811C5.17555 5.80068 4.99996 6.2246 4.99996 6.66663V33.3333C4.99996 33.7753 5.17555 34.1992 5.48811 34.5118C5.80067 34.8244 6.2246 35 6.66663 35H33.3333C33.7753 35 34.1992 34.8244 34.5118 34.5118C34.8244 34.1992 35 33.7753 35 33.3333V6.66663C35 6.2246 34.8244 5.80068 34.5118 5.48811C34.1992 5.17555 33.7753 4.99996 33.3333 4.99996Z"
-                fill="#797777"
-              />
-            </svg>
-          </div>
-          <div
-            className={`alert alert-danger text-center ${!etat ? "cacher" : ""
-              }`}
-          >
-            {errorBack}
-          </div>
-          <Modal.Body className="-mt-8">
-            <Form onSubmit={onSubmit} encType="multipart/form-data">
-              <Form.Group className="mb-3">
-                <Form.Label>Prénom</Form.Label>
-                <Form.Control
-                  id="prenom1"
-                  value={prenom1}
-                  type="text"
-                  placeholder="issa"
-                  autoFocus
-                  {...register("prenom", {
-                    required: true,
-                  })}
-                  onChange={(e) => setPrenom(e.target.value)}
-                />
-                {errors.prenom?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Nom</Form.Label>
-                <Form.Control
-                  id="nom1"
-                  value={nom1}
-                  type="text"
-                  placeholder="ndiaye"
-                  autoFocus
-                  {...register("nom", {
-                    required: true,
-                  })}
-                  onChange={(e) => setNom(e.target.value)}
-                />
-                {errors.nom?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  id="email1"
-                  value={email1}
-                  type="email"
-                  placeholder="astouissa@gmail.com"
-                  autoFocus
-                  {...register("email", {
-                    required: true,
-                    pattern:
-                      /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                  })}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <div>
-                  {errors.email?.type === "required" && (
-                    <p className="text-red-600">Ce champ est Obligatoire</p>
-                  )}
-                  {errors.email?.type === "pattern" && (
-                    <span className="text-red-600">Entrer un email valide</span>
-                  )}
-                </div>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Matricule</Form.Label>
-                <Form.Control
-                  id="matricule1"
-                  value={matricule1}
-                  type="text"
-                  placeholder="9208383576278772"
-                  autoFocus
-                  {...register("matricule", {
-                    required: true,
-                  })}
-                  onChange={(e) => setMatricule(e.target.value)}
-                />
-                {errors.matricule?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>
-                  Rôle<span className="text-danger">*</span>
-                </Form.Label>
-                <Form.Select
-                  id="role"
-                  value={role}
-                  placeholder="Choisir un rôle"
-                  {...register("role", {
-                    required: true,
-                  })}
-                  onChange={(e) => setRole(e.target.value)}
-                >
-                  <option placeholder="Choisir un rôle"></option>
-                  <option value="administrateur" className=" text-black">
-                    Admin
-                  </option>
-                  <option value="surveillant" className=" text-black">
-                    Surveillant
-                  </option>
-                  <option value="professeur" className=" text-black">
-                    Professeur
-                  </option>
-                  <option value="vigile" className=" text-black">
-                    Vigile
-                  </option>
-                </Form.Select>
-                {errors.role?.type === "required" && (
-                  <p className="text-red-500">Ce champ est requis</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Mot de passe</Form.Label>
-                <InputGroup>
-                  <Form.Control style={{borderRight:'none'}}
-                    id="mot_de_passe"
-                    value={mdp}
-                    type={password}
-                    placeholder="*****"
-                    autoFocus
-                    {...register("password", { required: true, minLength: 6 })}
-                    onChange={(e) => setMdp(e.target.value)}
-                  />
-                  <InputGroup.Text className="bg-white">
-                    <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
-                  </InputGroup.Text>
-                </InputGroup>
-                {errors.password?.type === "minLength" && (
-                  <p className="text-red-600">Minimum 6 caractère</p>
-                )}
-                {errors.password?.type === "required" && (
-                  <p className="text-red-600">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              {/* <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Confirmer mot de passe</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type={password1}
-                  placeholder="*****"
-                  autoFocus
-                  {...register("password1", { required: true, minLength: 6 })}
-                />
-                <InputGroup.Text className="bg-white">
-                  <i onClick={() => { Eye1();}} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
-                </InputGroup.Text>
-              </InputGroup>
-                {errors.password1?.type === "minLength" && (
-                  <p className="text-red-600">Minimum 6 caractère</p>
-                )}
-                {errors.password1?.type === "required" && (
-                  <p className="text-red-600">Ce champ est obligatoire</p>
-                )}
-            </Form.Group> */}
-            <Form.Group className="mb-3">
-              <Form.Label>photo</Form.Label>
-              <Form.Control type="file" placeholder="" autoFocus accept="image/*" id="image"
-                {...register("file", { required: true, })} 
-                onChange={setimgfile}/>
-              {errors.file?.type === "required" && (
-                <p className="text-red-500">Ce champ est obligatoire</p>
-              )}
-              </Form.Group>
-              <Button
-                variant="outline-success"
-                type="submit"
-                className="d-flex justify-content-center align-items-center"
-                /* onClick={onSubmit} */
-              >
-                Ajouter
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        { show1 && <Modal show={show1} onHide={handleClose1}> <AjoutEmploye/>
+        <svg
+          className="cursor-pointer absolute mt-3" style={{marginLeft:'90%'}}
+          onClick={handleClose1}
+          width="35"
+          height="35"
+          viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M27.3266 12.9283C27.4815 13.0831 27.6045 13.2669 27.6883 13.4693C27.7722 13.6716 27.8154 13.8885 27.8154 14.1075C27.8154 14.3265 27.7722 14.5434 27.6883 14.7457C27.6045 14.9481 27.4815 15.1319 27.3266 15.2867L22.3566 20.255L26.8166 24.7133C27.1293 25.0261 27.305 25.4502 27.305 25.8925C27.305 26.3348 27.1293 26.7589 26.8166 27.0717C26.5038 27.3844 26.0797 27.5601 25.6374 27.5601C25.1951 27.5601 24.771 27.3844 24.4582 27.0717L19.9999 22.6117L15.5416 27.0717C15.2288 27.3844 14.8047 27.5601 14.3624 27.5601C13.9201 27.5601 13.496 27.3844 13.1832 27.0717C12.8705 26.7589 12.6948 26.3348 12.6948 25.8925C12.6948 25.4502 12.8705 25.0261 13.1832 24.7133L17.6432 20.255L12.6732 15.2867C12.5184 15.1317 12.3956 14.9478 12.3118 14.7454C12.2281 14.5429 12.185 14.326 12.1851 14.1069C12.1851 13.8879 12.2284 13.6709 12.3123 13.4686C12.3962 13.2662 12.5191 13.0824 12.6741 12.9275C12.829 12.7727 13.013 12.6499 13.2154 12.5661C13.4178 12.4823 13.6348 12.4393 13.8538 12.4393C14.0729 12.4394 14.2898 12.4826 14.4922 12.5665C14.6945 12.6504 14.8784 12.7734 15.0332 12.9283L19.9999 17.9L24.9682 12.93C25.123 12.7751 25.3068 12.6521 25.5092 12.5682C25.7115 12.4844 25.9284 12.4412 26.1474 12.4412C26.3664 12.4412 26.5833 12.4844 26.7856 12.5682C26.988 12.6521 27.1718 12.7734 27.3266 12.9283Z"
+            fill="#797777"/>
+          <path
+            fill-rule="evenodd" clip-rule="evenodd"
+            d="M6.66663 1.66663C5.34054 1.66663 4.06877 2.19341 3.13109 3.13109C2.19341 4.06877 1.66663 5.34054 1.66663 6.66663V33.3333C1.66663 34.6594 2.19341 35.9311 3.13109 36.8688C4.06877 37.8065 5.34054 38.3333 6.66663 38.3333H33.3333C34.6594 38.3333 35.9311 37.8065 36.8688 36.8688C37.8065 35.9311 38.3333 34.6594 38.3333 33.3333V6.66663C38.3333 5.34054 37.8065 4.06877 36.8688 3.13109C35.9311 2.19341 34.6594 1.66663 33.3333 1.66663H6.66663ZM33.3333 4.99996H6.66663C6.2246 4.99996 5.80067 5.17555 5.48811 5.48811C5.17555 5.80068 4.99996 6.2246 4.99996 6.66663V33.3333C4.99996 33.7753 5.17555 34.1992 5.48811 34.5118C5.80067 34.8244 6.2246 35 6.66663 35H33.3333C33.7753 35 34.1992 34.8244 34.5118 34.5118C34.8244 34.1992 35 33.7753 35 33.3333V6.66663C35 6.2246 34.8244 5.80068 34.5118 5.48811C34.1992 5.17555 33.7753 4.99996 33.3333 4.99996Z"
+            fill="#797777"/>
+        </svg>
+        </Modal>}
 
         {/*
          ****************************************************************************
@@ -528,151 +234,23 @@ const Dashboard = () => {
          ****************************************************************************
          */}
 
-        <Modal show={show2} onHide={handleClose2}>
-          <div className="d-flex justify-content-between p-3">
-            <Modal.Title className="h4 text-color">
-              Inscire un étudiant
-            </Modal.Title>
-            <svg
-              className="cursor-pointer"
-              onClick={handleClose2}
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M27.3266 12.9283C27.4815 13.0831 27.6045 13.2669 27.6883 13.4693C27.7722 13.6716 27.8154 13.8885 27.8154 14.1075C27.8154 14.3265 27.7722 14.5434 27.6883 14.7457C27.6045 14.9481 27.4815 15.1319 27.3266 15.2867L22.3566 20.255L26.8166 24.7133C27.1293 25.0261 27.305 25.4502 27.305 25.8925C27.305 26.3348 27.1293 26.7589 26.8166 27.0717C26.5038 27.3844 26.0797 27.5601 25.6374 27.5601C25.1951 27.5601 24.771 27.3844 24.4582 27.0717L19.9999 22.6117L15.5416 27.0717C15.2288 27.3844 14.8047 27.5601 14.3624 27.5601C13.9201 27.5601 13.496 27.3844 13.1832 27.0717C12.8705 26.7589 12.6948 26.3348 12.6948 25.8925C12.6948 25.4502 12.8705 25.0261 13.1832 24.7133L17.6432 20.255L12.6732 15.2867C12.5184 15.1317 12.3956 14.9478 12.3118 14.7454C12.2281 14.5429 12.185 14.326 12.1851 14.1069C12.1851 13.8879 12.2284 13.6709 12.3123 13.4686C12.3962 13.2662 12.5191 13.0824 12.6741 12.9275C12.829 12.7727 13.013 12.6499 13.2154 12.5661C13.4178 12.4823 13.6348 12.4393 13.8538 12.4393C14.0729 12.4394 14.2898 12.4826 14.4922 12.5665C14.6945 12.6504 14.8784 12.7734 15.0332 12.9283L19.9999 17.9L24.9682 12.93C25.123 12.7751 25.3068 12.6521 25.5092 12.5682C25.7115 12.4844 25.9284 12.4412 26.1474 12.4412C26.3664 12.4412 26.5833 12.4844 26.7856 12.5682C26.988 12.6521 27.1718 12.7734 27.3266 12.9283Z"
-                fill="#797777"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M6.66663 1.66663C5.34054 1.66663 4.06877 2.19341 3.13109 3.13109C2.19341 4.06877 1.66663 5.34054 1.66663 6.66663V33.3333C1.66663 34.6594 2.19341 35.9311 3.13109 36.8688C4.06877 37.8065 5.34054 38.3333 6.66663 38.3333H33.3333C34.6594 38.3333 35.9311 37.8065 36.8688 36.8688C37.8065 35.9311 38.3333 34.6594 38.3333 33.3333V6.66663C38.3333 5.34054 37.8065 4.06877 36.8688 3.13109C35.9311 2.19341 34.6594 1.66663 33.3333 1.66663H6.66663ZM33.3333 4.99996H6.66663C6.2246 4.99996 5.80067 5.17555 5.48811 5.48811C5.17555 5.80068 4.99996 6.2246 4.99996 6.66663V33.3333C4.99996 33.7753 5.17555 34.1992 5.48811 34.5118C5.80067 34.8244 6.2246 35 6.66663 35H33.3333C33.7753 35 34.1992 34.8244 34.5118 34.5118C34.8244 34.1992 35 33.7753 35 33.3333V6.66663C35 6.2246 34.8244 5.80068 34.5118 5.48811C34.1992 5.17555 33.7753 4.99996 33.3333 4.99996Z"
-                fill="#797777"
-              />
-            </svg>
-          </div>
-          <Modal.Body className="-mt-8">
-            <Form onSubmit={handleSubmit(onSubmit2)} encType="multipart/form-data">
-              <Form.Group className="mb-3">
-                <Form.Label>Prénom</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="issa"
-                  autoFocus
-                  id="prenom"
-                  {...register("prenom2", { required: true })}
-                  value={prenom}
-                  onChange={(event) => setPrenom2(event.target.value)}
-                />
-                {errors.prenom2?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Nom</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="ndiaye"
-                  autoFocus
-                  id="nom"
-                  {...register("nom2", { required: true })}
-                  value={nom}
-                  onChange={(event) => setNom2(event.target.value)}
-                />
-                {errors.nom2?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="astouissa@gmail.com"
-                  autoFocus
-                  id="email"
-                  {...register("email2", {
-                    required: true,
-                    pattern:
-                      /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                  })}
-                  value={email}
-                  onChange={(event) => setEmail2(event.target.value)}
-                />
-                <div>
-                  {/* message d'erreur */}
-                  {errors.email2?.type === "required" && (
-                    <p className="text-red-600">Ce champ est Obligatoire</p>
-                  )}
-                  {errors.email2?.type === "pattern" && (
-                    <p className="text-red-600">
-                      {" "}
-                      Email entré n'est pas valide{" "}
-                    </p>
-                  )}
-                </div>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Matricule</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="9208383576278772"
-                  autoFocus
-                  id="matricule"
-                  value={matricule}
-                  {...register("matricule2", { required: true })}
-                  onChange={(event) => setMatricule2(event.target.value)}
-                />
-                {errors.matricule2?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Niveau</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={niveau}
-                  {...register("niveau2", { required: true })}
-                  id="niveau"
-                  onChange={(event) => setNiveau2(event.target.value)}
-                >
-                  <option value=""></option>
-                  <option value="1 ère année">1 ère année</option>
-                  <option value="2 ème année">2 ème année</option>
-                  <option value="3 ème année">3 ème année</option>
-                </Form.Control>
-                {errors.niveau2?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>photo</Form.Label>
-                <Form.Control
-                  accept="image/*"
-                  type="file"
-                  placeholder=""
-                  autoFocus
-                  id="photo"
-                  {...register("photo", { required: true })}
-                  onChange={handleImageChange}
-                />
-                {errors.photo?.type === "required" && (
-                  <p className="text-red-500">Ce champ est obligatoire</p>
-                )}
-              </Form.Group>
-              <FormGroup>
-              <Button
-                variant="outline-success"
-                type="submit"
-                className="d-flex justify-content-center align-items-center">
-                Ajouter
-              </Button>
-              </FormGroup>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        { show2 && <Modal show={show2} onHide={handleClose2}> <AjoutEtudiant/>
+        <svg
+          className="cursor-pointer absolute mt-3" style={{marginLeft:'90%'}}
+          onClick={handleClose2}
+          width="35"
+          height="35"
+          viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M27.3266 12.9283C27.4815 13.0831 27.6045 13.2669 27.6883 13.4693C27.7722 13.6716 27.8154 13.8885 27.8154 14.1075C27.8154 14.3265 27.7722 14.5434 27.6883 14.7457C27.6045 14.9481 27.4815 15.1319 27.3266 15.2867L22.3566 20.255L26.8166 24.7133C27.1293 25.0261 27.305 25.4502 27.305 25.8925C27.305 26.3348 27.1293 26.7589 26.8166 27.0717C26.5038 27.3844 26.0797 27.5601 25.6374 27.5601C25.1951 27.5601 24.771 27.3844 24.4582 27.0717L19.9999 22.6117L15.5416 27.0717C15.2288 27.3844 14.8047 27.5601 14.3624 27.5601C13.9201 27.5601 13.496 27.3844 13.1832 27.0717C12.8705 26.7589 12.6948 26.3348 12.6948 25.8925C12.6948 25.4502 12.8705 25.0261 13.1832 24.7133L17.6432 20.255L12.6732 15.2867C12.5184 15.1317 12.3956 14.9478 12.3118 14.7454C12.2281 14.5429 12.185 14.326 12.1851 14.1069C12.1851 13.8879 12.2284 13.6709 12.3123 13.4686C12.3962 13.2662 12.5191 13.0824 12.6741 12.9275C12.829 12.7727 13.013 12.6499 13.2154 12.5661C13.4178 12.4823 13.6348 12.4393 13.8538 12.4393C14.0729 12.4394 14.2898 12.4826 14.4922 12.5665C14.6945 12.6504 14.8784 12.7734 15.0332 12.9283L19.9999 17.9L24.9682 12.93C25.123 12.7751 25.3068 12.6521 25.5092 12.5682C25.7115 12.4844 25.9284 12.4412 26.1474 12.4412C26.3664 12.4412 26.5833 12.4844 26.7856 12.5682C26.988 12.6521 27.1718 12.7734 27.3266 12.9283Z"
+            fill="#797777"/>
+          <path
+            fill-rule="evenodd" clip-rule="evenodd"
+            d="M6.66663 1.66663C5.34054 1.66663 4.06877 2.19341 3.13109 3.13109C2.19341 4.06877 1.66663 5.34054 1.66663 6.66663V33.3333C1.66663 34.6594 2.19341 35.9311 3.13109 36.8688C4.06877 37.8065 5.34054 38.3333 6.66663 38.3333H33.3333C34.6594 38.3333 35.9311 37.8065 36.8688 36.8688C37.8065 35.9311 38.3333 34.6594 38.3333 33.3333V6.66663C38.3333 5.34054 37.8065 4.06877 36.8688 3.13109C35.9311 2.19341 34.6594 1.66663 33.3333 1.66663H6.66663ZM33.3333 4.99996H6.66663C6.2246 4.99996 5.80067 5.17555 5.48811 5.48811C5.17555 5.80068 4.99996 6.2246 4.99996 6.66663V33.3333C4.99996 33.7753 5.17555 34.1992 5.48811 34.5118C5.80067 34.8244 6.2246 35 6.66663 35H33.3333C33.7753 35 34.1992 34.8244 34.5118 34.5118C34.8244 34.1992 35 33.7753 35 33.3333V6.66663C35 6.2246 34.8244 5.80068 34.5118 5.48811C34.1992 5.17555 33.7753 4.99996 33.3333 4.99996Z"
+            fill="#797777"/>
+        </svg>
+        </Modal>}
+
       </div>
     );
   } else {
