@@ -6,18 +6,10 @@ import { Employes } from "./entities/employe.entity";
 export declare class EmployesService {
     private employesRepository;
     constructor(employesRepository: Repository<Employes>);
-    create(createEmployeDto: CreateEmployeDto): Promise<{
-        prenom: string;
-        nom: string;
-        email: string;
-        mot_de_passe: any;
-        matricule: string;
-        role: string;
-        etat: boolean;
-    } & Employes>;
+    create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;
     findOne(id: number): Promise<Employes>;
     update(id: number, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<void>;
-    updatePassword(email: string, updatePassword: UpdatePasswordDto): Promise<any>;
+    updatePassword(email1: string, updatePassword: UpdatePasswordDto): Promise<any>;
 }

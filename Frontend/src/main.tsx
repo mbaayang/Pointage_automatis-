@@ -16,6 +16,7 @@ import Pointage from "./Components/Pointage/Pointage";
 import Connexion from "./Components/Connexion/Connexion";
 import Liste_Employes from "./Components/Liste_Employes/Liste_Employes";
 import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes";
+import  Form  from "./Components/form";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/vigil" element={<PageVigil />}></Route>
       <Route index element={<Connexion />}></Route>
+      <Route path="form" element={<Form />}></Route>
       <Route path="*" element={<div>Not found</div>} />
     </Route>
   )

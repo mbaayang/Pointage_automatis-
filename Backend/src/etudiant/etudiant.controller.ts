@@ -13,17 +13,16 @@ export class EtudiantController {
 
   @Post()
   @UseInterceptors(FileInterceptor('photo',{
+    limits: { fileSize: 1024 * 1024 * 5 },
     storage: diskStorage({
       destination: './files',
       filename:(req, file, cb) => {
         const filename: string = uuidv4(); console.log(filename)
-        //const modifiedFilename : string = `${req.body.nom}_${req.body.prenom}${path.extname(file.originalname)}`; console.log(modifiedFilename)
         cb(null, `${filename}${file.originalname}`);
       }
     })
   }))
   async create(@UploadedFile() photo: Express.Multer.File, @Body() createEtudiantDto: CreateEtudiantDto) {
-    //const photo =  `${createEtudiantDto.nom}_${createEtudiantDto.prenom}${path.extname(file.originalname)}`;
     const etudiant = await this.etudiantService.create({
       ...createEtudiantDto,
       photo: photo.filename

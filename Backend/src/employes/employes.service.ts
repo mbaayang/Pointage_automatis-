@@ -1,5 +1,6 @@
 import {
   Injectable,
+  ConflictException,
   UnauthorizedException,
   NotFoundException,
   BadRequestException,
@@ -20,30 +21,27 @@ export class EmployesService {
     private employesRepository: Repository<Employes>
   ) {}
 
-  async create(createEmployeDto: CreateEmployeDto) {
-    const { prenom, nom, email, mot_de_passe, matricule, role, etat } =
-      createEmployeDto;
+  async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
+    const { prenom1, nom1, email1,mot_de_passe, matricule1, role, etat, image, date_inscription} = createEmployeDto;
+      // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
+      const existingEmploye = await this.employesRepository.findOneBy({ email1 });
+      if (existingEmploye) {
+        throw new ConflictException('Adresse e-mail déjà prise');
+      }
+      const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
 
-    const mail = await this.employesRepository.findOne({ where: { email } });
-
-    if (mail) {
-      throw new UnauthorizedException({ message: "Cet email existe déjà" });
-    }
-
-    const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-    //a mettre apres API
-    const user = await this.employesRepository.save({
-      prenom,
-      nom,
-      email,
-      mot_de_passe: hashedPassword,
-      matricule,
-      role,
-      etat,
-    });
-    /*     throw new UnauthorizedException({ message: "Inscription réussie" }); */
-
-    return user;
+    const employe = new Employes();
+    employe.prenom1 = createEmployeDto.prenom1;
+    employe.nom1 = createEmployeDto.nom1;
+    employe.email1 = createEmployeDto.email1;
+    employe.mot_de_passe = hashedPassword;
+    employe.matricule1 = createEmployeDto.matricule1;
+    employe.role = createEmployeDto.role;
+    employe.etat = true;
+    employe.image = createEmployeDto.image;
+    employe.date_inscription = new Date();
+    
+    return await this.employesRepository.save(employe);
   }
 
   async findAll(): Promise<Employes[]> {
@@ -69,10 +67,10 @@ export class EmployesService {
 
   //modification mot de passe
   async updatePassword(
-    email: string,
+    email1: string,
     updatePassword: UpdatePasswordDto
   ):Promise<any> {
-    const user = await this.employesRepository.findOne({ where: { email } });
+    const user = await this.employesRepository.findOne({ where: { email1 } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
