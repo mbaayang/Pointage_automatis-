@@ -21,7 +21,7 @@ export class EmployesService {
   ) {}
 
   async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
-    const { prenom1, nom1, email1,mot_de_passe, matricule1, role, etat, image, date_inscription} = createEmployeDto;
+    const { prenom1, nom1, email1,mot_de_passe, matricule1, role, image} = createEmployeDto;
       // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
       const existingEmploye = await this.employesRepository.findOneBy({ email1 });
       if (existingEmploye) {
@@ -36,9 +36,9 @@ export class EmployesService {
     employe.mot_de_passe = hashedPassword;
     employe.matricule1 = createEmployeDto.matricule1;
     employe.role = createEmployeDto.role;
-    employe.etat = true;
     employe.image = createEmployeDto.image;
-    employe.date_inscription = new Date();
+    employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+    employe.etat = true;
     
     return await this.employesRepository.save(employe);
   }
@@ -51,13 +51,8 @@ export class EmployesService {
     return await this.employesRepository.findOneById(id);
   }
 
-  async update(id: number, updateEmployeDto: UpdateEmployeDto) {
-    const updatedEmploye = Employes;
-
-    Object.keys(updateEmployeDto).forEach((key) => {
-      updatedEmploye[key] = updateEmployeDto[key];
-    });
-    return await this.employesRepository.update(id, updateEmployeDto);
+  update(id: number, updateEmployeDto: UpdateEmployeDto) {
+    return this.employesRepository.update(id, updateEmployeDto);
   }
 
   async remove(id: number) {

@@ -7,6 +7,6 @@ export declare class Employes {
     matricule1: string;
     role: string;
     image: string;
-    date_inscription: Date;
+    date_inscription: string;
     etat: boolean;
 }
