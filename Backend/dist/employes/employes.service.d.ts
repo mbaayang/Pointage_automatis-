@@ -9,7 +9,7 @@ export declare class EmployesService {
     create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;
     findOne(id: number): Promise<Employes>;
-    update(id_employe: number, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;
+    update(id: number, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<void>;
     updatePassword(email1: string, updatePassword: UpdatePasswordDto): Promise<any>;
 }

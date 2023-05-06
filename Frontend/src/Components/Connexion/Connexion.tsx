@@ -35,7 +35,7 @@ function Connexion() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         if (res.correct == false) {
           setError(res.message);
         } else {
@@ -45,11 +45,11 @@ function Connexion() {
           localStorage.setItem("prenom", res.prenom1);
           localStorage.setItem("nom", res.nom1);
           localStorage.setItem("email", res.email);
-        /*   if (localStorage.getItem("role") == "vigil") {
+          if (localStorage.getItem("role") == "vigil") {
             navigate("/vigil");
           } else {
             navigate("/admin");
-          } */
+          }
         }
       });
   };
