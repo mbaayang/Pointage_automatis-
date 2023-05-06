@@ -49,10 +49,6 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
-/*   const photos = (e: any) => {
-    setPhoto(e.target.files[0]);
-  }; */
-
   const [prenom2, setPrenom2] = useState("");
   const [nom2, setNom2] = useState("");
   const [email2, setEmail2] = useState("");
