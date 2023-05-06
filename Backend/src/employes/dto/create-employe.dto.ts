@@ -32,8 +32,4 @@ export class CreateEmployeDto {
 
     @IsNotEmpty()
     image: string;
-
-    etat: boolean;
-
-    date_inscription: Date;
 }

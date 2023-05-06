@@ -23,7 +23,7 @@ let EmployesService = class EmployesService {
         this.employesRepository = employesRepository;
     }
     async create(createEmployeDto) {
-        const { prenom1, nom1, email1, mot_de_passe, matricule1, role, etat, image, date_inscription } = createEmployeDto;
+        const { prenom1, nom1, email1, mot_de_passe, matricule1, role, image } = createEmployeDto;
         const existingEmploye = await this.employesRepository.findOneBy({ email1 });
         if (existingEmploye) {
             throw new common_1.ConflictException('Adresse e-mail déjà prise');
@@ -36,9 +36,9 @@ let EmployesService = class EmployesService {
         employe.mot_de_passe = hashedPassword;
         employe.matricule1 = createEmployeDto.matricule1;
         employe.role = createEmployeDto.role;
-        employe.etat = true;
         employe.image = createEmployeDto.image;
-        employe.date_inscription = new Date();
+        employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+        employe.etat = true;
         return await this.employesRepository.save(employe);
     }
     async findAll() {
@@ -47,12 +47,8 @@ let EmployesService = class EmployesService {
     async findOne(id) {
         return await this.employesRepository.findOneById(id);
     }
-    async update(id, updateEmployeDto) {
-        const updatedEmploye = employe_entity_1.Employes;
-        Object.keys(updateEmployeDto).forEach((key) => {
-            updatedEmploye[key] = updateEmployeDto[key];
-        });
-        return await this.employesRepository.update(id, updateEmployeDto);
+    update(id, updateEmployeDto) {
+        return this.employesRepository.update(id, updateEmployeDto);
     }
     async remove(id) {
         await this.employesRepository.delete(id);

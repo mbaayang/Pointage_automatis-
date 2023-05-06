@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-@Entity()
+
+@Entity({ name: "employes"})
 export class Employes {
   @PrimaryGeneratedColumn()
   id_employe: number;
@@ -27,7 +28,7 @@ export class Employes {
   image: string;
 
   @Column()
-  date_inscription: Date;
+  date_inscription: string;
 
   @Column({ default: true })
   etat: boolean;
