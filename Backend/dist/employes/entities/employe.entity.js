@@ -26,7 +26,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "nom1", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], Employes.prototype, "email1", void 0);
 __decorate([
@@ -34,7 +34,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "mot_de_passe", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], Employes.prototype, "matricule1", void 0);
 __decorate([

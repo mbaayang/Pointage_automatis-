@@ -27,7 +27,7 @@ export class EtudiantService {
     etudiant.matricule = createEtudiantDto.matricule;
     etudiant.niveau = createEtudiantDto.niveau;
     etudiant.photo = createEtudiantDto.photo;
-    etudiant.date_inscription = new Date();
+    etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     
     return await this.etudiantRepository.save(etudiant);
   }

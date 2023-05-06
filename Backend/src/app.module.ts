@@ -9,7 +9,6 @@ import { Employes } from "./employes/entities/employe.entity";
 import { MulterModule } from '@nestjs/platform-express';
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
-import { FormModule } from './form/form.module';
 
 
 @Module({
@@ -35,7 +34,6 @@ import { FormModule } from './form/form.module';
     EtudiantModule,
     ConnexionModule,
     EtudiantModule,
-    FormModule,
   ],
   
 

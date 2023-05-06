@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
 import axios from "axios";
+import Swal from "sweetalert2";
 const Dashboard = () => {
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
@@ -66,6 +67,7 @@ const Dashboard = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onChange" });
   const onSubmit = () => {
         const formData = new FormData();
@@ -83,9 +85,18 @@ const Dashboard = () => {
           console.log(error);
         }
   };
-  const handleImageChange = (event:any) => {
+  const handleImageChange = (event: any) => {
     setPhoto(event.target.files[0]);
   };
+
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Inscription réussie!",
+      icon: "success",
+      timer: 3000, // Affiche la boîte de dialogue pendant 3 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
 
   const onSubmit2 = () => {
     const formData = new FormData();
@@ -94,14 +105,18 @@ const Dashboard = () => {
     formData.append("email", email);
     formData.append("matricule", matricule);
     formData.append("niveau", niveau);
-    formData.append("photo", photo); 
+    formData.append("photo", photo);
 
-      try {
-        const response = axios.post("http://localhost:3000/etudiant", formData); 
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const response = axios.post("http://localhost:3000/etudiant", formData);
+      console.log(response);
+      showSuccessAlert();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -135,7 +150,7 @@ const Dashboard = () => {
               <p className="h4 text-color">Liste des employés</p>
             </div>
             <Link
-              to="presenceEmployes"
+              to="presenceEmploye"
               className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc"
             >
               <p className="h4 text-color">Effectifs</p>
@@ -645,11 +660,10 @@ const Dashboard = () => {
                   <p className="text-red-500">Ce champ est obligatoire</p>
                 )}
               </Form.Group>
-              <Button onClick={onSubmit2}
+              <Button
                 variant="outline-success"
                 type="submit"
-                className="d-flex justify-content-center align-items-center"
-              >
+                className="d-flex justify-content-center align-items-center">
                 Ajouter
               </Button>
             </Form>

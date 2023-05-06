@@ -12,7 +12,6 @@ import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 import { Employes } from "./entities/employe.entity";
 import * as bcrypt from "bcryptjs";
-import { log } from "console";
 
 @Injectable()
 export class EmployesService {
