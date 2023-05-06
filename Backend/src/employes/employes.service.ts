@@ -21,20 +21,20 @@ export class EmployesService {
   ) {}
 
   async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
-    const { prenom1, nom1, email1,mot_de_passe, matricule1, role, image} = createEmployeDto;
+    const { prenom, nom, email,mot_de_passe, matricule, role, image} = createEmployeDto;
       // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
-      const existingEmploye = await this.employesRepository.findOneBy({ email1 });
+      const existingEmploye = await this.employesRepository.findOneBy({ email });
       if (existingEmploye) {
         throw new ConflictException('Adresse e-mail déjà prise');
       }
       const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
 
     const employe = new Employes();
-    employe.prenom1 = createEmployeDto.prenom1;
-    employe.nom1 = createEmployeDto.nom1;
-    employe.email1 = createEmployeDto.email1;
+    employe.prenom = createEmployeDto.prenom;
+    employe.nom = createEmployeDto.nom;
+    employe.email = createEmployeDto.email;
     employe.mot_de_passe = hashedPassword;
-    employe.matricule1 = createEmployeDto.matricule1;
+    employe.matricule = createEmployeDto.matricule;
     employe.role = createEmployeDto.role;
     employe.image = createEmployeDto.image;
     employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
@@ -61,10 +61,10 @@ export class EmployesService {
 
   //modification mot de passe
   async updatePassword(
-    email1: string,
+    email: string,
     updatePassword: UpdatePasswordDto
   ):Promise<any> {
-    const user = await this.employesRepository.findOne({ where: { email1 } });
+    const user = await this.employesRepository.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException("User not found");
     }
