@@ -1,11 +1,12 @@
 export declare class Employes {
     id_employe: number;
-    prenom: string;
-    nom: string;
-    email: string;
+    prenom1: string;
+    nom1: string;
+    email1: string;
     mot_de_passe: string;
-    matricule: string;
+    matricule1: string;
     role: string;
-    photo: string;
+    image: string;
+    date_inscription: Date;
     etat: boolean;
 }

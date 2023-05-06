@@ -8,19 +8,22 @@ import { Button, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
+import axios from "axios";
+import Swal from "sweetalert2";
 const Dashboard = () => {
   const [eye, seteye] = useState<boolean>(true);
   const [password, setpassword] = useState<string>("password");
   const [eye1, seteye1] = useState<boolean>(true);
   const [password1, setpassword1] = useState<string>("password");
-  const [prenom, setPrenom] = useState<string>();
-  const [nom, setNom] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [mdp, setMdp] = useState<string>();
-  const [matricule, setMatricule] = useState<string>();
-  const [role, setRole] = useState<string>();
+  const [prenom1, setPrenom] = useState<string>("");
+  const [nom1, setNom] = useState<string>("");
+  const [email1, setEmail] = useState<string>("");
+  const [mdp, setMdp] = useState<string>("");
+  const [matricule1, setMatricule] = useState<string>("");
+  const [role, setRole] = useState<string>("");
   const [errorBack, setErrorBack] = useState("");
   const [etat, setEtat] = useState<boolean>(false);
+  const [file,setFile] = useState<any>();
 
   const Eye = () => {
     if (password == "password") {
@@ -40,7 +43,7 @@ const Dashboard = () => {
       setpassword1("password");
       seteye1(true);
     }
-  };
+  }; 
   const [show1, setShow1] = useState(false);
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
@@ -49,78 +52,71 @@ const Dashboard = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
 
-/*   const photos = (e: any) => {
-    setPhoto(e.target.files[0]);
-  }; */
 
-  const [prenom2, setPrenom2] = useState("");
-  const [nom2, setNom2] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [matricule2, setMatricule2] = useState("");
-  const [niveau2, setNiveau2] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [prenom, setPrenom2] = useState("");
+  const [nom, setNom2] = useState("");
+  const [email, setEmail2] = useState("");
+  const [matricule, setMatricule2] = useState("");
+  const [niveau, setNiveau2] = useState("");
+  const [photo, setPhoto] = useState<any>();
 
+  const setimgfile = (e:any)=>{
+    setFile(e.target.files[0])
+  }
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "onChange" });
-  const onSubmit = (data: any) => {
-    fetch("http://localhost:3000/employes/post", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        prenom: prenom,
-        nom: nom,
-        email: email,
-        mot_de_passe: mdp,
-        matricule: matricule,
-        role: role,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-
-        if (data) {
-          setErrorBack(data.message);
-          setEtat(true);
+  const onSubmit = () => {
+        const formData = new FormData();
+          formData.append("prenom1", prenom1);
+          formData.append("nom1", nom1);
+          formData.append("email1", email1);
+          formData.append("matricule1", matricule1);
+          formData.append("role", role);
+          formData.append("mot_de_passe", mdp);
+          formData.append("photo", file);
+        try {
+          const response = axios.post("http://localhost:3000/employes/post", formData);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
         }
-      });
+  };
+  const handleImageChange = (event: any) => {
+    setPhoto(event.target.files[0]);
   };
 
-  const onSubmit2 = () => {
-/*     const formData = new FormData();
-    formData.append("prenom2", prenom2);
-    formData.append("nom2", nom2);
-    formData.append("email2", email2);
-    formData.append("matricule2", matricule2);
-    formData.append("niveau2", niveau2);
-    formData.append("photo", photo); */
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Inscription réussie!",
+      icon: "success",
+      timer: 3000, // Affiche la boîte de dialogue pendant 3 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
 
-    fetch("http://localhost:3000/etudiant", {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        prenom2,
-        nom2,
-        email2,
-        matricule2,
-        niveau2,
-        photo,
-      })
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
+  const onSubmit2 = () => {
+    const formData = new FormData();
+    formData.append("prenom", prenom);
+    formData.append("nom", nom);
+    formData.append("email", email);
+    formData.append("matricule", matricule);
+    formData.append("niveau", niveau);
+    formData.append("photo", photo);
+
+    try {
+      const response = axios.post("http://localhost:3000/etudiant", formData);
+      console.log(response);
+      showSuccessAlert();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (
     localStorage.getItem("role") == "administrateur" ||
@@ -154,7 +150,7 @@ const Dashboard = () => {
               <p className="h4 text-color">Liste des employés</p>
             </div>
             <Link
-              to="presenceEmployes"
+              to="presenceEmploye"
               className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc"
             >
               <p className="h4 text-color">Effectifs</p>
@@ -350,10 +346,12 @@ const Dashboard = () => {
             {errorBack}
           </div>
           <Modal.Body className="-mt-8">
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={onSubmit} encType="multipart/form-data">
               <Form.Group className="mb-3" controlId="prenom">
                 <Form.Label>Prénom</Form.Label>
                 <Form.Control
+                  id="prenom1"
+                  value={prenom1}
                   type="text"
                   placeholder="issa"
                   autoFocus
@@ -369,6 +367,8 @@ const Dashboard = () => {
               <Form.Group className="mb-3" controlId="nom">
                 <Form.Label>Nom</Form.Label>
                 <Form.Control
+                  id="nom1"
+                  value={nom1}
                   type="text"
                   placeholder="ndiaye"
                   autoFocus
@@ -384,6 +384,8 @@ const Dashboard = () => {
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
+                  id="email1"
+                  value={email1}
                   type="email"
                   placeholder="astouissa@gmail.com"
                   autoFocus
@@ -395,7 +397,6 @@ const Dashboard = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <div>
-                  {/* message d'erreur */}
                   {errors.email?.type === "required" && (
                     <p className="text-red-600">Ce champ est Obligatoire</p>
                   )}
@@ -407,6 +408,8 @@ const Dashboard = () => {
               <Form.Group className="mb-3" controlId="matricule">
                 <Form.Label>Matricule</Form.Label>
                 <Form.Control
+                  id="matricule1"
+                  value={matricule1}
                   type="text"
                   placeholder="9208383576278772"
                   autoFocus
@@ -424,6 +427,8 @@ const Dashboard = () => {
                   Rôle<span className="text-danger">*</span>
                 </Form.Label>
                 <Form.Select
+                  id="role"
+                  value={role}
                   placeholder="Choisir un rôle"
                   {...register("role", {
                     required: true,
@@ -431,16 +436,16 @@ const Dashboard = () => {
                   onChange={(e) => setRole(e.target.value)}
                 >
                   <option placeholder="Choisir un rôle"></option>
-                  <option value="Admin" className=" text-black">
+                  <option value="administrateur" className=" text-black">
                     Admin
                   </option>
-                  <option value="Surveillant" className=" text-black">
+                  <option value="surveillant" className=" text-black">
                     Surveillant
                   </option>
-                  <option value="Professeur" className=" text-black">
+                  <option value="professeur" className=" text-black">
                     Professeur
                   </option>
-                  <option value="Vigile" className=" text-black">
+                  <option value="vigile" className=" text-black">
                     Vigile
                   </option>
                 </Form.Select>
@@ -452,6 +457,8 @@ const Dashboard = () => {
                 <Form.Label>Mot de passe</Form.Label>
                 <InputGroup>
                   <Form.Control style={{borderRight:'none'}}
+                    id="mot_de_passe"
+                    value={mdp}
                     type={password}
                     placeholder="*****"
                     autoFocus
@@ -459,15 +466,9 @@ const Dashboard = () => {
                     onChange={(e) => setMdp(e.target.value)}
                   />
                   <InputGroup.Text className="bg-white">
-                    <i
-                      onClick={() => {
-                        Eye();
-                      }}
-                      className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}
-                    ></i>
+                    <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
                   </InputGroup.Text>
                 </InputGroup>
-                {/* message d'erreur */}
                 {errors.password?.type === "minLength" && (
                   <p className="text-red-600">Minimum 6 caractère</p>
                 )}
@@ -484,7 +485,7 @@ const Dashboard = () => {
                   autoFocus
                   {...register("password1", { required: true, minLength: 6 })}
                 />
-                <InputGroup.Text>
+                <InputGroup.Text className="bg-white">
                   <i onClick={() => { Eye1();}} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
                 </InputGroup.Text>
               </InputGroup>
@@ -494,19 +495,21 @@ const Dashboard = () => {
                 {errors.password1?.type === "required" && (
                   <p className="text-red-600">Ce champ est obligatoire</p>
                 )}
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group className="mb-3" controlId="photo">
               <Form.Label>photo</Form.Label>
-              <Form.Control accept="image/*" type="file" placeholder="" autoFocus
-                {...register("file", { required: true, })} />
+              <Form.Control type="file" placeholder="" autoFocus accept="image/*"
+                {...register("file", { required: true, })} 
+                onChange={setimgfile}/>
               {errors.file?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}
-              </Form.Group>*/}
+              </Form.Group>
               <Button
                 variant="outline-success"
                 type="submit"
                 className="d-flex justify-content-center align-items-center"
+                /* onClick={onSubmit} */
               >
                 Ajouter
               </Button>
@@ -557,9 +560,9 @@ const Dashboard = () => {
                   type="text"
                   placeholder="issa"
                   autoFocus
-                  id="prenom2"
+                  id="prenom"
                   {...register("prenom2", { required: true })}
-                  value={prenom2}
+                  value={prenom}
                   onChange={(event) => setPrenom2(event.target.value)}
                 />
                 {errors.prenom2?.type === "required" && (
@@ -572,9 +575,9 @@ const Dashboard = () => {
                   type="text"
                   placeholder="ndiaye"
                   autoFocus
-                  id="nom2"
+                  id="nom"
                   {...register("nom2", { required: true })}
-                  value={nom2}
+                  value={nom}
                   onChange={(event) => setNom2(event.target.value)}
                 />
                 {errors.nom2?.type === "required" && (
@@ -587,13 +590,13 @@ const Dashboard = () => {
                   type="email"
                   placeholder="astouissa@gmail.com"
                   autoFocus
-                  id="email2"
+                  id="email"
                   {...register("email2", {
                     required: true,
                     pattern:
                       /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
                   })}
-                  value={email2}
+                  value={email}
                   onChange={(event) => setEmail2(event.target.value)}
                 />
                 <div>
@@ -615,8 +618,8 @@ const Dashboard = () => {
                   type="text"
                   placeholder="9208383576278772"
                   autoFocus
-                  id="matricule2"
-                  value={matricule2}
+                  id="matricule"
+                  value={matricule}
                   {...register("matricule2", { required: true })}
                   onChange={(event) => setMatricule2(event.target.value)}
                 />
@@ -628,9 +631,9 @@ const Dashboard = () => {
                 <Form.Label>Niveau</Form.Label>
                 <Form.Control
                   as="select"
-                  value={niveau2}
+                  value={niveau}
                   {...register("niveau2", { required: true })}
-                  id="niveau2"
+                  id="niveau"
                   onChange={(event) => setNiveau2(event.target.value)}
                 >
                   <option value=""></option>
@@ -650,7 +653,6 @@ const Dashboard = () => {
                   placeholder=""
                   autoFocus
                   id="photo"
-                  value={photo}
                   {...register("photo", { required: true })}
                   onChange={ (event) => setPhoto(event.target.value)}
                 />
@@ -661,8 +663,7 @@ const Dashboard = () => {
               <Button onClick={onSubmit2}
                 variant="outline-success"
                 type="submit"
-                className="d-flex justify-content-center align-items-center"
-              >
+                className="d-flex justify-content-center align-items-center">
                 Ajouter
               </Button>
             </Form>

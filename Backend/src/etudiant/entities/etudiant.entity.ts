@@ -4,7 +4,7 @@ export class Etudiant {
   email: string;
   matricule: string;
   niveau: string;
-  etat: string;
-  date_inscription: Date;
-  photo: Buffer;
+  photo: string;
+  //etat: string;
+  date_inscription: string;
 }

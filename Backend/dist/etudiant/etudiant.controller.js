@@ -18,13 +18,20 @@ const etudiant_service_1 = require("./etudiant.service");
 const create_etudiant_dto_1 = require("./dto/create-etudiant.dto");
 const update_etudiant_dto_1 = require("./dto/update-etudiant.dto");
 const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const uuid_1 = require("uuid");
 let EtudiantController = class EtudiantController {
     constructor(etudiantService) {
         this.etudiantService = etudiantService;
     }
-    async create(photo, createEtudiantDto) {
-        const etudiant = await this.etudiantService.create(Object.assign(Object.assign({}, createEtudiantDto), { photo: photo.buffer }));
-        return etudiant;
+    async create(photo, createEtudiantDto, res) {
+        try {
+            const etudiant = await this.etudiantService.create(Object.assign(Object.assign({}, createEtudiantDto), { photo: photo.filename }));
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Etudiant enregistré avec succès', etudiant });
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
+        }
     }
     findAll() {
         return this.etudiantService.findAll();
@@ -35,11 +42,22 @@ let EtudiantController = class EtudiantController {
 };
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('photo')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('photo', {
+        limits: { fileSize: 1024 * 1024 * 5 },
+        storage: (0, multer_1.diskStorage)({
+            destination: './files',
+            filename: (req, file, cb) => {
+                const filename = (0, uuid_1.v4)();
+                console.log(filename);
+                cb(null, `${filename}${file.originalname}`);
+            }
+        })
+    })),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, create_etudiant_dto_1.CreateEtudiantDto]),
+    __metadata("design:paramtypes", [Object, create_etudiant_dto_1.CreateEtudiantDto, Object]),
     __metadata("design:returntype", Promise)
 ], EtudiantController.prototype, "create", null);
 __decorate([

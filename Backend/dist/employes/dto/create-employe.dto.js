@@ -15,31 +15,36 @@ class CreateEmployeDto {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateEmployeDto.prototype, "prenom", void 0);
+], CreateEmployeDto.prototype, "prenom1", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateEmployeDto.prototype, "nom", void 0);
+], CreateEmployeDto.prototype, "nom1", void 0);
+__decorate([
+    (0, class_validator_1.IsEmail)({}, { message: 'Adresse e-mail invalide' }),
+    (0, class_validator_1.Matches)(new RegExp("([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"), { message: "Format de l'email invalide" }),
+    __metadata("design:type", String)
+], CreateEmployeDto.prototype, "email1", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateEmployeDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateEmployeDto.prototype, "mot_de_passe", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateEmployeDto.prototype, "matricule", void 0);
+], CreateEmployeDto.prototype, "matricule1", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateEmployeDto.prototype, "role", void 0);
 __decorate([
-    (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Boolean)
-], CreateEmployeDto.prototype, "etat", void 0);
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateEmployeDto.prototype, "image", void 0);
 exports.CreateEmployeDto = CreateEmployeDto;
 //# sourceMappingURL=create-employe.dto.js.map

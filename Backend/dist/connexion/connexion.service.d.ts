@@ -5,13 +5,13 @@ export declare class AuthService {
     private readonly userRepository;
     private readonly jwtService;
     constructor(userRepository: Repository<Employes>, jwtService: JwtService);
-    validateUser(email: string, mot_de_passe: string): Promise<Employes | null>;
+    validateUser(email1: string, mot_de_passe: string): Promise<Employes | null>;
     login(user: Employes): Promise<{
         access_token: string;
-        id: number;
+        id_employe: number;
         role: string;
-        prenom: string;
-        nom: string;
-        email: string;
+        prenom1: string;
+        nom1: string;
+        email1: string;
     }>;
 }

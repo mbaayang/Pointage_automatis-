@@ -6,8 +6,7 @@ import { UpdateEmployeDto } from './dto/update-employe.dto';
 import {  UpdatePasswordDto } from './dto/updatePassword.dto'
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import { extname } from "path";
-import { createConnection } from "mysql2/promise";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -15,74 +14,24 @@ import { createConnection } from "mysql2/promise";
 export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
 
-
-  @Post("post")
-  @UseInterceptors(
-    FileInterceptor("image", {
-      storage: diskStorage({
-        destination: "./images",
-        filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join("");
-          callback(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
+  @Post('post')
+  @UseInterceptors(FileInterceptor('photo',{
+    limits: { fileSize: 1024 * 1024 * 5 },
+    storage: diskStorage({
+      destination: './files',
+      filename:(req, file, cb) => {
+        const filename: string = uuidv4(); console.log(filename)
+        cb(null, `${filename}${file.originalname}`);
+      }
     })
-  )
-  async submitForm(@UploadedFile() file, @Body() body) {
-    const { prenom, nom, email, mot_de_passe, matricule, role } = body;
-
-    const connection = await createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "Pointage",
+  }))
+  async create(@UploadedFile() photo: Express.Multer.File, @Body() createEmployeDto: CreateEmployeDto) {
+    const employe = await this.employesService.create({
+      ...createEmployeDto,
+      image: photo.filename
     });
-
-    const [results, fields] = await connection.execute(
-      "INSERT INTO employess (prenom, nom, email, mot_de_passe, matricule, role, photo) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [prenom, nom, email, mot_de_passe, matricule, role, file.filename]
-    );
-
-    return {
-      prenom, nom, email, mot_de_passe, matricule, role, photo: file.filename,
-    };
+    return employe;
   }
-
-  /* @Post('post')
->>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from "@nestjs/common";
-import { EmployesService } from "./employes.service";
-import { CreateEmployeDto } from "./dto/create-employe.dto";
-import { UpdateEmployeDto } from "./dto/update-employe.dto";
-import { UpdatePasswordDto } from "./dto/updatePassword.dto";
-@Controller("employes")
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseFilePipe, UploadedFile, FileTypeValidator, MaxFileSizeValidator, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { EmployesService } from './employes.service';
-import { CreateEmployeDto } from './dto/create-employe.dto';
-import { UpdateEmployeDto } from './dto/update-employe.dto';
-import { AnyFilesInterceptor } from '@nestjs/platform-express';
-
-@Controller('employes')
-=======
->>>>>>> c26bb86238b2ac777b068efb6ddef89d33c5e28d
-export class EmployesController {
-  constructor(private readonly employesService: EmployesService) {}
-
-  @Post("post")
-  create(@Body() createEmployeDto: CreateEmployeDto) {
-    return this.employesService.create(createEmployeDto);
-  } */
 
   @Get()
   findAll() {
@@ -100,11 +49,11 @@ export class EmployesController {
   }
   @Patch("password/:id")
   async updatePassword(
-    @Param("id") email: string,
+    @Param("id") email1: string,
     @Body() updatePasswordDto: UpdatePasswordDto
     
   ) :Promise<any | null>{
-    await this.employesService.updatePassword(email, updatePasswordDto);
+    await this.employesService.updatePassword(email1, updatePasswordDto);
   }
 
   @Delete(":id")

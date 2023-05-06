@@ -1,10 +1,11 @@
 export declare class CreateEmployeDto {
-    id_employe: number;
-    prenom: string;
-    nom: string;
-    email: string;
+    prenom1: string;
+    nom1: string;
+    email1: string;
     mot_de_passe: string;
-    matricule: string;
+    matricule1: string;
     role: string;
+    image: string;
     etat: boolean;
+    date_inscription: Date;
 }

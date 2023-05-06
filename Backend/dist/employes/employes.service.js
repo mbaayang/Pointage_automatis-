@@ -23,22 +23,23 @@ let EmployesService = class EmployesService {
         this.employesRepository = employesRepository;
     }
     async create(createEmployeDto) {
-        const { prenom, nom, email, mot_de_passe, matricule, role, etat } = createEmployeDto;
-        const mail = await this.employesRepository.findOne({ where: { email } });
-        if (mail) {
-            throw new common_1.UnauthorizedException({ message: "Cet email existe déjà" });
+        const { prenom1, nom1, email1, mot_de_passe, matricule1, role, etat, image, date_inscription } = createEmployeDto;
+        const existingEmploye = await this.employesRepository.findOneBy({ email1 });
+        if (existingEmploye) {
+            throw new common_1.ConflictException('Adresse e-mail déjà prise');
         }
         const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-        const user = await this.employesRepository.save({
-            prenom,
-            nom,
-            email,
-            mot_de_passe: hashedPassword,
-            matricule,
-            role,
-            etat,
-        });
-        return user;
+        const employe = new employe_entity_1.Employes();
+        employe.prenom1 = createEmployeDto.prenom1;
+        employe.nom1 = createEmployeDto.nom1;
+        employe.email1 = createEmployeDto.email1;
+        employe.mot_de_passe = hashedPassword;
+        employe.matricule1 = createEmployeDto.matricule1;
+        employe.role = createEmployeDto.role;
+        employe.etat = true;
+        employe.image = createEmployeDto.image;
+        employe.date_inscription = new Date();
+        return await this.employesRepository.save(employe);
     }
     async findAll() {
         return await this.employesRepository.find({});
@@ -62,8 +63,8 @@ let EmployesService = class EmployesService {
     async remove(id) {
         await this.employesRepository.delete(id);
     }
-    async updatePassword(email, updatePassword) {
-        const user = await this.employesRepository.findOne({ where: { email } });
+    async updatePassword(email1, updatePassword) {
+        const user = await this.employesRepository.findOne({ where: { email1 } });
         if (!user) {
             throw new common_1.NotFoundException("User not found");
         }

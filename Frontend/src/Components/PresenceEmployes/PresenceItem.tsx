@@ -1,6 +1,6 @@
 import './PresenceEmployes.css'
 import { useState } from "react";
-import { Etudiant } from "../../fake_api/historique"
+import { Etudiant } from "../../Models/etudiant"
 import Form from 'react-bootstrap/Form';
 
 /* Définition des types des props du composant PresenceItem */
@@ -30,14 +30,14 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ data }: PresenceItemProps) 
     return (
         <tr>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
+                {/* <div className="flex justify-center items-center gap-2">
                     <span>{data.date}</span>
-                </div>
+                </div> */}
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
+                {/* <div className="flex justify-center items-center gap-2">
                     <span>{data.heure}</span>
-                </div>
+                </div> */}
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
