@@ -6,5 +6,5 @@ export class Etudiant {
   niveau: string;
   photo: string;
   //etat: string;
-  date_inscription: Date;
+  date_inscription: string;
 }

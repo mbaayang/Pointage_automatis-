@@ -43,7 +43,7 @@ __decorate([
 ], Etudiant.prototype, "photo", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Etudiant.prototype, "date_inscription", void 0);
 Etudiant = __decorate([
     (0, typeorm_1.Entity)({ name: 'etudiants' })
