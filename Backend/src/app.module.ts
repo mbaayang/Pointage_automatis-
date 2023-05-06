@@ -28,6 +28,7 @@ import { FormModule } from './form/form.module';
       password: "",
       database: "Pointage",
       entities: [Employes, Etudiant],
+      autoLoadEntities: true,
       synchronize: false,
     }),
     EmployesModule,

@@ -16,7 +16,6 @@ export class Employes {
   @Column()
   mot_de_passe: string;
   
-
   @Column({unique: true})
   matricule1: string;
 
