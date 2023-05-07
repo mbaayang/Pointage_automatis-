@@ -25,16 +25,9 @@ let EtudiantService = class EtudiantService {
         const etudiant = await this.etudiantRepository.findOneBy({ email });
         return !!etudiant;
     }
-    async create(createEtudiantDto) {
-        const etudiant = new etudiant_entity_1.Etudiant();
-        etudiant.prenom = createEtudiantDto.prenom;
-        etudiant.nom = createEtudiantDto.nom;
-        etudiant.email = createEtudiantDto.email;
-        etudiant.matricule = createEtudiantDto.matricule;
-        etudiant.niveau = createEtudiantDto.niveau;
-        etudiant.photo = createEtudiantDto.photo;
-        etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-        return await this.etudiantRepository.save(etudiant);
+    create(createEtudiantDto) {
+        const newEtudiant = this.etudiantRepository.create(Object.assign(Object.assign({}, createEtudiantDto), { date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() }));
+        return this.etudiantRepository.save(newEtudiant);
     }
     findAll() {
         return this.etudiantRepository.find();

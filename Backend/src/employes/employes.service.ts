@@ -1,7 +1,5 @@
 import {
   Injectable,
-  ConflictException,
-  UnauthorizedException,
   NotFoundException,
   BadRequestException,
 } from "@nestjs/common";
@@ -20,28 +18,28 @@ export class EmployesService {
     private employesRepository: Repository<Employes>
   ) {}
 
-  async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
-    const { prenom, nom, email,mot_de_passe, matricule, role, image} = createEmployeDto;
-      // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
-      const existingEmploye = await this.employesRepository.findOneBy({ email });
-      if (existingEmploye) {
-        throw new ConflictException('Adresse e-mail déjà prise');
-      }else{
-      const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
+  async checkEmailExists(email: string): Promise<boolean> {
+    const employe = await this.employesRepository.findOneBy({ email });
+    return !!employe;
+  }
 
-    const employe = new Employes();
-    employe.prenom = createEmployeDto.prenom;
-    employe.nom = createEmployeDto.nom;
-    employe.email = createEmployeDto.email;
-    employe.mot_de_passe = hashedPassword;
-    employe.matricule = createEmployeDto.matricule;
-    employe.role = createEmployeDto.role;
-    employe.image = createEmployeDto.image;
-    employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-    employe.etat = true;
+  async create(createEmployeDto: CreateEmployeDto){
+    const mot_de_passe = createEmployeDto;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(mot_de_passe, salt);
+
+    const newEmploye = this.employesRepository.create({
+      prenom: createEmployeDto.prenom,
+      nom: createEmployeDto.nom,
+      email: createEmployeDto.email,
+      mot_de_passe: hashedPassword,
+      role: createEmployeDto.role,
+      matricule: createEmployeDto.matricule,
+      date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+    });
     
-    return await this.employesRepository.save(employe);
-    }
+    return await this.employesRepository.save(newEmploye);
+    
   }
 
   async findAll(): Promise<Employes[]> {

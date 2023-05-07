@@ -18,16 +18,18 @@ const employes_service_1 = require("./employes.service");
 const create_employe_dto_1 = require("./dto/create-employe.dto");
 const update_employe_dto_1 = require("./dto/update-employe.dto");
 const updatePassword_dto_1 = require("./dto/updatePassword.dto");
-const platform_express_1 = require("@nestjs/platform-express");
-const multer_1 = require("multer");
-const uuid_1 = require("uuid");
 let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
     }
-    async create(image, createEmployeDto) {
-        const employe = await this.employesService.create(Object.assign(Object.assign({}, createEmployeDto), { image: image.filename }));
-        return employe;
+    async create(createEmployeDto, res) {
+        const emailExists = await this.employesService.checkEmailExists(createEmployeDto.email);
+        if (emailExists) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
+        }
+        else {
+            return this.employesService.create(createEmployeDto);
+        }
     }
     findAll() {
         return this.employesService.findAll();
@@ -46,22 +48,11 @@ let EmployesController = class EmployesController {
     }
 };
 __decorate([
-    (0, common_1.Post)('post'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
-        limits: { fileSize: 1024 * 1024 * 5 },
-        storage: (0, multer_1.diskStorage)({
-            destination: './files',
-            filename: (req, file, cb) => {
-                const filename = (0, uuid_1.v4)();
-                console.log(filename);
-                cb(null, `${filename}${file.originalname}`);
-            }
-        })
-    })),
-    __param(0, (0, common_1.UploadedFile)()),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, create_employe_dto_1.CreateEmployeDto]),
+    __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto, Object]),
     __metadata("design:returntype", Promise)
 ], EmployesController.prototype, "create", null);
 __decorate([

@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
 import { Etudiant } from './entities/etudiant.entity';
@@ -17,18 +17,12 @@ export class EtudiantService {
     return !!etudiant;
   }
 
-  async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
-    const etudiant = new Etudiant();
-    etudiant.prenom = createEtudiantDto.prenom;
-    etudiant.nom = createEtudiantDto.nom;
-    etudiant.email = createEtudiantDto.email;
-    etudiant.matricule = createEtudiantDto.matricule;
-    etudiant.niveau = createEtudiantDto.niveau;
-    etudiant.photo = createEtudiantDto.photo;
-    etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-    
-    return await this.etudiantRepository.save(etudiant);
-    
+  create(createEtudiantDto: CreateEtudiantDto) {
+    const newEtudiant = this.etudiantRepository.create({
+      ...createEtudiantDto,
+      date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+    });
+    return this.etudiantRepository.save(newEtudiant);
   }
 
   findAll() {
