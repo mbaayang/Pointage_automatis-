@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 //import './liste_Employes.json'
 import "./Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
@@ -29,26 +30,37 @@ function Liste_Employes() {
   //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
   //************** */
   const getOnUser_ = (id: any) => {
-  getOnUser(id)
-  setModalShow(true)
-  console.log(id);
-  
-  }
+    getOnUser(id);
+    setModalShow(true);
+    console.log(id);
+  };
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
-  const [defaultnom, setDefaultnom] = useState<string>("aaa");
-  const [defaultprenom, setDefaultprenom] = useState<any>(null);
+  const [defaultnom, setDefaultnom] = useState<string>("");
+  const [defaultprenom, setDefaultprenom] = useState<string>("");
   const [defaultemail, setDefaultemail] = useState<string>("");
   const [defaultrole, setDefaultrole] = useState<string>("");
   const [recherche, setRecherche] = useState<string>("");
   const [introuvable, setIntrouvable] = useState<boolean>(false);
   const [errormessage, setErrormessage] = useState<string>("");
   const [etat, setEtat] = useState<boolean>(true);
-  const [etattext, setEtattext] = useState<string>("archivé");
+  const [ajour, setAjour] = useState<boolean>(true);
 
+  /*****************************************************************************************
+   ******************************SWEET ALERT*********************************************
+   ****************************************************************************************/
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Modification réussie!",
+      icon: "success",
+      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
   /* *********************************************************************************************************
    **********************************RECUPERATION PAR ID****************************
    ***************************************************************************************************** */
+
   const getOnUser = (id_employe: any) => {
     setId(id_employe);
     fetch(`http://localhost:3000/Employes/${id}`)
@@ -91,7 +103,7 @@ function Liste_Employes() {
           setIntrouvable(false);
         }
       });
-  }, [users.length, recherche, etat]);
+  }, [users.length, recherche, etat, modalShow, ajour]);
   /* *********************************************************************************************************
    **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
    ***************************************************************************************************** */
@@ -111,34 +123,33 @@ function Liste_Employes() {
     const value = e.target.value;
     setRecherche(value);
   };
-    /* *********************************************************************************************************
+  /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES Archiver / dearchivé****************************
    ***************************************************************************************************** */
-  const archiver = async (etat:any, x:any) =>{
+  const archiver = async (etat: any, x: any) => {
     const y = x;
     const headersList = {
-      "Accept": "*/*",
+      Accept: "*/*",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json"
-     }
-     
-     const bodyContent = JSON.stringify({ 
-     "etat": etat
-     });
-     
-     const response = await fetch(`http://localhost:3000/employes/${y}`, { 
-       method: "PATCH",
-       body: bodyContent,
-       headers: headersList
-     });
-     
-     const data = await response.text();
-     console.log(y);
-     setEtat(true)
-  
-     
-  }
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    };
+
+    const bodyContent = JSON.stringify({
+      etat: etat,
+    });
+
+    const response = await fetch(`http://localhost:3000/employes/${y}`, {
+      method: "PATCH",
+      body: bodyContent,
+      headers: headersList,
+    });
+
+    const data = await response.text();
+    console.log(y);
+    setEtat(true);
+    setModalShow(false);
+  };
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
    ***************************************************************************************************** */
@@ -155,6 +166,7 @@ function Liste_Employes() {
       prenom1: data.prenom,
       nom1: data.nom,
       email1: data.email,
+      role: data.role,
     });
 
     const response = await fetch(`http://localhost:3000/employes/${id}`, {
@@ -170,6 +182,9 @@ function Liste_Employes() {
       setErrormessage(donnee.message);
     } else {
       reset();
+      setEtat(true);
+      showSuccessAlert();
+      ajour ? setAjour(false) : setAjour(true);
     }
   };
 
@@ -299,7 +314,7 @@ function Liste_Employes() {
                   <span className={` ${!etat ? "" : "cacher"}`}>
                     <svg
                       onClick={() => {
-                        archiver(true, user.id_employe)
+                        archiver(true, user.id_employe);
                       }}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +368,6 @@ function Liste_Employes() {
                     </svg>
                   </span>
                   <span
-               
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Archiver"
@@ -443,10 +457,9 @@ function Liste_Employes() {
               </Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={defaultprenom}
                 placeholder="Entrer votre prénom"
                 {...register("prenom", {
-                  required: true,
+                  required: false,
                 })}
               />
               {errors.prenom?.type === "required" && (
@@ -461,7 +474,7 @@ function Liste_Employes() {
                 type="text"
                 placeholder="Entrer votre nom"
                 {...register("nom", {
-                  required: true,
+                  required: false,
                 })}
               />
               {errors.nom?.type === "required" && (
@@ -476,7 +489,7 @@ function Liste_Employes() {
                 type="text"
                 placeholder="Entrer votre mail"
                 {...register("email", {
-                  required: true,
+                  required: false,
                   pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
                 })}
               />
@@ -494,7 +507,7 @@ function Liste_Employes() {
               <Form.Select
                 placeholder="Choisir un rôle"
                 {...register("role", {
-                  required: true,
+                  required: false,
                 })}
               >
                 <option className=" text-black"></option>
@@ -527,37 +540,37 @@ function Liste_Employes() {
     </div>
   );
 
-
-function MyVerticallyCenteredModal(props: any) {
-  return (
-    <Modal
-      {...props}
-      size="sm"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Body className="d-flex flex-column justify-content-center">
-        <div className="d-flex justify-content-center mb-3">
-          <h1>Voulez- vous vraiment archiver ?</h1>
-        </div>
-        <div className="d-flex justify-content-center gap-5">
-          <button
-            className="bg-danger p-2 rounded-3 text-light"
-            onClick={props.onHide}
-          >
-            NON
-          </button>
-          <button
-            className={`bg-success p-2 rounded-3 text-light `}
-            
-             onClick={()=>{ archiver(false, id)}} 
-          >
-            OUI
-          </button>
-        </div>
-      </Modal.Body>
-    </Modal>
-  );
-}
+  function MyVerticallyCenteredModal(props: any) {
+    return (
+      <Modal
+        {...props}
+        size="sm"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body className="d-flex flex-column justify-content-center">
+          <div className="d-flex justify-content-center mb-3">
+            <h1>Voulez- vous vraiment archiver ?</h1>
+          </div>
+          <div className="d-flex justify-content-center gap-5">
+            <button
+              className="bg-danger p-2 rounded-3 text-light"
+              onClick={props.onHide}
+            >
+              NON
+            </button>
+            <button
+              className={`bg-success p-2 rounded-3 text-light `}
+              onClick={() => {
+                archiver(false, id);
+              }}
+            >
+              OUI
+            </button>
+          </div>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 }
 export default Liste_Employes;
