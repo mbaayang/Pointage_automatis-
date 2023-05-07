@@ -61,14 +61,15 @@ function Liste_Employes() {
    **********************************RECUPERATION PAR ID****************************
    ***************************************************************************************************** */
 
-  const getOnUser = (id_employe: any) => {
+  const getOnUser =  (id_employe: any) => {
     setId(id_employe);
-    fetch(`http://localhost:3000/Employes/${id}`)
+    fetch(`http://localhost:3000/Employes/${id_employe}`)
+ 
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.prenom1.toString());
+        console.log(res.prenom1);
         setDefaultnom(res.nom1);
-        setDefaultprenom(res.prenom1.toString());
+        setDefaultprenom(res.prenom1);
         setDefaultemail(res.email1);
         setDefaultrole(res.role);
 
@@ -90,9 +91,16 @@ function Liste_Employes() {
               const value = data.email1
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
-              return value && data.etat == etat;
+              return (
+                value &&
+                data.etat == etat &&
+                data.id_employe != localStorage.getItem("id")
+              );
             } else {
-              return data.etat == etat;
+              return (
+                data.etat == etat &&
+                data.id_employe != localStorage.getItem("id")
+              );
             }
           })
         );
@@ -145,8 +153,8 @@ function Liste_Employes() {
       headers: headersList,
     });
 
-    const data = await response.text();
-    console.log(y);
+    const data = await response.json();
+    // console.log(data);
     setEtat(true);
     setModalShow(false);
   };
@@ -176,11 +184,11 @@ function Liste_Employes() {
     });
 
     const donnee = await response.json();
-    console.log("---------");
-    console.log();
+
     if (donnee.message) {
       setErrormessage(donnee.message);
     } else {
+      setErrormessage("");
       reset();
       setEtat(true);
       showSuccessAlert();
@@ -457,9 +465,11 @@ function Liste_Employes() {
               </Form.Label>
               <Form.Control
                 type="text"
+                value={defaultprenom}
                 placeholder="Entrer votre prénom"
                 {...register("prenom", {
                   required: false,
+            
                 })}
               />
               {errors.prenom?.type === "required" && (
@@ -471,6 +481,7 @@ function Liste_Employes() {
                 Nom<span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
+                value={defaultnom}
                 type="text"
                 placeholder="Entrer votre nom"
                 {...register("nom", {
@@ -486,6 +497,7 @@ function Liste_Employes() {
                 Email<span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
+                defaultValue={defaultemail}
                 type="text"
                 placeholder="Entrer votre mail"
                 {...register("email", {
@@ -505,6 +517,7 @@ function Liste_Employes() {
                 Rôle<span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
+                defaultValue={defaultrole}
                 placeholder="Choisir un rôle"
                 {...register("role", {
                   required: false,
