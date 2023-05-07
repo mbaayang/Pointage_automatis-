@@ -12,6 +12,7 @@ import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 import { Employes } from "./entities/employe.entity";
 import * as bcrypt from "bcryptjs";
+import { log } from "console";
 
 @Injectable()
 export class EmployesService {
@@ -51,8 +52,17 @@ export class EmployesService {
     return await this.employesRepository.findOneById(id);
   }
 
-  update(id: number, updateEmployeDto: UpdateEmployeDto) {
+  async update(id: number, updateEmployeDto: UpdateEmployeDto) {
+ 
+    const { email1 } = updateEmployeDto;
+    const existe = await  this.employesRepository.findOne({ where: { email1 } });
+    if (existe) {
+      console.log(`${email1} ' '${existe}`);
+      throw new ConflictException('Adresse e-mail déjà prise');
+    }
+    else{
     return this.employesRepository.update(id, updateEmployeDto);
+    }
   }
 
   async remove(id: number) {
