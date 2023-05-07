@@ -11,13 +11,13 @@ export class Employes {
   @Column()
   nom1: string;
 
-  @Column({unique: true})
+  @Column()
   email1: string;
 
   @Column()
   mot_de_passe: string;
   
-  @Column({unique: true})
+  @Column()
   matricule1: string;
 
   @Column()

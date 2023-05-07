@@ -8,21 +8,16 @@ import { ConnexionModule } from "./connexion/connexion.module";
 import { Employes } from "./employes/entities/employe.entity";
 import { MulterModule } from '@nestjs/platform-express';
 import { EtudiantModule } from './etudiant/etudiant.module';
-import { Etudiant } from './typeorm/entities/Etudiant';
+import { Etudiant } from './etudiant/entities/etudiant.entity';
 import { PresenceEmployesModule } from './presence_employes/presence_employes.module';
 import { PresenceEtudiantsModule } from './presence_etudiants/presence_etudiants.module';
 import { PresenceEmploye } from "./presence_employes/entities/presence_employe.entity";
 import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudiant.entity";
 
 
+
 @Module({
   imports: [
-    MulterModule.register({
-      dest: './files',
-      limits: {
-        fileSize: 1024 * 1024 * 5
-      }
-    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
@@ -30,7 +25,7 @@ import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudian
       username: "root",
       password: "",
       database: "Pointage",
-      entities: [Employes, Etudiant],
+      entities: [Employes, Etudiant, PresenceEmploye, PresenceEtudiant],
       /* autoLoadEntities: true, */
       synchronize: true,
     }),

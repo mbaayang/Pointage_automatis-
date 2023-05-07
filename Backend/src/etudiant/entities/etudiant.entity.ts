@@ -22,10 +22,10 @@ export class Etudiant {
   @Column()
   nom: string;
 
-  @Column({unique: true})
+  @Column()
   email: string;
 
-  @Column({unique: true})
+  @Column()
   matricule: string;
 
   @Column()

@@ -26,11 +26,11 @@ __decorate([
     __metadata("design:type", String)
 ], Etudiant.prototype, "nom", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Etudiant.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Etudiant.prototype, "matricule", void 0);
 __decorate([
