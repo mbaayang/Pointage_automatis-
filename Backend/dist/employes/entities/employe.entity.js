@@ -16,7 +16,7 @@ let Employes = class Employes {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Employes.prototype, "id_employe", void 0);
+], Employes.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -42,7 +42,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Employes.prototype, "image", void 0);
 __decorate([

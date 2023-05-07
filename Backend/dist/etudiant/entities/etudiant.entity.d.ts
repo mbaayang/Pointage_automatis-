@@ -1,4 +1,5 @@
 export declare class Etudiant {
+    id: number;
     prenom: string;
     nom: string;
     email: string;
@@ -6,4 +7,5 @@ export declare class Etudiant {
     niveau: string;
     photo: string;
     date_inscription: string;
+    etat: boolean;
 }

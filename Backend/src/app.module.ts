@@ -9,6 +9,10 @@ import { Employes } from "./employes/entities/employe.entity";
 import { MulterModule } from '@nestjs/platform-express';
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './typeorm/entities/Etudiant';
+import { PresenceEmployesModule } from './presence_employes/presence_employes.module';
+import { PresenceEtudiantsModule } from './presence_etudiants/presence_etudiants.module';
+import { PresenceEmploye } from "./presence_employes/entities/presence_employe.entity";
+import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudiant.entity";
 
 
 @Module({
@@ -27,16 +31,17 @@ import { Etudiant } from './typeorm/entities/Etudiant';
       password: "",
       database: "Pointage",
       entities: [Employes, Etudiant],
-      autoLoadEntities: true,
-      synchronize: false,
+      /* autoLoadEntities: true, */
+      synchronize: true,
     }),
+    /* TypeOrmModule.forFeature([Employes, PresenceEmploye]),
+    TypeOrmModule.forFeature([Etudiant, PresenceEtudiant]), */
     EmployesModule,
     EtudiantModule,
     ConnexionModule,
-    EtudiantModule,
+    PresenceEmployesModule,
+    PresenceEtudiantsModule,
   ],
-  
-
   controllers: [AppController],
   providers: [AppService],
 })

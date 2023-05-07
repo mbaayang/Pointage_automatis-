@@ -14,13 +14,22 @@ const employes_module_1 = require("./employes/employes.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const connexion_module_1 = require("./connexion/connexion.module");
 const employe_entity_1 = require("./employes/entities/employe.entity");
+const platform_express_1 = require("@nestjs/platform-express");
 const etudiant_module_1 = require("./etudiant/etudiant.module");
 const Etudiant_1 = require("./typeorm/entities/Etudiant");
+const presence_employes_module_1 = require("./presence_employes/presence_employes.module");
+const presence_etudiants_module_1 = require("./presence_etudiants/presence_etudiants.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            platform_express_1.MulterModule.register({
+                dest: './files',
+                limits: {
+                    fileSize: 1024 * 1024 * 5
+                }
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 type: "mysql",
                 host: "localhost",
@@ -29,11 +38,13 @@ AppModule = __decorate([
                 password: "",
                 database: "Pointage",
                 entities: [employe_entity_1.Employes, Etudiant_1.Etudiant],
-                synchronize: false,
+                synchronize: true,
             }),
             employes_module_1.EmployesModule,
             etudiant_module_1.EtudiantModule,
             connexion_module_1.ConnexionModule,
+            presence_employes_module_1.PresenceEmployesModule,
+            presence_etudiants_module_1.PresenceEtudiantsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

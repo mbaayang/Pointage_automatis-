@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { PresenceEmploye } from "src/presence_employes/entities/presence_employe.entity";
 @Entity()
 export class Employes {
   @PrimaryGeneratedColumn()
-  id_employe: number;
+  id: number;
 
   @Column()
   prenom1: string;
@@ -22,7 +23,7 @@ export class Employes {
   @Column()
   role: string;
 
-  @Column()
+  @Column({ type: 'text'})
   image: string;
 
   @Column()
@@ -30,4 +31,7 @@ export class Employes {
 
   @Column({ default: true })
   etat: boolean;
+
+  /* @OneToMany(() => PresenceEmploye, (presence) => presence.employe)
+  employes: Employes[]; */
 }
