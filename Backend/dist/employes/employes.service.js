@@ -22,26 +22,24 @@ let EmployesService = class EmployesService {
     constructor(employesRepository) {
         this.employesRepository = employesRepository;
     }
+    async checkEmailExists(email) {
+        const employe = await this.employesRepository.findOneBy({ email });
+        return !!employe;
+    }
     async create(createEmployeDto) {
-        const { prenom, nom, email, mot_de_passe, matricule, role, image } = createEmployeDto;
-        const existingEmploye = await this.employesRepository.findOneBy({ email });
-        if (existingEmploye) {
-            throw new common_1.ConflictException('Adresse e-mail déjà prise');
-        }
-        else {
-            const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-            const employe = new employe_entity_1.Employes();
-            employe.prenom = createEmployeDto.prenom;
-            employe.nom = createEmployeDto.nom;
-            employe.email = createEmployeDto.email;
-            employe.mot_de_passe = hashedPassword;
-            employe.matricule = createEmployeDto.matricule;
-            employe.role = createEmployeDto.role;
-            employe.image = createEmployeDto.image;
-            employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-            employe.etat = true;
-            return await this.employesRepository.save(employe);
-        }
+        const mot_de_passe = createEmployeDto;
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(mot_de_passe, salt);
+        const newEmploye = this.employesRepository.create({
+            prenom: createEmployeDto.prenom,
+            nom: createEmployeDto.nom,
+            email: createEmployeDto.email,
+            mot_de_passe: hashedPassword,
+            role: createEmployeDto.role,
+            matricule: createEmployeDto.matricule,
+            date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+        });
+        return await this.employesRepository.save(newEmploye);
     }
     async findAll() {
         return await this.employesRepository.find({});

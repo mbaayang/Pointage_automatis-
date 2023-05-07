@@ -11,20 +11,19 @@ export class Employes {
   @Column()
   nom: string;
 
-  @Column({unique: true})
+  @Column()
   email: string;
 
-  @Column()
+  @Column({type:'text'})
   mot_de_passe: string;
-  
 
-  @Column({unique: true})
+  @Column()
   matricule: string;
 
   @Column()
   role: string;
 
-  @Column()
+  @Column({type: 'longtext'})
   image: string;
 
   @Column()

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
@@ -10,18 +10,10 @@ import Swal from "sweetalert2";
 function AjoutEmploye() {
 
     const [eye, seteye] = useState<boolean>(true);
-    const [password, setpassword] = useState<string>("password");
     const [eye1, seteye1] = useState<boolean>(true);
+    const [password, setpassword] = useState<string>("password");
     const [passwordConfirm, setPasswordConfirm] = useState<string>("password");
-    const [prenom, setPrenom] = useState<string>("");
-    const [nom, setNom] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [mdp, setMdp] = useState<string>("");
-    const [matricule, setMatricule] = useState<string>("");
-    const [role, setRole] = useState<string>("");
-    const [errorBack, setErrorBack] = useState("");
-    const [etat, setEtat] = useState<boolean>(false);
-    const [file, setFile] = useState<any>();
+    const [errorBack, setErrorBack] = useState<any>("");
 
     const Eye = () => {
         if (password == "password") {
@@ -43,10 +35,6 @@ function AjoutEmploye() {
         }
     };
 
-    const setimgfile = (e: any) => {
-        setFile(e.target.files[0])
-    }
-
     function showSuccessAlert() {
         Swal.fire({
             title: "Inscription réussie!",
@@ -62,25 +50,38 @@ function AjoutEmploye() {
         handleSubmit,
         formState: { errors },
     } = useForm({ mode: "onChange" });
+    const mot_de_passe = useRef({});
+    mot_de_passe.current = watch("mot_de_passe", "");
 
-    const onSubmit = () => {
-        const formData = new FormData();
-        formData.append("prenom", prenom);
-        formData.append("nom", nom);
-        formData.append("email", email);
-        formData.append("matricule", matricule);
-        formData.append("role", role);
-        formData.append("mot_de_passe", mdp);
-        formData.append("image", file);
-        try {
-            const response = axios.post("http://localhost:3000/employes/post", formData);
-            console.log(response);
-            showSuccessAlert();
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);
-        } catch (error) {
-            console.log(error);
+    const onSubmit = async (data: any) => {
+        console.log(data);
+        
+        const lecteur = new FileReader();
+        lecteur.readAsDataURL(data.image[0]);
+        let base64 = "";
+
+        lecteur.onload = async function () {
+            base64 = lecteur.result.split(',')[1];
+
+            try {
+                const response = await axios.post("http://localhost:3000/employes", {
+                    prenom: data.prenom,
+                    nom: data.nom,
+                    email: data.email,
+                    matricule: data.matricule,
+                    role: data.role,
+                    mot_de_passe: data.mot_de_passe,
+                    image: base64
+                });
+                console.log(response);
+                showSuccessAlert();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } catch (error) {
+                console.log(error.response.data.message);
+                setErrorBack(error.response.data.message);
+            }
         }
     };
 
@@ -90,24 +91,21 @@ function AjoutEmploye() {
                 <div className="d-flex justify-content-between p-3">
                     <h1 className="h4 text-color">Inscrire un employé</h1>
                 </div>
-                <div
-                    className={`alert alert-danger text-center ${!etat ? "cacher" : ""}`}>
-                    {errorBack}
-                </div>
+                {errorBack && (
+                    <div className="alert alert-danger text-center mr-3 ml-3 mb-5" role="alert">
+                    <strong> Erreur! </strong> {errorBack}
+                    </div>
+                )}
                 <div className="-mt-8">
                     <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="m-3 space-y-3">
                         <Form.Group>
                             <Form.Label>Prénom</Form.Label>
                             <Form.Control
                                 id="prenom"
-                                value={prenom}
                                 type="text"
                                 placeholder="issa"
                                 autoFocus
-                                {...register("prenom", {
-                                    required: true,
-                                })}
-                                onChange={(e) => setPrenom(e.target.value)}
+                                {...register("prenom", {required: true})}
                             />
                             {errors.prenom?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -117,13 +115,9 @@ function AjoutEmploye() {
                             <Form.Label>Nom</Form.Label>
                             <Form.Control
                                 id="nom"
-                                value={nom}
                                 type="text"
                                 placeholder="ndiaye"
-                                {...register("nom", {
-                                    required: true,
-                                })}
-                                onChange={(e) => setNom(e.target.value)}
+                                {...register("nom", {required: true})}
                             />
                             {errors.nom?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -133,15 +127,10 @@ function AjoutEmploye() {
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 id="email"
-                                value={email}
                                 type="email"
                                 placeholder="astouissa@gmail.com"
-                                {...register("email", {
-                                    required: true,
-                                    pattern:
-                                        /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                                })}
-                                onChange={(e) => setEmail(e.target.value)}
+                                {...register("email", {required: true,
+                                    pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,})}
                             />
                             <div>
                                 {errors.email?.type === "required" && (
@@ -156,13 +145,9 @@ function AjoutEmploye() {
                             <Form.Label>Matricule</Form.Label>
                             <Form.Control
                                 id="matricule"
-                                value={matricule}
                                 type="text"
                                 placeholder="9208383576278772"
-                                {...register("matricule", {
-                                    required: true,
-                                })}
-                                onChange={(e) => setMatricule(e.target.value)}
+                                {...register("matricule", { required: true,})}
                             />
                             {errors.matricule?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -174,12 +159,9 @@ function AjoutEmploye() {
                             </Form.Label>
                             <Form.Select
                                 id="role"
-                                value={role}
                                 placeholder="Choisir un rôle"
-                                {...register("role", {
-                                    required: true,
-                                })}
-                                onChange={(e) => setRole(e.target.value)}>
+                                {...register("role", { required: true,})}
+                            >
                                 <option placeholder="Choisir un rôle"></option>
                                 <option value="administrateur" className=" text-black">Admin</option>
                                 <option value="surveillant" className=" text-black"> Surveillant</option>
@@ -196,19 +178,17 @@ function AjoutEmploye() {
                                 <InputGroup>
                                     <Form.Control style={{ borderRight: 'none' }}
                                         id="mot_de_passe"
-                                        value={mdp}
                                         type={password}
                                         placeholder="*****"
-                                        {...register("password", { required: true, minLength: 6 })}
-                                        onChange={(e) => setMdp(e.target.value)} />
+                                        {...register("mot_de_passe", { required: true, minLength: 6 })} />
                                     <InputGroup.Text className="bg-white">
-                                        <i onClick={() => { Eye(); }} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                                        <i onClick={() => { Eye(); }} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
                                     </InputGroup.Text>
                                 </InputGroup>
-                                {errors.password?.type === "minLength" && (
+                                {errors.mot_de_passe?.type === "minLength" && (
                                     <p className="text-red-600">Minimum 6 caractère</p>
                                 )}
-                                {errors.password?.type === "required" && (
+                                {errors.mot_de_passe?.type === "required" && (
                                     <p className="text-red-600">Ce champ est obligatoire</p>
                                 )}
                             </Form.Group>
@@ -218,25 +198,27 @@ function AjoutEmploye() {
                                     <Form.Control style={{ borderRight: 'none' }}
                                         type={passwordConfirm}
                                         placeholder="*****"
-                                       /*  {...register("passwordConfirm", { required: true, minLength: 6 })} */ />
+                                        {...register("confirmPassword", { required: {
+                                            value: true,
+                                            message: "Ce champ est obligatoire",
+                                        },
+                                        validate: (value) =>
+                                        mot_de_passe.current === value || "Mots de passe non correspondant",
+                                        })} />
                                     <InputGroup.Text className="bg-white">
-                                        <i onClick={() => { Eye1(); }} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                                        <i onClick={() => { Eye1(); }} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
                                     </InputGroup.Text>
                                 </InputGroup>
-                                {/* {errors.passwordConfirm?.type === "minLength" && (
-                                    <p className="text-red-600">Minimum 6 caractère</p>
+                                {errors.confirmPassword && (
+                                    <p className="text-red-600">{errors.confirmPassword.message as string}</p>
                                 )}
-                                {errors.passwordConfirm?.type === "required" && (
-                                    <p className="text-red-600">Ce champ est obligatoire</p>
-                                )} */}
                             </Form.Group>
                         </Row>
                         <Form.Group>
                             <Form.Label>photo</Form.Label>
                             <Form.Control type="file" placeholder="" accept="image/*" id="image"
-                                {...register("file", { required: true, })}
-                                onChange={setimgfile} />
-                            {errors.file?.type === "required" && (
+                                {...register("image", { required: true, })}/>
+                            {errors.image?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
                             )}
                         </Form.Group>

@@ -1,35 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
-import {  UpdatePasswordDto } from './dto/updatePassword.dto'
-import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
-import { v4 as uuidv4 } from 'uuid';
-
+import {  UpdatePasswordDto } from './dto/updatePassword.dto';
 
 
 @Controller('employes')
 export class EmployesController {
   constructor(private readonly employesService: EmployesService) {}
 
-  @Post('post')
-  @UseInterceptors(FileInterceptor('image',{
-    limits: { fileSize: 1024 * 1024 * 5 },
-    storage: diskStorage({
-      destination: './files',
-      filename:(req, file, cb) => {
-        const filename: string = uuidv4(); console.log(filename)
-        cb(null, `${filename}${file.originalname}`);
-      }
-    })
-  }))
-  async create(@UploadedFile() image: Express.Multer.File, @Body() createEmployeDto: CreateEmployeDto) {
-    const employe = await this.employesService.create({
-      ...createEmployeDto,
-      image: image.filename
-    });
-    return employe;
+  @Post()
+  async create(@Body() createEmployeDto: CreateEmployeDto, @Res() res) {
+    // Vérifier si le mail existe déjà
+    const emailExists = await this.employesService.checkEmailExists(createEmployeDto.email);
+    if (emailExists) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
+    } else{
+    return this.employesService.create(createEmployeDto);
+    }
   }
 
   @Get()
