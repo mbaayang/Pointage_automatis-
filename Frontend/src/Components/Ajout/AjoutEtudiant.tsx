@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { Button } from "react-bootstrap";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Swal from "sweetalert2";
 
 function AjoutEtudiant() {
@@ -13,6 +13,8 @@ function AjoutEtudiant() {
   const [matricule, setMatricule ] = useState("");
   const [niveau, setNiveau ] = useState("");
   const [photo, setPhoto] = useState<any>();
+
+  const [error, setError] = useState<any>("");
 
   const handleImageChange = (event: any) => {
     setPhoto(event.target.files[0]);
@@ -33,7 +35,7 @@ function AjoutEtudiant() {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const formData = new FormData();
     formData.append("prenom", prenom);
     formData.append("nom", nom);
@@ -42,15 +44,44 @@ function AjoutEtudiant() {
     formData.append("niveau", niveau);
     formData.append("photo", photo);
     try {
-      const response = axios.post("http://localhost:3000/etudiant", formData);
+      const response = await axios.post("http://localhost:3000/etudiant", formData);
       console.log(response);
-      showSuccessAlert();
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        showSuccessAlert();
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      setTimeout(() => {
+        setError(error.response.data.message);
+        if (error.response.data.message == "File too large") {
+            setError( "La taille de l'image doit être inférieure à 5 Mo");
+        }
+      }, 3000);
     }
+
+    // let headersList = {
+    //   "Accept": "*/*",
+    //   'Content-Type': 'multipart/form-data',
+    //   'Authorization': 'Bearer ' + localStorage.getItem('token')
+    //  }
+     
+     /* let bodyContent = new FormData();
+     bodyContent.append("prenom", "prenom");
+     bodyContent.append("nom", "nom");
+     bodyContent.append("email", "email");
+     bodyContent.append("matricule", "matricule");
+     bodyContent.append("niveau", "niveau");
+     bodyContent.append("photo", "photo");
+     
+     let response = await fetch("http://localhost:3000/etudiant", { 
+       method: "POST",
+       body: bodyContent,
+       headers: headersList
+     });
+     
+     let data = await response.text();
+     console.log(data); */
   };
   return (
     <>
@@ -58,6 +89,11 @@ function AjoutEtudiant() {
           <div className="d-flex justify-content-between p-3">
             <h1 className="h4 text-color">Inscire un étudiant</h1>
           </div>
+          {error && (
+            <div className="alert alert-danger text-center mr-3 ml-3 mb-5" role="alert">
+              <strong> Erreur! </strong>{error}
+            </div>
+          )}
           <div className="-mt-8">
             <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="m-3 space-y-3">
               <Form.Group>
@@ -134,7 +170,8 @@ function AjoutEtudiant() {
                   value={niveau}
                   {...register("niveau", { required: true })}
                   id="niveau"
-                  onChange={(event) => setNiveau(event.target.value)}>
+                  onChange={(event) => setNiveau(event.target.value)}
+                  >
                   <option value=""></option>
                   <option value="1 ère année">1 ère année</option>
                   <option value="2 ème année">2 ème année</option>

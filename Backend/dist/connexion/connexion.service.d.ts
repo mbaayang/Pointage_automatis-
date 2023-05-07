@@ -10,8 +10,8 @@ export declare class AuthService {
         access_token: string;
         id_employe: number;
         role: string;
-        prenom1: string;
-        nom1: string;
-        email1: string;
+        prenom: string;
+        nom: string;
+        email: string;
     }>;
 }

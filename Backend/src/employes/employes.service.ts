@@ -26,7 +26,7 @@ export class EmployesService {
       const existingEmploye = await this.employesRepository.findOneBy({ email });
       if (existingEmploye) {
         throw new ConflictException('Adresse e-mail déjà prise');
-      }
+      }else{
       const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
 
     const employe = new Employes();
@@ -41,6 +41,7 @@ export class EmployesService {
     employe.etat = true;
     
     return await this.employesRepository.save(employe);
+    }
   }
 
   async findAll(): Promise<Employes[]> {

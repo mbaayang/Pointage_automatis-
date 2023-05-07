@@ -54,8 +54,8 @@ export class AuthService {
 
   async login(
     user: Employes
-  ): Promise<{ access_token: string; id_employe: number; role: string; prenom1: string; nom1: string; email1: string }> {
-    const payload = { email1: user.email, sub: user.id_employe };
+  ): Promise<{ access_token: string; id_employe: number; role: string; prenom: string; nom: string; email: string }> {
+    const payload = { email: user.email, sub: user.id_employe };
     const id = user.id_employe;
     const role = user.role;
     const prenom = user.prenom;
@@ -65,9 +65,9 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
       id_employe: id,
       role: role,
-      prenom1: prenom,
-      nom1: nom,
-      email1: email,
+      prenom: prenom,
+      nom: nom,
+      email: email,
     };
   }
 }

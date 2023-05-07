@@ -66,7 +66,9 @@ function Header() {
         if (res.message == "reussi") {
           showSuccessAlert();
           reset();
-      
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       });
   };
@@ -233,7 +235,7 @@ function Header() {
             >
               {error}
             </div>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Mot de passe actuel</Form.Label>
               <Form.Control
                 type="password"
@@ -254,7 +256,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Nouveau mot de passe</Form.Label>
               <Form.Control
                 type="password"
@@ -275,7 +277,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">
                 Confirmation du mot de passe
               </Form.Label>
