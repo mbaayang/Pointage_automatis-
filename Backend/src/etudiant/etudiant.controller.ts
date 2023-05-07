@@ -10,9 +10,9 @@ import { v4 as uuidv4 } from 'uuid';
 export class EtudiantController {
   constructor(private readonly etudiantService: EtudiantService) {}
 
-  @Post()
+   @Post()
   @UseInterceptors(FileInterceptor('photo',{
-    limits: { fileSize: 1024 * 1024 * 5 },
+    limits: { fileSize: 1024 * 1024 * 5, },
     storage: diskStorage({
       destination: './files',
       filename:(req, file, cb) => {
@@ -22,16 +22,48 @@ export class EtudiantController {
     })
   }))
   async create(@UploadedFile() photo: Express.Multer.File, @Body() createEtudiantDto: CreateEtudiantDto, @Res() res) {
-    try{
+    // Vérifier si le mail existe déjà
+    const emailExists = await this.etudiantService.checkEmailExists(createEtudiantDto.email);
+    if (emailExists) {
+      return res.status(HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
+    } 
+    else {
     const etudiant = await this.etudiantService.create({
       ...createEtudiantDto,
       photo: photo.filename
     });
     return res.status(HttpStatus.OK).json({ message: 'Etudiant enregistré avec succès', etudiant });
-  } catch (error) {
-    throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
+
+  /* @Post()
+async create(@Body() createEtudiantDto: CreateEtudiantDto, @UploadedFile() photo, @Res() res) {
+  const etudiantExists = await this.etudiantService.checkEmailExists(createEtudiantDto.email);
+  if (etudiantExists) {
+    throw new HttpException('Cet e-mail est déjà enregistré', HttpStatus.CONFLICT);
   }
+  else {
+    return this.fileInterceptor(createEtudiantDto,photo, res);
+  }
+}
+
+@UseInterceptors(FileInterceptor('photo',{
+  limits: { fileSize: 1024 * 1024 * 5 },
+  storage: diskStorage({
+    destination: './files',
+    filename:(req, file, cb) => {
+      const filename: string = uuidv4(); console.log(filename)
+      cb(null, `${filename}${file.originalname}`);
+    }
+  })
+}))
+async fileInterceptor(@Body() createEtudiantDto: CreateEtudiantDto,@UploadedFile() photo: Express.Multer.File,@Res() res) {
+  const etudiant = await this.etudiantService.create({
+    ...createEtudiantDto,
+    photo: photo.filename
+  });
+  return res.status(HttpStatus.OK).json({ message: 'Etudiant enregistré avec succès', etudiant });
+} */
 
   @Get()
   findAll() {
