@@ -25,6 +25,15 @@ function Liste_Employes() {
     setShow(true);
     getOnUser(id);
   };
+  //************** */
+  //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
+  //************** */
+  const getOnUser_ = (id: any) => {
+  getOnUser(id)
+  setModalShow(true)
+  console.log(id);
+  
+  }
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
   const [defaultnom, setDefaultnom] = useState<string>("aaa");
@@ -34,8 +43,12 @@ function Liste_Employes() {
   const [recherche, setRecherche] = useState<string>("");
   const [introuvable, setIntrouvable] = useState<boolean>(false);
   const [errormessage, setErrormessage] = useState<string>("");
+  const [etat, setEtat] = useState<boolean>(true);
+  const [etattext, setEtattext] = useState<string>("archivé");
 
-  //recuperer un seul utilisateur
+  /* *********************************************************************************************************
+   **********************************RECUPERATION PAR ID****************************
+   ***************************************************************************************************** */
   const getOnUser = (id_employe: any) => {
     setId(id_employe);
     fetch(`http://localhost:3000/Employes/${id}`)
@@ -58,16 +71,16 @@ function Liste_Employes() {
         console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
-          //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre 
+          //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
           res.filter((data: any) => {
             //je vérifie si le recherche est vide sinon
             if (recherche != "") {
               const value = data.email1
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
-              return value && data.etat == true;
+              return value && data.etat == etat;
             } else {
-              return data.etat == true;
+              return data.etat == etat;
             }
           })
         );
@@ -78,18 +91,56 @@ function Liste_Employes() {
           setIntrouvable(false);
         }
       });
-  }, [users.length, recherche]);
+  }, [users.length, recherche, etat]);
+  /* *********************************************************************************************************
+   **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
+   ***************************************************************************************************** */
+  const optionActive = () => {
+    setEtat(true);
+  };
+  const optionArchive = () => {
+    setEtat(false);
+  };
+
   /* *********************************************************************************************************
    *****************************************************RECHERCHE*******************************************
    ***************************************************************************************************** */
 
-  /* Fonction de recherche par date */
+  /* Fonction de recherche par email */
   const search = (e: any) => {
     const value = e.target.value;
     setRecherche(value);
   };
+    /* *********************************************************************************************************
+   **********************************ENVOI DES DONNEES Archiver / dearchivé****************************
+   ***************************************************************************************************** */
+  const archiver = async (etat:any, x:any) =>{
+    const y = x;
+    const headersList = {
+      "Accept": "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json"
+     }
+     
+     const bodyContent = JSON.stringify({ 
+     "etat": etat
+     });
+     
+     const response = await fetch(`http://localhost:3000/employes/${y}`, { 
+       method: "PATCH",
+       body: bodyContent,
+       headers: headersList
+     });
+     
+     const data = await response.text();
+     console.log(y);
+     setEtat(true)
+  
+     
+  }
   /* *********************************************************************************************************
-   *****************************************************ENVOI DES DONNEES DU FORMULAIRE**********************
+   **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
    ***************************************************************************************************** */
   const onSubmit = async (data: any) => {
     console.log(data);
@@ -144,8 +195,31 @@ function Liste_Employes() {
             d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
           />
         </svg>
-        <p>Active</p>
-        <p>Archive</p> 
+        {/* NAVIGATION ACTIVE ET ARCHIVE */}
+        <a
+          href="#"
+          className={`${etat ? "underline" : ""}`}
+          onClick={() => {
+            optionActive();
+          }}
+          data-toggle="tooltip"
+          data-placement="top"
+          title="liste des actives"
+        >
+          Active
+        </a>
+        <a
+          href="#"
+          className={`${!etat ? "underline" : ""}`}
+          onClick={() => {
+            optionArchive();
+          }}
+          data-toggle="tooltip"
+          data-placement="top"
+          title="liste des archives"
+        >
+          Archive
+        </a>
       </div>
       <div className="flex justify-end">
         <div
@@ -210,9 +284,49 @@ function Liste_Employes() {
                   <span>{user.email1}</span>
                 </div>
               </td>
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span className="border-2 border-gray-300 px-1 py-1">
+              <td
+                className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
+              >
+                {/**********************************************************
+                 ********************** Pour déarchivé ***********************
+                 **********************************************************/}
+                <div
+                  className="mb-2"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="déarchiver"
+                >
+                  <span className={` ${!etat ? "" : "cacher"}`}>
+                    <svg
+                      onClick={() => {
+                        archiver(true, user.id_employe)
+                      }}
+                      style={{ cursor: "pointer" }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="#BD2121"
+                      className="bi bi-archive"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                    </svg>
+                  </span>
+                </div>
+                {/**********************************************************
+                 ********************** Pour modifier et archivé ************
+                 **********************************************************/}
+                <div
+                  className={`flex justify-center items-center gap-2 ${
+                    etat ? "" : "cacher"
+                  }`}
+                >
+                  <span
+                    className={`border-2 border-gray-300 px-1 py-1 `}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Modifier"
+                  >
                     <svg
                       onClick={() => {
                         handleShow(user.id_employe);
@@ -238,9 +352,15 @@ function Liste_Employes() {
                       />
                     </svg>
                   </span>
-                  <span className="border-2 border-gray-300 px-1 py-1">
+                  <span
+               
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Archiver"
+                    className={`border-2 border-gray-300 px-1 py-1 `}
+                  >
                     <svg
-                      onClick={() => setModalShow(true)}
+                      onClick={() => getOnUser_(user.id_employe)}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -268,7 +388,7 @@ function Liste_Employes() {
         {/*   <NoResult></NoResult> */}
         <div
           aria-colspan={6}
-          className="px-4 py-2 flex flex-col items-center justify-center"
+          className={`px-4 py-2 flex flex-col items-center justify-center`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -406,7 +526,7 @@ function Liste_Employes() {
       />
     </div>
   );
-}
+
 
 function MyVerticallyCenteredModal(props: any) {
   return (
@@ -428,8 +548,9 @@ function MyVerticallyCenteredModal(props: any) {
             NON
           </button>
           <button
-            className="bg-success p-2 rounded-3 text-light"
-            onClick={props.onHide}
+            className={`bg-success p-2 rounded-3 text-light `}
+            
+             onClick={()=>{ archiver(false, id)}} 
           >
             OUI
           </button>
@@ -438,5 +559,5 @@ function MyVerticallyCenteredModal(props: any) {
     </Modal>
   );
 }
-
+}
 export default Liste_Employes;
