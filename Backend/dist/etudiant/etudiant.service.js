@@ -21,12 +21,11 @@ let EtudiantService = class EtudiantService {
     constructor(etudiantRepository) {
         this.etudiantRepository = etudiantRepository;
     }
+    async checkEmailExists(email) {
+        const etudiant = await this.etudiantRepository.findOneBy({ email });
+        return !!etudiant;
+    }
     async create(createEtudiantDto) {
-        const { prenom, nom, email, matricule, niveau } = createEtudiantDto;
-        const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
-        if (existingEtudiant) {
-            throw new common_1.ConflictException('Adresse e-mail déjà prise');
-        }
         const etudiant = new etudiant_entity_1.Etudiant();
         etudiant.prenom = createEtudiantDto.prenom;
         etudiant.nom = createEtudiantDto.nom;

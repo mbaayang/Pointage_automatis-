@@ -25,12 +25,13 @@ let EtudiantController = class EtudiantController {
         this.etudiantService = etudiantService;
     }
     async create(photo, createEtudiantDto, res) {
-        try {
+        const emailExists = await this.etudiantService.checkEmailExists(createEtudiantDto.email);
+        if (emailExists) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
+        }
+        else {
             const etudiant = await this.etudiantService.create(Object.assign(Object.assign({}, createEtudiantDto), { photo: photo.filename }));
             return res.status(common_1.HttpStatus.OK).json({ message: 'Etudiant enregistré avec succès', etudiant });
-        }
-        catch (error) {
-            throw new common_1.HttpException(error.message, common_1.HttpStatus.BAD_REQUEST);
         }
     }
     findAll() {
@@ -43,12 +44,12 @@ let EtudiantController = class EtudiantController {
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('photo', {
-        limits: { fileSize: 1024 * 1024 * 5 },
+        limits: { fileSize: 1024 * 1024 * 5, },
         storage: (0, multer_1.diskStorage)({
             destination: './files',
             filename: (req, file, cb) => {
                 const filename = (0, uuid_1.v4)();
-                console.log(...oo_oo(`8c22a572_0`, filename));
+                console.log(...oo_oo(`98c4c798_0`, filename));
                 cb(null, `${filename}${file.originalname}`);
             }
         })

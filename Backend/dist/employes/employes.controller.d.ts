@@ -6,7 +6,7 @@ import { UpdatePasswordDto } from './dto/updatePassword.dto';
 export declare class EmployesController {
     private readonly employesService;
     constructor(employesService: EmployesService);
-    create(photo: Express.Multer.File, createEmployeDto: CreateEmployeDto): Promise<import("./entities/employe.entity").Employes>;
+    create(image: Express.Multer.File, createEmployeDto: CreateEmployeDto): Promise<import("./entities/employe.entity").Employes>;
     findAll(): Promise<import("./entities/employe.entity").Employes[]>;
     findOne(id: string): Promise<import("./entities/employe.entity").Employes>;
     update(id: string, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;

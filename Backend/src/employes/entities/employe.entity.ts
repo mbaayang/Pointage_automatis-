@@ -6,19 +6,19 @@ export class Employes {
   id: number;
 
   @Column()
-  prenom1: string;
+  prenom: string;
 
   @Column()
-  nom1: string;
+  nom: string;
 
   @Column()
-  email1: string;
+  email: string;
 
   @Column()
   mot_de_passe: string;
   
   @Column()
-  matricule1: string;
+  matricule: string;
 
   @Column()
   role: string;
@@ -27,7 +27,7 @@ export class Employes {
   image: string;
 
   @Column()
-  date_inscription: Date;
+  date_inscription: string;
 
   @Column({ default: true })
   etat: boolean;

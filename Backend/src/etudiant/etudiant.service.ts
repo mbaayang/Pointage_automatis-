@@ -11,15 +11,13 @@ export class EtudiantService {
   constructor(
     @InjectRepository(Etudiant) private etudiantRepository: Repository<Etudiant>
   ){}
+    
+  async checkEmailExists(email: string): Promise<boolean> {
+    const etudiant = await this.etudiantRepository.findOneBy({ email });
+    return !!etudiant;
+  }
 
   async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
-    const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
-      // Vérifier si un étudiant avec la même adresse e-mail existe déjà dans la base de données
-      const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
-      if (existingEtudiant) {
-        throw new ConflictException('Adresse e-mail déjà prise');
-      }
-
     const etudiant = new Etudiant();
     etudiant.prenom = createEtudiantDto.prenom;
     etudiant.nom = createEtudiantDto.nom;
@@ -30,6 +28,7 @@ export class EtudiantService {
     etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     
     return await this.etudiantRepository.save(etudiant);
+    
   }
 
   findAll() {

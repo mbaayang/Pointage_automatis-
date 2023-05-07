@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
-import { FormGroup } from "react-bootstrap";
 
 function Header() {
   const [show, setShow] = useState(false);
@@ -67,7 +66,9 @@ function Header() {
         if (res.message == "reussi") {
           showSuccessAlert();
           reset();
-      
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       });
   };
@@ -234,7 +235,7 @@ function Header() {
             >
               {error}
             </div>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Mot de passe actuel</Form.Label>
               <Form.Control
                 type="password"
@@ -255,7 +256,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Nouveau mot de passe</Form.Label>
               <Form.Control
                 type="password"
@@ -276,7 +277,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">
                 Confirmation du mot de passe
               </Form.Label>
@@ -304,9 +305,6 @@ function Header() {
             </Button>
           </Form>
         </Modal.Body>
-        {/*   <Modal.Footer>
-          
-        </Modal.Footer> */}
       </Modal>
     </>
   );

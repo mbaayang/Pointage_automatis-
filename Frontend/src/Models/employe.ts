@@ -5,7 +5,7 @@ export type Employe = {
     email: string;
     matricule: string;
     role: string;
-    photo: string;
+    image: string;
     etat_presence: string;
     retard: string;
     date_inscription: string;

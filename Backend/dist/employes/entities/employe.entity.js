@@ -20,15 +20,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "prenom1", void 0);
+], Employes.prototype, "prenom", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "nom1", void 0);
+], Employes.prototype, "nom", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "email1", void 0);
+], Employes.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -36,7 +36,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "matricule1", void 0);
+], Employes.prototype, "matricule", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -47,7 +47,7 @@ __decorate([
 ], Employes.prototype, "image", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], Employes.prototype, "date_inscription", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: true }),
