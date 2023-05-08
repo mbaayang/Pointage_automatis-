@@ -20,7 +20,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
             ignoreExpiration: false,
             secretOrKey: "secretKey",
         });
-        console.log(...oo_oo(`8194e830_0`, passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()));
+        console.log(passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken());
     }
     async validate(payload) {
         return {
