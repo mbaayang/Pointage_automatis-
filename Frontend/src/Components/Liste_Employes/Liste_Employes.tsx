@@ -46,8 +46,9 @@ function Liste_Employes() {
     setDefaultprenom(prenom);
     setDefaultemail(email);
     setDefaultrole(role);
-    console.log(defaultemail);
+
     setShow(true);
+
     /*  ajour ? setAjour(false) : setAjour(true); */
     reset();
   };
@@ -77,22 +78,22 @@ function Liste_Employes() {
 
   const getOnUser = (id: any) => {
     setId(id);
-    fetch(`http://localhost:3000/Employes/${id}`)
+   /*  fetch(`http://localhost:3000/Employes/${id}`)
       .then((res) => res.json())
       .then((res) => {
-        /*  console.log(res); */
-        /*    setDefaultnom(res.nom1);
+         console.log(res); 
+           setDefaultnom(res.nom1);
         setDefaultprenom(res.prenom1);
         setDefaultemail(res.email1);
-        setDefaultrole(res.role); */
-      });
+        setDefaultrole(res.role); 
+      }); */
   };
 
   useEffect(() => {
     fetch("http://localhost:3000/Employes/")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
           //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
@@ -108,10 +109,7 @@ function Liste_Employes() {
                 data.id != localStorage.getItem("id")
               );
             } else {
-              return (
-                data.etat == etat &&
-                data.id != localStorage.getItem("id")
-              );
+              return data.etat == etat && data.id != localStorage.getItem("id");
             }
           })
         );
@@ -160,13 +158,13 @@ function Liste_Employes() {
     });
 
     const response = await fetch(`http://localhost:3000/employes/${y}`, {
-      method: "PATCH",
+      method: "PUT",/*  aprés 30 min je me suis rendu compte que c'etait PUT pas PATCH */
       body: bodyContent,
       headers: headersList,
     });
 
     const data = await response.json();
-    // console.log(data);
+     console.log(data);
     setEtat(true);
     setModalShow(false);
   };
@@ -181,12 +179,20 @@ function Liste_Employes() {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
-
+    let prenom, nom, email, role;
+    data.prenom == "" ? (prenom = defaultprenom) : (prenom = data.prenom);
+    data.nom == "" ? (nom = defaultnom) : (nom = data.nom);
+    data.email == "" || data.email == defaultemail
+      ? (email = undefined)
+      : (email = data.email);
+    data.role == "" ? (role = defaultrole) : (role = data.role);
+    console.log(email);
+    
     const bodyContent = JSON.stringify({
-      prenom: data.prenom,
-      nom: data.nom,
-      email: data.email,
-      role: data.role,
+      prenom: prenom,
+      nom: nom,
+      email: email,
+      role: role,
     });
 
     const response = await fetch(`http://localhost:3000/employes/${id}`, {
