@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-//import './liste_Employes.json'
 import "./Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
 
@@ -67,13 +65,11 @@ function Liste_Employes() {
  
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.prenom1);
-        setDefaultnom(res.nom1);
-        setDefaultprenom(res.prenom1);
-        setDefaultemail(res.email1);
+        console.log(res.prenom);
+        setDefaultnom(res.nom);
+        setDefaultprenom(res.prenom);
+        setDefaultemail(res.email);
         setDefaultrole(res.role);
-
-        //setUsers(res);
       });
   };
 
@@ -88,18 +84,18 @@ function Liste_Employes() {
           res.filter((data: any) => {
             //je vérifie si le recherche est vide sinon
             if (recherche != "") {
-              const value = data.email1
+              const value = data.email
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
               return (
                 value &&
                 data.etat == etat &&
-                data.id_employe != localStorage.getItem("id")
+                data.id != localStorage.getItem("id")
               );
             } else {
               return (
                 data.etat == etat &&
-                data.id_employe != localStorage.getItem("id")
+                data.id != localStorage.getItem("id")
               );
             }
           })
@@ -171,9 +167,9 @@ function Liste_Employes() {
     };
 
     const bodyContent = JSON.stringify({
-      prenom1: data.prenom,
-      nom1: data.nom,
-      email1: data.email,
+      prenom: data.prenom,
+      nom: data.nom,
+      email: data.email,
       role: data.role,
     });
 
@@ -294,17 +290,17 @@ function Liste_Employes() {
 
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.prenom1}</span>
+                  <span>{user.prenom}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.nom1}</span>
+                  <span>{user.nom}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.email1}</span>
+                  <span>{user.email}</span>
                 </div>
               </td>
               <td
@@ -322,7 +318,7 @@ function Liste_Employes() {
                   <span className={` ${!etat ? "" : "cacher"}`}>
                     <svg
                       onClick={() => {
-                        archiver(true, user.id_employe);
+                        archiver(true, user.id);
                       }}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
@@ -352,7 +348,7 @@ function Liste_Employes() {
                   >
                     <svg
                       onClick={() => {
-                        handleShow(user.id_employe);
+                        handleShow(user.id);
                       }}
                       style={{ cursor: "pointer" }}
                       width="20"
@@ -382,7 +378,7 @@ function Liste_Employes() {
                     className={`border-2 border-gray-300 px-1 py-1 `}
                   >
                     <svg
-                      onClick={() => getOnUser_(user.id_employe)}
+                      onClick={() => getOnUser_(user.id)}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -465,7 +461,7 @@ function Liste_Employes() {
               </Form.Label>
               <Form.Control
                 type="text"
-                value={defaultprenom}
+                defaultValue={defaultprenom}
                 placeholder="Entrer votre prénom"
                 {...register("prenom", {
                   required: false,
@@ -481,7 +477,7 @@ function Liste_Employes() {
                 Nom<span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
-                value={defaultnom}
+                defaultValue={defaultnom}
                 type="text"
                 placeholder="Entrer votre nom"
                 {...register("nom", {
@@ -523,19 +519,40 @@ function Liste_Employes() {
                   required: false,
                 })}
               >
-                <option className=" text-black"></option>
-                <option value="administrateur" className=" text-black">
+            <option className=" text-black">{defaultrole}</option>
+                <option
+                  value="administrateur"
+                  className={`text-black ${
+                    defaultrole == "administrateur" ? "d-none" : ""
+                  }`}
+                >
                   administrateur
                 </option>
-                <option value="surveillant" className=" text-black">
+                <option
+                  value="surveillant"
+                  className={`text-black ${
+                    defaultrole == "surveillant" ? "d-none" : ""
+                  }`}
+                >
                   surveillant
                 </option>
-                <option value="professeur" className=" text-black">
+                <option
+                  value="professeur"
+                  className={`text-black ${
+                    defaultrole == "professeur" ? "d-none" : ""
+                  }`}
+                >
                   professeur
                 </option>
-                <option value="vigil" className=" text-black">
+                <option
+                  value="vigil"
+                  className={`text-black ${
+                    defaultrole == "vigil" ? "d-none" : ""
+                  }`}
+                >
                   vigil
                 </option>
+
               </Form.Select>
               {errors.role?.type === "required" && (
                 <p className="text-red-500">Ce champ est requis</p>
