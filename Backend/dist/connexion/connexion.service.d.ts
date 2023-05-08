@@ -8,10 +8,11 @@ export declare class AuthService {
     validateUser(email: string, mot_de_passe: string): Promise<Employes | null>;
     login(user: Employes): Promise<{
         access_token: string;
-        id_employe: number;
+        id: number;
         role: string;
         prenom: string;
         nom: string;
         email: string;
+        image: string;
     }>;
 }

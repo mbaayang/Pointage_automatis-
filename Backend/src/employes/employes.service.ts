@@ -9,7 +9,7 @@ import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 import { Employes } from "./entities/employe.entity";
-import * as bcrypt from "bcryptjs";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class EmployesService {
@@ -41,7 +41,7 @@ export class EmployesService {
     return await this.employesRepository.save(newEmploye);
     
   }
-
+  
   async findAll(): Promise<Employes[]> {
     return await this.employesRepository.find({});
   }

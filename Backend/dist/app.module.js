@@ -16,6 +16,10 @@ const connexion_module_1 = require("./connexion/connexion.module");
 const employe_entity_1 = require("./employes/entities/employe.entity");
 const etudiant_module_1 = require("./etudiant/etudiant.module");
 const etudiant_entity_1 = require("./etudiant/entities/etudiant.entity");
+const presence_employes_module_1 = require("./presence_employes/presence_employes.module");
+const presence_etudiants_module_1 = require("./presence_etudiants/presence_etudiants.module");
+const presence_employe_entity_1 = require("./presence_employes/entities/presence_employe.entity");
+const presence_etudiant_entity_1 = require("./presence_etudiants/entities/presence_etudiant.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -28,13 +32,14 @@ AppModule = __decorate([
                 username: "root",
                 password: "",
                 database: "Pointage",
-                entities: [employe_entity_1.Employes, etudiant_entity_1.Etudiant],
+                entities: [employe_entity_1.Employes, etudiant_entity_1.Etudiant, presence_employe_entity_1.PresenceEmploye, presence_etudiant_entity_1.PresenceEtudiant],
                 synchronize: true,
             }),
             employes_module_1.EmployesModule,
             etudiant_module_1.EtudiantModule,
             connexion_module_1.ConnexionModule,
-            etudiant_module_1.EtudiantModule,
+            presence_employes_module_1.PresenceEmployesModule,
+            presence_etudiants_module_1.PresenceEtudiantsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -16,7 +16,7 @@ let Employes = class Employes {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Employes.prototype, "id_employe", void 0);
+], Employes.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -54,7 +54,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);
 Employes = __decorate([
-    (0, typeorm_1.Entity)({ name: "employes" })
+    (0, typeorm_1.Entity)()
 ], Employes);
 exports.Employes = Employes;
 //# sourceMappingURL=employe.entity.js.map

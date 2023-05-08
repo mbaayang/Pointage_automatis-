@@ -6,4 +6,6 @@ export declare class CreateEmployeDto {
     matricule: string;
     role: string;
     image: string;
+    date_inscription: string;
+    etat: boolean;
 }

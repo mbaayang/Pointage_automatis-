@@ -5,6 +5,7 @@ const app_module_1 = require("./app.module");
 const bodyParser = require("body-parser");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.use(bodyParser.json({ limit: '50mb' }));
     app.enableCors({
         allowedHeaders: "*",
         origin: "*",
