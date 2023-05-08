@@ -16,6 +16,7 @@ function Liste_Employes() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [users, setUsers] = useState<any>([]);
+    
 
     useEffect(() => {
         fetch('http://localhost:5173/liste_Employes.json'
@@ -167,9 +168,7 @@ function Liste_Employes() {
                         })
                       }
                     />
-                    <div className='text-danger'>
-                        {errors.prenom?.type === "required" && "Ce champs est requis"}
-                    </div>
+                    {errors.prenom?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
                     </Form.Group>
                     <Form.Group className="mb-3">
                     <Form.Label>Nom<span className='text-danger'>*</span></Form.Label>
@@ -179,9 +178,7 @@ function Liste_Employes() {
                         })
                       }
                     />
-                    <div className='text-danger'>
-                        {errors.nom?.type === "required" && "Ce champs est requis"}
-                    </div>
+                    {errors.nom?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
                     </Form.Group>
                     <Form.Group className="mb-3">
                     <Form.Label>Email<span className='text-danger'>*</span></Form.Label>
@@ -192,22 +189,24 @@ function Liste_Employes() {
                         })
                       }
                     />
-                    <div className='text-danger'>
-                        {errors.email?.type === "required" && "Ce champs est requis"}
-                        {errors.email?.type === "pattern" && "Entrer un email correct"}
-                    </div>
+                    {errors.email?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
+                    {errors.email?.type === "pattern" && <p className='text-red-500'>Entrer un email correct</p>}
                     </Form.Group>
                     <Form.Group className="mb-3">
                     <Form.Label>Rôle<span className='text-danger'>*</span></Form.Label>
-                    <Form.Control type="text" placeholder="Entrer votre rôle"
-                    {...register("role", {
-                        required:true
-                        })
-                      }
-                    />
-                    <div className='text-danger'>
-                        {errors.role?.type === "required" && "Ce champs est requis"}
-                    </div>
+                    <Form.Select placeholder="Choisir un rôle"  
+                        {...register("role", {
+                            required:true
+                            })
+                        }
+                      >
+                        <option className=" text-black"></option>
+                        <option value="Admin" className=" text-black">Admin</option>
+                        <option value="Surveillant" className=" text-black">Surveillant</option>
+                        <option value="Professeur" className=" text-black">Professeur</option>
+                        <option value="Vigile" className=" text-black">Vigile</option>
+                    </Form.Select>
+                    {errors.role?.type === "required" && <p className='text-red-500'>Ce champ est requis</p>}
                     </Form.Group>
                     <input className='bouton' type='submit' value={'MODIFIER'} />
                 </Form>

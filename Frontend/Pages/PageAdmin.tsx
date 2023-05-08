@@ -1,22 +1,18 @@
-/* import Dashboard from "../src/Components/Dashboard/Dashboard" */
-import Dashboard from "../src/Components/Dashboard/Dashboard"
-import Header from "../src/Components/Header/Header"
-import { Historique } from "../src/Components/Historique/Historique"
-import Liste_Employes from "../src/Components/Liste_Employes/Liste_Employes"
-import { PresenceEtudiant } from "../src/Components/Presence_Etudiant/Presence_Etudiant"
+import { Navigate, Outlet } from "react-router-dom";
+import Header from "../src/Components/Header/Header";
 
 function PageAdmin() {
-
-
-    return (
-        <div>
-            <Liste_Employes/>
-            <Dashboard/>
-            <Historique/>
-            <PresenceEtudiant/>
-            <Header/>
-        </div>
-    )
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return <Navigate to="/" replace />;
   }
-  
-  export default PageAdmin
+  return (
+    <div>
+      <div className="mt-48" style={{ marginTop: "12rem" }}>
+        <Outlet />
+      </div>
+      <Header />
+    </div>
+  );
+}
+export default PageAdmin;
