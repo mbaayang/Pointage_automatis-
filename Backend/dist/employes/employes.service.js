@@ -17,16 +17,19 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const employe_entity_1 = require("./entities/employe.entity");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 let EmployesService = class EmployesService {
     constructor(employesRepository) {
         this.employesRepository = employesRepository;
     }
     async create(createEmployeDto) {
-        const { prenom, nom, email, mot_de_passe, matricule, role, image } = createEmployeDto;
+        const { prenom, nom, email, mot_de_passe, matricule, role, image, etat, date_inscription } = createEmployeDto;
         const existingEmploye = await this.employesRepository.findOneBy({ email });
         if (existingEmploye) {
-            throw new common_1.ConflictException('Adresse e-mail déjà prise');
+            throw new common_1.UnauthorizedException({
+                correct: false,
+                message: "Adresse e-mail déjà prise",
+            });
         }
         else {
             const hashedPassword = await bcrypt.hash(mot_de_passe, 10);

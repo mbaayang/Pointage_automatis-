@@ -11,7 +11,7 @@ import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 import { Employes } from "./entities/employe.entity";
-import * as bcrypt from "bcryptjs";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class EmployesService {
@@ -21,11 +21,15 @@ export class EmployesService {
   ) {}
 
   async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
-    const { prenom, nom, email,mot_de_passe, matricule, role, image} = createEmployeDto;
+    const { prenom, nom, email,mot_de_passe, matricule, role, image, etat, date_inscription} = createEmployeDto;
       // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
       const existingEmploye = await this.employesRepository.findOneBy({ email });
       if (existingEmploye) {
-        throw new ConflictException('Adresse e-mail déjà prise');
+        //throw new ConflictException('Adresse e-mail déjà prise');
+        throw new UnauthorizedException({
+          correct: false,
+          message: "Adresse e-mail déjà prise",
+        });
       }else{
       const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
 
@@ -43,6 +47,12 @@ export class EmployesService {
     return await this.employesRepository.save(employe);
     }
   }
+  /* create(createEmployeDto: CreateEmployeDto) {
+    console.log(createEmployeDto);
+    const newUser = this.employesRepository.create(createEmployeDto)
+
+    return this.employesRepository.save(newUser);
+  } */
 
   async findAll(): Promise<Employes[]> {
     return await this.employesRepository.find({});

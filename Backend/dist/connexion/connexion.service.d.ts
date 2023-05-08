@@ -13,5 +13,6 @@ export declare class AuthService {
         prenom: string;
         nom: string;
         email: string;
+        image: string;
     }>;
 }

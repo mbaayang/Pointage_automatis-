@@ -60,6 +60,7 @@ let AuthService = class AuthService {
         const prenom = user.prenom;
         const nom = user.nom;
         const email = user.email;
+        const image = user.image;
         return {
             access_token: this.jwtService.sign(payload),
             id: id,
@@ -67,6 +68,7 @@ let AuthService = class AuthService {
             prenom: prenom,
             nom: nom,
             email: email,
+            image: image,
         };
     }
 };
