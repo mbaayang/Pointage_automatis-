@@ -7,7 +7,7 @@ export declare class EmployesController {
     constructor(employesService: EmployesService);
     create(createEmployeDto: CreateEmployeDto): Promise<import("./entities/employe.entity").Employes>;
     findAll(): Promise<import("./entities/employe.entity").Employes[]>;
-    findOne(id: string): Promise<import("./entities/employe.entity").Employes>;
+    findOne(matricule: string): Promise<import("./entities/employe.entity").Employes>;
     update(id: string, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;
     updatePassword(email1: string, updatePasswordDto: UpdatePasswordDto): Promise<any | null>;
     remove(id: string): Promise<void>;

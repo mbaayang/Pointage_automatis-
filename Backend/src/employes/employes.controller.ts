@@ -24,8 +24,8 @@ export class EmployesController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.employesService.findOne(+id);
+  findOne(@Param("id") matricule: string) {
+    return this.employesService.findOne(matricule);
   }
 
   @Patch(":id")

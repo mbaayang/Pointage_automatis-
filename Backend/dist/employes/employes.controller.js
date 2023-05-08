@@ -28,8 +28,8 @@ let EmployesController = class EmployesController {
     findAll() {
         return this.employesService.findAll();
     }
-    findOne(id) {
-        return this.employesService.findOne(+id);
+    findOne(matricule) {
+        return this.employesService.findOne(matricule);
     }
     update(id, updateEmployeDto) {
         return this.employesService.update(+id, updateEmployeDto);

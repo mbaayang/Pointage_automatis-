@@ -8,7 +8,7 @@ export declare class EmployesService {
     constructor(employesRepository: Repository<Employes>);
     create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;
-    findOne(id: number): Promise<Employes>;
+    findOne(matricule: string): Promise<Employes>;
     update(id: number, updateEmployeDto: UpdateEmployeDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): Promise<void>;
     updatePassword(email: string, updatePassword: UpdatePasswordDto): Promise<any>;

@@ -58,8 +58,8 @@ export class EmployesService {
     return await this.employesRepository.find({});
   }
 
-  async findOne(id: number) {
-    return await this.employesRepository.findOneById(id);
+  async findOne(matricule: string) {
+    return await this.employesRepository.findOneById(matricule);
   }
 
   update(id: number, updateEmployeDto: UpdateEmployeDto) {

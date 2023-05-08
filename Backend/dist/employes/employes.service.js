@@ -49,8 +49,8 @@ let EmployesService = class EmployesService {
     async findAll() {
         return await this.employesRepository.find({});
     }
-    async findOne(id) {
-        return await this.employesRepository.findOneById(id);
+    async findOne(matricule) {
+        return await this.employesRepository.findOneById(matricule);
     }
     update(id, updateEmployeDto) {
         return this.employesRepository.update(id, updateEmployeDto);

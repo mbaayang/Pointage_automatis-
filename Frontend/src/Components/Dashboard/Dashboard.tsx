@@ -7,6 +7,8 @@ import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
 import AjoutEtudiant from "../Ajout/AjoutEtudiant";
 import AjoutEmploye from "../Ajout/AjoutEmploye";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:3000";
 
 
 const Dashboard = () => {
@@ -18,6 +20,15 @@ const Dashboard = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+
+  const socket = socketIOClient(ENDPOINT);
+    socket.on("rfid", (data) => {
+      console.log(data);
+      //if (data.includes("@")) {
+        //console.log(data.split("@")[1]);
+        //setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });
+    // }
+    });
 
   if (
     localStorage.getItem("role") == "administrateur" ||
