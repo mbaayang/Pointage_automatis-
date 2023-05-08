@@ -20,7 +20,7 @@ function Header() {
     watch,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({ mode: "onChange" });
 
   /*****************************************************************************************
@@ -74,6 +74,7 @@ function Header() {
           setError("actuel mot de passe incorrect");
         }
         if (res.message == "reussi") {
+          setError("");
           showSuccessAlert();
           reset();
           setTimeout(() => {
@@ -238,7 +239,6 @@ function Header() {
           </svg>
         </Modal.Header>
         <Modal.Body>
-          
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div
               className={`alert alert-danger ${error == "" ? "cacher" : ""} `}

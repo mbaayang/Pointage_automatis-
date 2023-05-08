@@ -29,7 +29,7 @@ function Connexion() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        email: data.email,
+        email1: data.email,
         mot_de_passe: data.passe,
       }),
     })
@@ -38,7 +38,7 @@ function Connexion() {
         if (res.correct == false) {
           setError(res.message);
         } else {
-          localStorage.setItem("id", res.id);
+          localStorage.setItem("id", res.id_employe);
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("role", res.role);
           localStorage.setItem("prenom", res.prenom);
@@ -134,10 +134,21 @@ function Connexion() {
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
               </svg>
             </InputGroup.Text>
-            <Form.Control type={password} placeholder="Entrer mot de passe" style={{borderRight:'none'}}
-              {...register("passe", { required: true, minLength: 6 })}/>
+            <Form.Control
+              type={password}
+              placeholder="Entrer mot de passe"
+              style={{ borderRight: "none" }}
+              {...register("passe", { required: true, minLength: 6 })}
+            />
             <InputGroup.Text className="bg-white">
-              <i onClick={() => { Eye();}} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
+              <i
+                onClick={() => {
+                  Eye();
+                }}
+                className={`bi ${
+                  eye ? "bi bi-eye-slash" : "bi-eye"
+                } cursor-pointer`}
+              ></i>
             </InputGroup.Text>
           </InputGroup>
           {errors.passe?.type === "required" && (
