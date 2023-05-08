@@ -63,12 +63,12 @@ const Pointage = () => {
         
           localStorage.setItem("nom", res.nom);
           localStorage.setItem("email", res.email);
-          usenavigate("/dashboard"); 
+          
         });
          
         }
         if (res.message == "accès refusé" && mat != undefined) {
-          setSms_erreur(false);
+          //setSms_erreur(false);
         }
       }),
       [mat];
