@@ -14,7 +14,7 @@ export class Employes {
   @Column()
   email: string;
 
-  @Column()
+  @Column({type:'text'})
   mot_de_passe: string;
   
   @Column()
@@ -23,7 +23,7 @@ export class Employes {
   @Column()
   role: string;
 
-  @Column({ type: 'text'})
+  @Column({type: 'longtext'})
   image: string;
 
   @Column()

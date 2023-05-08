@@ -6,6 +6,7 @@ import { Employes } from "./entities/employe.entity";
 export declare class EmployesService {
     private employesRepository;
     constructor(employesRepository: Repository<Employes>);
+    checkEmailExists(email: string): Promise<boolean>;
     create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;
     findOne(matricule: string): Promise<Employes>;

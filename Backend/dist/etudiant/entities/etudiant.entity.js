@@ -16,7 +16,7 @@ let Etudiant = class Etudiant {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Etudiant.prototype, "id", void 0);
+], Etudiant.prototype, "id_etudiant", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -38,17 +38,13 @@ __decorate([
     __metadata("design:type", String)
 ], Etudiant.prototype, "niveau", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text' }),
+    (0, typeorm_1.Column)({ type: 'longtext' }),
     __metadata("design:type", String)
 ], Etudiant.prototype, "photo", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Etudiant.prototype, "date_inscription", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ default: true }),
-    __metadata("design:type", Boolean)
-], Etudiant.prototype, "etat", void 0);
 Etudiant = __decorate([
     (0, typeorm_1.Entity)()
 ], Etudiant);

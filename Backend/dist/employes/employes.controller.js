@@ -22,8 +22,14 @@ let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
     }
-    create(createEmployeDto) {
-        return this.employesService.create(createEmployeDto);
+    async create(createEmployeDto, res) {
+        const emailExists = await this.employesService.checkEmailExists(createEmployeDto.email);
+        if (emailExists) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
+        }
+        else {
+            return this.employesService.create(createEmployeDto);
+        }
     }
     findAll() {
         return this.employesService.findAll();
@@ -42,11 +48,12 @@ let EmployesController = class EmployesController {
     }
 };
 __decorate([
-    (0, common_1.Post)('post'),
+    (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [create_employe_dto_1.CreateEmployeDto, Object]),
+    __metadata("design:returntype", Promise)
 ], EmployesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),

@@ -30,7 +30,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Employes.prototype, "mot_de_passe", void 0);
 __decorate([
@@ -42,7 +42,7 @@ __decorate([
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'text' }),
+    (0, typeorm_1.Column)({ type: 'longtext' }),
     __metadata("design:type", String)
 ], Employes.prototype, "image", void 0);
 __decorate([

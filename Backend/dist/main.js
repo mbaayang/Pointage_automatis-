@@ -7,8 +7,10 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.use(bodyParser.json({ limit: '50mb' }));
     app.enableCors({
-        origin: "*"
+        allowedHeaders: "*",
+        origin: "*",
     });
+    app.use(bodyParser.json({ limit: '50mb' }));
     await app.listen(3000);
 }
 bootstrap();

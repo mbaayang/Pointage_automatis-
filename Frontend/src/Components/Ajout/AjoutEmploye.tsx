@@ -10,13 +10,10 @@ import Swal from "sweetalert2";
 function AjoutEmploye() {
 
     const [eye, seteye] = useState<boolean>(true);
-    const [password, setpassword] = useState<string>("password");
     const [eye1, seteye1] = useState<boolean>(true);
+    const [password, setpassword] = useState<string>("password");
     const [passwordConfirm, setPasswordConfirm] = useState<string>("password");
-    const [error, setError] = useState<any>("");
-    const [pass, setPass] = useState<any>("")
-    const [errorPassword, setErrorPassword] = useState<any>("")
-    
+    const [errorBack, setErrorBack] = useState<any>("");
 
     const Eye = () => {
         if (password == "password") {
@@ -38,7 +35,6 @@ function AjoutEmploye() {
         }
     };
 
-
     function showSuccessAlert() {
         Swal.fire({
             title: "Inscription réussie!",
@@ -51,48 +47,43 @@ function AjoutEmploye() {
     const {
         register,
         watch,
+        reset,
         handleSubmit,
         formState: { errors },
     } = useForm({ mode: "onChange" });
-
     const mot_de_passe = useRef({});
     mot_de_passe.current = watch("mot_de_passe", "");
 
-    const onSubmit = (data:any) => {
+    const onSubmit = async (data: any) => {
+        console.log(data);
         
-        console.log(data)
-        if(data.mot_de_passe !== pass){
-            setErrorPassword("Mots de passe non identique")
-        }
-        
-        const lecteur = new FileReader()
-
+        const lecteur = new FileReader();
         lecteur.readAsDataURL(data.image[0]);
-        lecteur.onload = async () => {
-            const base64Image = lecteur.result!.split(',')[1]
-            try{
-            const response = await axios.post("http://localhost:3000/employes/post",
-            {
-                prenom: data.prenom,
-                nom: data.nom,
-                email: data.email,
-                matricule: data.matricule,
-                role: data.role,
-                mot_de_passe: data.mot_de_passe,
-                image: base64Image
-            });
-            console.log(response.data);
-            showSuccessAlert();
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000);   
-        }
-        catch (error) {
-            console.log(error.response.data.message);
-                setError(error.response.data.message);
-            
-              
-          }
+        let base64 = "";
+
+        lecteur.onload = async function () {
+            base64 = lecteur.result!.split(',')[1];
+
+            try {
+                const response = await axios.post("http://localhost:3000/employes", {
+                    prenom: data.prenom,
+                    nom: data.nom,
+                    email: data.email,
+                    matricule: data.matricule,
+                    role: data.role,
+                    mot_de_passe: data.mot_de_passe,
+                    image: base64
+                });
+                console.log(response);
+                showSuccessAlert();
+                reset();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } catch (error) {
+                console.log(error.response.data.message);
+                setErrorBack(error.response.data.message);
+            }
         }
     };
 
@@ -102,11 +93,11 @@ function AjoutEmploye() {
                 <div className="d-flex justify-content-between p-3">
                     <h1 className="h4 text-color">Inscrire un employé</h1>
                 </div>
-                {error && (
-            <div className="alert alert-danger text-center mr-3 ml-3 mb-5 " role="alert">
-              <strong> Erreur! </strong> {error}
-            </div>
-          )}
+                {errorBack && (
+                    <div className="alert alert-danger text-center mr-3 ml-3 mb-5" role="alert">
+                    <strong> Erreur! </strong> {errorBack}
+                    </div>
+                )}
                 <div className="-mt-8">
                     <Form onSubmit={handleSubmit(onSubmit)} className="m-3 space-y-3">
                         <Form.Group>
@@ -116,9 +107,7 @@ function AjoutEmploye() {
                                 type="text"
                                 placeholder="issa"
                                 autoFocus
-                                {...register("prenom", {
-                                    required: true,
-                                })}
+                                {...register("prenom", {required: true})}
                             />
                             {errors.prenom?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -130,9 +119,7 @@ function AjoutEmploye() {
                                 id="nom"
                                 type="text"
                                 placeholder="ndiaye"
-                                {...register("nom", {
-                                    required: true,
-                                })}
+                                {...register("nom", {required: true})}
                             />
                             {errors.nom?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -144,11 +131,8 @@ function AjoutEmploye() {
                                 id="email"
                                 type="email"
                                 placeholder="astouissa@gmail.com"
-                                {...register("email", {
-                                    required: true,
-                                    pattern:
-                                        /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                                })}
+                                {...register("email", {required: true,
+                                    pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,})}
                             />
                             <div>
                                 {errors.email?.type === "required" && (
@@ -165,9 +149,7 @@ function AjoutEmploye() {
                                 id="matricule"
                                 type="text"
                                 placeholder="9208383576278772"
-                                {...register("matricule", {
-                                    required: true,
-                                })}
+                                {...register("matricule", { required: true,})}
                             />
                             {errors.matricule?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
@@ -180,10 +162,8 @@ function AjoutEmploye() {
                             <Form.Select
                                 id="role"
                                 placeholder="Choisir un rôle"
-                                {...register("role", {
-                                    required: true,
-                                })}
-                                >
+                                {...register("role", { required: true,})}
+                            >
                                 <option placeholder="Choisir un rôle"></option>
                                 <option value="administrateur" className=" text-black">Admin</option>
                                 <option value="surveillant" className=" text-black"> Surveillant</option>
@@ -204,7 +184,7 @@ function AjoutEmploye() {
                                         placeholder="*****"
                                         {...register("mot_de_passe", { required: true, minLength: 6 })} />
                                     <InputGroup.Text className="bg-white">
-                                        <i onClick={() => { Eye(); }} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                                        <i onClick={() => { Eye(); }} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
                                     </InputGroup.Text>
                                 </InputGroup>
                                 {errors.mot_de_passe?.type === "minLength" && (
@@ -239,8 +219,7 @@ function AjoutEmploye() {
                         <Form.Group>
                             <Form.Label>photo</Form.Label>
                             <Form.Control type="file" placeholder="" accept="image/*" id="image"
-                                {...register("image", { required: true, })}
-                                /* onChange={setimgfile} */ />
+                                {...register("image", { required: true, })}/>
                             {errors.image?.type === "required" && (
                                 <p className="text-red-500">Ce champ est obligatoire</p>
                             )}

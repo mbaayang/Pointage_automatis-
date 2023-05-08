@@ -1,45 +1,31 @@
-import { PresenceEtudiant } from './../../presence_etudiants/entities/presence_etudiant.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
+@Entity() 
+export class Etudiant{
+    @PrimaryGeneratedColumn()
+    id_etudiant: number;
 
-export class Etudiant {
-  /* prenom: string;
-  nom: string;
-  email: string;
-  matricule: string;
-  niveau: string;
-  photo: string;
-  //etat: string;
-  date_inscription: string; */
+    @Column()
+    prenom: string;
 
-  @PrimaryGeneratedColumn()
-  id: number;
+    @Column()
+    nom: string;
 
-  @Column()
-  prenom: string;
+    @Column()
+    email: string;
 
-  @Column()
-  nom: string;
+    @Column()
+    matricule: string;
 
-  @Column()
-  email: string;
+    @Column()
+    niveau: string;
 
-  @Column()
-  matricule: string;
+    @Column({type: 'longtext'})
+    photo: string;
 
-  @Column()
-  niveau: string;
+/*     @Column() 
+    etat: string; */
 
-  @Column({ type: 'text'})
-  photo: string;
-
-  @Column()
-  date_inscription: string;
-
-  @Column({ default: true })
-  etat: boolean;
-
-  /* @OneToMany(() => PresenceEtudiant, presence => presence.etudiant)
-  etudiants: Etudiant[]; */
+    @Column()
+    date_inscription: string;
 }
