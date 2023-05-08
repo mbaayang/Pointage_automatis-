@@ -99,7 +99,7 @@ function AjoutEmploye() {
                     </div>
                 )}
                 <div className="-mt-8">
-                    <Form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data" className="m-3 space-y-3">
+                    <Form onSubmit={handleSubmit(onSubmit)} className="m-3 space-y-3">
                         <Form.Group>
                             <Form.Label>Prénom</Form.Label>
                             <Form.Control

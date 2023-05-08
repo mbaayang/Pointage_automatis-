@@ -1,5 +1,5 @@
 export declare class Employes {
-    id_employe: number;
+    id: number;
     prenom: string;
     nom: string;
     email: string;
