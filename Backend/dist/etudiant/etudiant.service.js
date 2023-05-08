@@ -32,6 +32,9 @@ let EtudiantService = class EtudiantService {
     findAll() {
         return this.etudiantRepository.find();
     }
+    findOne(id) {
+        return this.etudiantRepository.findOneBy({ id_etudiant: id });
+    }
     update(id, updateEtudiantDto) {
         return this.etudiantRepository.update(id, updateEtudiantDto);
     }

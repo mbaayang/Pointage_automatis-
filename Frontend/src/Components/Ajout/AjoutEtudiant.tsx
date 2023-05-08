@@ -42,17 +42,15 @@ function AjoutEtudiant() {
           matricule: data.matricule,
           niveau: data.niveau,
           photo: base64
-        });
-        console.log(response);
+        })
           showSuccessAlert();
           setTimeout(() => {
             window.location.reload();
           }, 2000);
       } catch (error) {
         console.log(error.response.data.message);
-          setError(error.response.data.message);
+        setError(error.response.data.message);
       }
-      
     }
   };
   return (

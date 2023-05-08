@@ -27,9 +27,8 @@ let EmployesService = class EmployesService {
         return !!employe;
     }
     async create(createEmployeDto) {
-        const mot_de_passe = createEmployeDto;
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(mot_de_passe, salt);
+        const mot_de_passe = createEmployeDto.mot_de_passe;
+        const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
         const newEmploye = this.employesRepository.create({
             prenom: createEmployeDto.prenom,
             nom: createEmployeDto.nom,
@@ -37,6 +36,7 @@ let EmployesService = class EmployesService {
             mot_de_passe: hashedPassword,
             role: createEmployeDto.role,
             matricule: createEmployeDto.matricule,
+            image: createEmployeDto.image,
             date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
         });
         return await this.employesRepository.save(newEmploye);

@@ -47,6 +47,7 @@ function AjoutEmploye() {
     const {
         register,
         watch,
+        reset,
         handleSubmit,
         formState: { errors },
     } = useForm({ mode: "onChange" });
@@ -62,8 +63,6 @@ function AjoutEmploye() {
 
         lecteur.onload = async function () {
             base64 = lecteur.result.split(',')[1];
-            console.log(lecteur.result);
-            
 
             try {
                 const response = await axios.post("http://localhost:3000/employes", {
@@ -77,6 +76,7 @@ function AjoutEmploye() {
                 });
                 console.log(response);
                 showSuccessAlert();
+                reset();
                 setTimeout(() => {
                     window.location.reload();
                 }, 2000);
