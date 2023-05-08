@@ -47,7 +47,15 @@ let EmployesService = class EmployesService {
     async findOne(id) {
         return await this.employesRepository.findOneById(id);
     }
-    update(id, updateEmployeDto) {
+    async update(id, updateEmployeDto) {
+        const { email } = updateEmployeDto;
+        if (email != undefined) {
+            const existe = await this.employesRepository.findOne({ where: { email } });
+            if (existe) {
+                console.log(`${email} ' '${existe}`);
+                throw new common_1.ConflictException('Adresse e-mail déjà prise');
+            }
+        }
         return this.employesRepository.update(id, updateEmployeDto);
     }
     async remove(id) {

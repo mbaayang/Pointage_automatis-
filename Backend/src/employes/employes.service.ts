@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -50,8 +51,20 @@ export class EmployesService {
     return await this.employesRepository.findOneById(id);
   }
 
-  update(id: number, updateEmployeDto: UpdateEmployeDto) {
+  async update(id: number, updateEmployeDto: UpdateEmployeDto) {
+ 
+    const { email } = updateEmployeDto;
+    if (email != undefined) {
+      const existe = await  this.employesRepository.findOne({ where: { email } });
+      if (existe) {
+        console.log(`${email} ' '${existe}`);
+        throw new ConflictException('Adresse e-mail déjà prise');
+      }
+    }
+   
+    
     return this.employesRepository.update(id, updateEmployeDto);
+    
   }
 
   async remove(id: number) {

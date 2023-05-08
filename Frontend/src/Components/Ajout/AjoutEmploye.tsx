@@ -55,8 +55,6 @@ function AjoutEmploye() {
     mot_de_passe.current = watch("mot_de_passe", "");
 
     const onSubmit = async (data: any) => {
-        console.log(data);
-        
         const lecteur = new FileReader();
         lecteur.readAsDataURL(data.image[0]);
         let base64 = "";
@@ -74,15 +72,15 @@ function AjoutEmploye() {
                     mot_de_passe: data.mot_de_passe,
                     image: base64
                 });
-                console.log(response);
+                if (response.data.message === "Succes") {
                 showSuccessAlert();
                 reset();
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                }
             } catch (error) {
-                console.log(error.response.data.message);
                 setErrorBack(error.response.data.message);
+                setTimeout(() => {
+                 setErrorBack("");
+                }, 3000)
             }
         }
     };
