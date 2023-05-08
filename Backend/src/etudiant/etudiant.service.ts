@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
 import { Etudiant } from './entities/etudiant.entity';
@@ -11,34 +11,27 @@ export class EtudiantService {
   constructor(
     @InjectRepository(Etudiant) private etudiantRepository: Repository<Etudiant>
   ){}
-
-  async create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant> {
-    const { prenom, nom, email, matricule, niveau} = createEtudiantDto;
-      // Vérifier si un étudiant avec la même adresse e-mail existe déjà dans la base de données
-      const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
-      if (existingEtudiant) {
-        throw new ConflictException('Adresse e-mail déjà prise');
-      }
-
-    const etudiant = new Etudiant();
-    etudiant.prenom = createEtudiantDto.prenom;
-    etudiant.nom = createEtudiantDto.nom;
-    etudiant.email = createEtudiantDto.email;
-    etudiant.matricule = createEtudiantDto.matricule;
-    etudiant.niveau = createEtudiantDto.niveau;
-    etudiant.photo = createEtudiantDto.photo;
-    etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     
-    return await this.etudiantRepository.save(etudiant);
+  async checkEmailExists(email: string): Promise<boolean> {
+    const etudiant = await this.etudiantRepository.findOneBy({ email });
+    return !!etudiant;
+  }
+
+  create(createEtudiantDto: CreateEtudiantDto) {
+    const newEtudiant = this.etudiantRepository.create({
+      ...createEtudiantDto,
+      date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+    });
+    return this.etudiantRepository.save(newEtudiant);
   }
 
   findAll() {
     return this.etudiantRepository.find();
   }
 
-/*   findOne(id: number) {
-    return this.etudiantRepository.findOneBy({id});
-  } */
+  findOne(id: number) {
+    return this.etudiantRepository.findOneBy({id_etudiant: id});
+  }
 
   update(id: number, updateEtudiantDto: UpdateEtudiantDto) {
     return this.etudiantRepository.update(id, updateEtudiantDto);

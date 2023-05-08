@@ -1,4 +1,5 @@
 export declare class Etudiant {
+    id_etudiant: number;
     prenom: string;
     nom: string;
     email: string;

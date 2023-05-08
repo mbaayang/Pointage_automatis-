@@ -22,10 +22,10 @@ export class AuthService {
     return null;
   } */
   async validateUser(
-    email1: string,
+    email: string,
     mot_de_passe: string
   ): Promise<Employes | null> {
-    const user = await this.userRepository.findOne({ where: { email1 } });
+    const user = await this.userRepository.findOne({ where: { email } });
     if (user) {
       if (user && (await bcrypt.compare(mot_de_passe, user.mot_de_passe))) {
         const etat = user.etat;
@@ -54,20 +54,22 @@ export class AuthService {
 
   async login(
     user: Employes
-  ): Promise<{ access_token: string; id_employe: number; role: string; prenom1: string; nom1: string; email1: string }> {
-    const payload = { email1: user.email1, sub: user.id_employe };
-    const id = user.id_employe;
+  ): Promise<{ access_token: string; id: number; role: string; prenom: string; nom: string; email: string; image: string }> {
+    const payload = { email1: user.email, sub: user.id };
+    const id = user.id;
     const role = user.role;
-    const prenom = user.prenom1;
-    const nom = user.nom1;
-    const email = user.email1;
+    const prenom = user.prenom;
+    const nom = user.nom;
+    const email = user.email;
+    const image = user.image;
     return {
       access_token: this.jwtService.sign(payload),
-      id_employe: id,
+      id: id,
       role: role,
-      prenom1: prenom,
-      nom1: nom,
-      email1: email,
+      prenom: prenom,
+      nom: nom,
+      email: email,
+      image: image,
     };
   }
 }

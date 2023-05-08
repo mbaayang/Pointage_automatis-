@@ -21,24 +21,19 @@ let EtudiantService = class EtudiantService {
     constructor(etudiantRepository) {
         this.etudiantRepository = etudiantRepository;
     }
-    async create(createEtudiantDto) {
-        const { prenom, nom, email, matricule, niveau } = createEtudiantDto;
-        const existingEtudiant = await this.etudiantRepository.findOneBy({ email });
-        if (existingEtudiant) {
-            throw new common_1.ConflictException('Adresse e-mail déjà prise');
-        }
-        const etudiant = new etudiant_entity_1.Etudiant();
-        etudiant.prenom = createEtudiantDto.prenom;
-        etudiant.nom = createEtudiantDto.nom;
-        etudiant.email = createEtudiantDto.email;
-        etudiant.matricule = createEtudiantDto.matricule;
-        etudiant.niveau = createEtudiantDto.niveau;
-        etudiant.photo = createEtudiantDto.photo;
-        etudiant.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-        return await this.etudiantRepository.save(etudiant);
+    async checkEmailExists(email) {
+        const etudiant = await this.etudiantRepository.findOneBy({ email });
+        return !!etudiant;
+    }
+    create(createEtudiantDto) {
+        const newEtudiant = this.etudiantRepository.create(Object.assign(Object.assign({}, createEtudiantDto), { date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() }));
+        return this.etudiantRepository.save(newEtudiant);
     }
     findAll() {
         return this.etudiantRepository.find();
+    }
+    findOne(id) {
+        return this.etudiantRepository.findOneBy({ id_etudiant: id });
     }
     update(id, updateEtudiantDto) {
         return this.etudiantRepository.update(id, updateEtudiantDto);

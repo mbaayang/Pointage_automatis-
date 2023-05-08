@@ -75,9 +75,9 @@ function Liste_Employes() {
    **********************************RECUPERATION PAR ID****************************
    *********************************************************************************/
 
-  const getOnUser = (id_employe: any) => {
-    setId(id_employe);
-    fetch(`http://localhost:3000/Employes/${id_employe}`)
+  const getOnUser = (id: any) => {
+    setId(id);
+    fetch(`http://localhost:3000/Employes/${id}`)
       .then((res) => res.json())
       .then((res) => {
         /*  console.log(res); */
@@ -99,18 +99,18 @@ function Liste_Employes() {
           res.filter((data: any) => {
             //je vérifie si le recherche est vide sinon
             if (recherche != "") {
-              const value = data.email1
+              const value = data.email
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
               return (
                 value &&
                 data.etat == etat &&
-                data.id_employe != localStorage.getItem("id")
+                data.id != localStorage.getItem("id")
               );
             } else {
               return (
                 data.etat == etat &&
-                data.id_employe != localStorage.getItem("id")
+                data.id != localStorage.getItem("id")
               );
             }
           })
@@ -183,9 +183,9 @@ function Liste_Employes() {
     };
 
     const bodyContent = JSON.stringify({
-      prenom1: data.prenom,
-      nom1: data.nom,
-      email1: data.email,
+      prenom: data.prenom,
+      nom: data.nom,
+      email: data.email,
       role: data.role,
     });
 
@@ -306,17 +306,17 @@ function Liste_Employes() {
 
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.prenom1}</span>
+                  <span>{user.prenom}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.nom1}</span>
+                  <span>{user.nom}</span>
                 </div>
               </td>
               <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                  <span>{user.email1}</span>
+                  <span>{user.email}</span>
                 </div>
               </td>
               <td
@@ -334,7 +334,7 @@ function Liste_Employes() {
                   <span className={` ${!etat ? "" : "cacher"}`}>
                     <svg
                       onClick={() => {
-                        archiver(true, user.id_employe);
+                        archiver(true, user.id);
                       }}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
@@ -365,10 +365,10 @@ function Liste_Employes() {
                     <svg
                       onClick={() => {
                         handleShow(
-                          user.id_employe,
-                          user.prenom1,
-                          user.nom1,
-                          user.email1,
+                          user.id,
+                          user.prenom,
+                          user.nom,
+                          user.email,
                           user.role
                         );
                       }}
@@ -400,7 +400,7 @@ function Liste_Employes() {
                     className={`border-2 border-gray-300 px-1 py-1 `}
                   >
                     <svg
-                      onClick={() => getOnUser_(user.id_employe)}
+                      onClick={() => getOnUser_(user.id)}
                       style={{ cursor: "pointer" }}
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"

@@ -1,9 +1,8 @@
 import {
   Injectable,
-  ConflictException,
-  UnauthorizedException,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -11,8 +10,7 @@ import { CreateEmployeDto } from "./dto/create-employe.dto";
 import { UpdateEmployeDto } from "./dto/update-employe.dto";
 import { UpdatePasswordDto } from "./dto/updatePassword.dto";
 import { Employes } from "./entities/employe.entity";
-import * as bcrypt from "bcryptjs";
-import { log } from "console";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class EmployesService {
@@ -21,29 +19,30 @@ export class EmployesService {
     private employesRepository: Repository<Employes>
   ) {}
 
-  async create(createEmployeDto: CreateEmployeDto): Promise<Employes> {
-    const { prenom1, nom1, email1,mot_de_passe, matricule1, role, image} = createEmployeDto;
-      // Vérifier si un employé avec la même adresse e-mail existe déjà dans la base de données
-      const existingEmploye = await this.employesRepository.findOneBy({ email1 });
-      if (existingEmploye) {
-        throw new ConflictException('Adresse e-mail déjà prise');
-      }
-      const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-
-    const employe = new Employes();
-    employe.prenom1 = createEmployeDto.prenom1;
-    employe.nom1 = createEmployeDto.nom1;
-    employe.email1 = createEmployeDto.email1;
-    employe.mot_de_passe = hashedPassword;
-    employe.matricule1 = createEmployeDto.matricule1;
-    employe.role = createEmployeDto.role;
-    employe.image = createEmployeDto.image;
-    employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-    employe.etat = true;
-    
-    return await this.employesRepository.save(employe);
+  async checkEmailExists(email: string): Promise<boolean> {
+    const employe = await this.employesRepository.findOneBy({ email });
+    return !!employe;
   }
 
+  async create(createEmployeDto: CreateEmployeDto){
+    const mot_de_passe = createEmployeDto.mot_de_passe;
+    const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
+
+    const newEmploye = this.employesRepository.create({
+      prenom: createEmployeDto.prenom,
+      nom: createEmployeDto.nom,
+      email: createEmployeDto.email,
+      mot_de_passe: hashedPassword,
+      role: createEmployeDto.role,
+      matricule: createEmployeDto.matricule,
+      image: createEmployeDto.image,
+      date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+    });
+    
+    return await this.employesRepository.save(newEmploye);
+    
+  }
+  
   async findAll(): Promise<Employes[]> {
     return await this.employesRepository.find({});
   }
@@ -54,9 +53,9 @@ export class EmployesService {
 
   async update(id: number, updateEmployeDto: UpdateEmployeDto) {
   
-    const { email1 } = updateEmployeDto;
-    if (email1 != "undefined") {
-      const existe = await  this.employesRepository.findOne({ where: {email1} });
+    const { email } = updateEmployeDto;
+    if (email != "undefined") {
+      const existe = await  this.employesRepository.findOne({ where: {email} });
       if (existe) {
         //console.log(`${email1} ' '${existe}`);
         throw new ConflictException('Adresse e-mail déjà prise');
@@ -74,10 +73,10 @@ export class EmployesService {
 
   //modification mot de passe
   async updatePassword(
-    email1: string,
+    email: string,
     updatePassword: UpdatePasswordDto
   ):Promise<any> {
-    const user = await this.employesRepository.findOne({ where: { email1 } });
+    const user = await this.employesRepository.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException("User not found");
     }

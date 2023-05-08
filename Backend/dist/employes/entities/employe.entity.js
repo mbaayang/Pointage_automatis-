@@ -16,33 +16,33 @@ let Employes = class Employes {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Employes.prototype, "id_employe", void 0);
+], Employes.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "prenom1", void 0);
+], Employes.prototype, "prenom", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "nom1", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", String)
-], Employes.prototype, "email1", void 0);
+], Employes.prototype, "nom", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Employes.prototype, "email", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'text' }),
     __metadata("design:type", String)
 ], Employes.prototype, "mot_de_passe", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Employes.prototype, "matricule1", void 0);
+], Employes.prototype, "matricule", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Employes.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: 'longtext' }),
     __metadata("design:type", String)
 ], Employes.prototype, "image", void 0);
 __decorate([
@@ -54,7 +54,7 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);
 Employes = __decorate([
-    (0, typeorm_1.Entity)({ name: "employes" })
+    (0, typeorm_1.Entity)()
 ], Employes);
 exports.Employes = Employes;
 //# sourceMappingURL=employe.entity.js.map

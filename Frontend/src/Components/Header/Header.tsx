@@ -1,18 +1,19 @@
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
-import { FormGroup } from "react-bootstrap";
+import axios from "axios";
 
 function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [error, setError] = useState<any>("");
+  const [users, setUsers] = useState<any>();
   const navigate = useNavigate();
   const {
     register,
@@ -37,6 +38,14 @@ function Header() {
   /*****************************************************************************************
    ******************************LOGIN FUNCTION*********************************************
    ****************************************************************************************/
+   useEffect(() => {
+    axios.get(`http://localhost:3000/employes/${localStorage.getItem(
+      "id"
+    )}`).then((response) => {
+        console.log(response);
+        setUsers(response.data)
+    })
+}, [])
 
   const onSubmit = (data: any) => {
     console.log(data);
@@ -68,6 +77,9 @@ function Header() {
           setError("");
           showSuccessAlert();
           reset();
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         }
       });
   };
@@ -108,9 +120,9 @@ function Header() {
             </svg>
           </div>
         </Link>
-        <div className="rounded-full w-32 h-32 bg-slate-500 absolute shadow-md ml-24 mt-3">
-          <img src="" alt="" />
-        </div>
+     
+          <img src={`data:image/png;base64,${localStorage.getItem("image")}`} alt="" className="rounded-circle rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3" />
+        
         <div className="text-white text-lg absolute ml-60 mt-4">
           <p>
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
@@ -233,7 +245,7 @@ function Header() {
             >
               {error}
             </div>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Mot de passe actuel</Form.Label>
               <Form.Control
                 type="password"
@@ -254,7 +266,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">Nouveau mot de passe</Form.Label>
               <Form.Control
                 type="password"
@@ -275,7 +287,7 @@ function Header() {
                 <p className="text-red-500">Maximum 20 caractères</p>
               )}
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Form.Label className="text-lg">
                 Confirmation du mot de passe
               </Form.Label>
@@ -303,9 +315,6 @@ function Header() {
             </Button>
           </Form>
         </Modal.Body>
-        {/*   <Modal.Footer>
-          
-        </Modal.Footer> */}
       </Modal>
     </>
   );

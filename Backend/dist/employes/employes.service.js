@@ -17,29 +17,29 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const employe_entity_1 = require("./entities/employe.entity");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 let EmployesService = class EmployesService {
     constructor(employesRepository) {
         this.employesRepository = employesRepository;
     }
+    async checkEmailExists(email) {
+        const employe = await this.employesRepository.findOneBy({ email });
+        return !!employe;
+    }
     async create(createEmployeDto) {
-        const { prenom1, nom1, email1, mot_de_passe, matricule1, role, image } = createEmployeDto;
-        const existingEmploye = await this.employesRepository.findOneBy({ email1 });
-        if (existingEmploye) {
-            throw new common_1.ConflictException('Adresse e-mail déjà prise');
-        }
+        const mot_de_passe = createEmployeDto.mot_de_passe;
         const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
-        const employe = new employe_entity_1.Employes();
-        employe.prenom1 = createEmployeDto.prenom1;
-        employe.nom1 = createEmployeDto.nom1;
-        employe.email1 = createEmployeDto.email1;
-        employe.mot_de_passe = hashedPassword;
-        employe.matricule1 = createEmployeDto.matricule1;
-        employe.role = createEmployeDto.role;
-        employe.image = createEmployeDto.image;
-        employe.date_inscription = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
-        employe.etat = true;
-        return await this.employesRepository.save(employe);
+        const newEmploye = this.employesRepository.create({
+            prenom: createEmployeDto.prenom,
+            nom: createEmployeDto.nom,
+            email: createEmployeDto.email,
+            mot_de_passe: hashedPassword,
+            role: createEmployeDto.role,
+            matricule: createEmployeDto.matricule,
+            image: createEmployeDto.image,
+            date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+        });
+        return await this.employesRepository.save(newEmploye);
     }
     async findAll() {
         return await this.employesRepository.find({});
@@ -48,9 +48,9 @@ let EmployesService = class EmployesService {
         return await this.employesRepository.findOneById(id);
     }
     async update(id, updateEmployeDto) {
-        const { email1 } = updateEmployeDto;
-        if (email1 != "undefined") {
-            const existe = await this.employesRepository.findOne({ where: { email1 } });
+        const { email } = updateEmployeDto;
+        if (email != "undefined") {
+            const existe = await this.employesRepository.findOne({ where: { email } });
             if (existe) {
                 throw new common_1.ConflictException('Adresse e-mail déjà prise');
             }
@@ -60,8 +60,8 @@ let EmployesService = class EmployesService {
     async remove(id) {
         await this.employesRepository.delete(id);
     }
-    async updatePassword(email1, updatePassword) {
-        const user = await this.employesRepository.findOne({ where: { email1 } });
+    async updatePassword(email, updatePassword) {
+        const user = await this.employesRepository.findOne({ where: { email } });
         if (!user) {
             throw new common_1.NotFoundException("User not found");
         }
