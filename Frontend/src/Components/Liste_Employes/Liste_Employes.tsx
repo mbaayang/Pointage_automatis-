@@ -10,30 +10,6 @@ import "./Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
 
 function Liste_Employes() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({ mode: "onChange" });
-
-  const [modalShow, setModalShow] = React.useState(false);
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-  };
-  const handleShow = (id: any) => {
-    setShow(true);
-    getOnUser(id);
-  };
-  //************** */
-  //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
-  //************** */
-  const getOnUser_ = (id: any) => {
-    getOnUser(id);
-    setModalShow(true);
-    console.log(id);
-  };
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
   const [defaultnom, setDefaultnom] = useState<string>("");
@@ -46,6 +22,44 @@ function Liste_Employes() {
   const [etat, setEtat] = useState<boolean>(true);
   const [ajour, setAjour] = useState<boolean>(true);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ mode: "onChange" });
+
+  const [modalShow, setModalShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = (
+    id: any,
+    prenom: any,
+    nom: any,
+    email: any,
+    role: any
+  ) => {
+    getOnUser(id);
+    setDefaultnom(nom);
+    setDefaultprenom(prenom);
+    setDefaultemail(email);
+    setDefaultrole(role);
+    console.log(defaultemail);
+    setShow(true);
+    /*  ajour ? setAjour(false) : setAjour(true); */
+    reset();
+  };
+  //************** */
+  //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
+  //************** */
+  const getOnUser_ = (id: any) => {
+    getOnUser(id);
+    setModalShow(true);
+    console.log(id);
+  };
+
   /*****************************************************************************************
    ******************************SWEET ALERT*********************************************
    ****************************************************************************************/
@@ -57,23 +71,20 @@ function Liste_Employes() {
       showConfirmButton: false, // Supprime le bouton "OK"
     });
   }
-  /* *********************************************************************************************************
+  /* *******************************************************************************
    **********************************RECUPERATION PAR ID****************************
-   ***************************************************************************************************** */
+   *********************************************************************************/
 
-  const getOnUser =  (id_employe: any) => {
+  const getOnUser = (id_employe: any) => {
     setId(id_employe);
     fetch(`http://localhost:3000/Employes/${id_employe}`)
- 
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.prenom1);
-        setDefaultnom(res.nom1);
+        /*  console.log(res); */
+        /*    setDefaultnom(res.nom1);
         setDefaultprenom(res.prenom1);
         setDefaultemail(res.email1);
-        setDefaultrole(res.role);
-
-        //setUsers(res);
+        setDefaultrole(res.role); */
       });
   };
 
@@ -112,6 +123,7 @@ function Liste_Employes() {
         }
       });
   }, [users.length, recherche, etat, modalShow, ajour]);
+
   /* *********************************************************************************************************
    **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
    ***************************************************************************************************** */
@@ -178,7 +190,7 @@ function Liste_Employes() {
     });
 
     const response = await fetch(`http://localhost:3000/employes/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: bodyContent,
       headers: headersList,
     });
@@ -352,7 +364,13 @@ function Liste_Employes() {
                   >
                     <svg
                       onClick={() => {
-                        handleShow(user.id_employe);
+                        handleShow(
+                          user.id_employe,
+                          user.prenom1,
+                          user.nom1,
+                          user.email1,
+                          user.role
+                        );
                       }}
                       style={{ cursor: "pointer" }}
                       width="20"
@@ -465,11 +483,10 @@ function Liste_Employes() {
               </Form.Label>
               <Form.Control
                 type="text"
-                value={defaultprenom}
+                defaultValue={defaultprenom}
                 placeholder="Entrer votre prénom"
                 {...register("prenom", {
                   required: false,
-            
                 })}
               />
               {errors.prenom?.type === "required" && (
@@ -481,7 +498,7 @@ function Liste_Employes() {
                 Nom<span className="text-danger">*</span>
               </Form.Label>
               <Form.Control
-                value={defaultnom}
+                defaultValue={defaultnom}
                 type="text"
                 placeholder="Entrer votre nom"
                 {...register("nom", {
@@ -523,17 +540,37 @@ function Liste_Employes() {
                   required: false,
                 })}
               >
-                <option className=" text-black"></option>
-                <option value="administrateur" className=" text-black">
+                <option className=" text-black">{defaultrole}</option>
+                <option
+                  value="administrateur"
+                  className={`text-black ${
+                    defaultrole == "administrateur" ? "d-none" : ""
+                  }`}
+                >
                   administrateur
                 </option>
-                <option value="surveillant" className=" text-black">
+                <option
+                  value="surveillant"
+                  className={`text-black ${
+                    defaultrole == "surveillant" ? "d-none" : ""
+                  }`}
+                >
                   surveillant
                 </option>
-                <option value="professeur" className=" text-black">
+                <option
+                  value="professeur"
+                  className={`text-black ${
+                    defaultrole == "professeur" ? "d-none" : ""
+                  }`}
+                >
                   professeur
                 </option>
-                <option value="vigil" className=" text-black">
+                <option
+                  value="vigil"
+                  className={`text-black ${
+                    defaultrole == "vigil" ? "d-none" : ""
+                  }`}
+                >
                   vigil
                 </option>
               </Form.Select>
