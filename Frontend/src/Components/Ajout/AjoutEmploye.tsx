@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
@@ -13,10 +13,9 @@ function AjoutEmploye() {
     const [password, setpassword] = useState<string>("password");
     const [eye1, seteye1] = useState<boolean>(true);
     const [passwordConfirm, setPasswordConfirm] = useState<string>("password");
-    const [errorBack, setErrorBack] = useState("");
-    const [etat, setEtat] = useState<boolean>(false);
-    const [errorPassword, setErrorPass] = useState("");
-    const [file, setFile] = useState<any>();
+    const [error, setError] = useState<any>("");
+    const [pass, setPass] = useState<any>("")
+    const [errorPassword, setErrorPassword] = useState<any>("")
     
 
     const Eye = () => {
@@ -39,9 +38,6 @@ function AjoutEmploye() {
         }
     };
 
-     /* const setimgfile = (e: any) => {
-        setFile(e.target.files[0])
-    }  */
 
     function showSuccessAlert() {
         Swal.fire({
@@ -59,15 +55,22 @@ function AjoutEmploye() {
         formState: { errors },
     } = useForm({ mode: "onChange" });
 
+    const mot_de_passe = useRef({});
+    mot_de_passe.current = watch("mot_de_passe", "");
+
     const onSubmit = (data:any) => {
         
         console.log(data)
+        if(data.mot_de_passe !== pass){
+            setErrorPassword("Mots de passe non identique")
+        }
+        
         const lecteur = new FileReader()
 
         lecteur.readAsDataURL(data.image[0]);
         lecteur.onload = async () => {
             const base64Image = lecteur.result!.split(',')[1]
-        
+            try{
             const response = await axios.post("http://localhost:3000/employes/post",
             {
                 prenom: data.prenom,
@@ -84,6 +87,13 @@ function AjoutEmploye() {
                 window.location.reload();
             }, 2000);   
         }
+        catch (error) {
+            console.log(error.response.data.message);
+                setError(error.response.data.message);
+            
+              
+          }
+        }
     };
 
     return (
@@ -92,10 +102,11 @@ function AjoutEmploye() {
                 <div className="d-flex justify-content-between p-3">
                     <h1 className="h4 text-color">Inscrire un employé</h1>
                 </div>
-                <div
-                    className={`alert alert-danger text-center ${!etat ? "cacher" : ""}`}>
-                    {errorBack}
-                </div>
+                {error && (
+            <div className="alert alert-danger text-center mr-3 ml-3 mb-5 " role="alert">
+              <strong> Erreur! </strong> {error}
+            </div>
+          )}
                 <div className="-mt-8">
                     <Form onSubmit={handleSubmit(onSubmit)} className="m-3 space-y-3">
                         <Form.Group>
@@ -208,18 +219,21 @@ function AjoutEmploye() {
                                 <InputGroup>
                                     <Form.Control style={{ borderRight: 'none' }}
                                         type={passwordConfirm}
-                                        placeholder="*****" />
+                                        placeholder="*****"
+                                        {...register("confirmPassword", { required: {
+                                            value: true,
+                                            message: "Ce champ est obligatoire",
+                                        },
+                                        validate: (value) =>
+                                        mot_de_passe.current === value || "Mots de passe non correspondant",
+                                        })} />
                                     <InputGroup.Text className="bg-white">
-                                        <i onClick={() => { Eye1(); }} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"}`}></i>
+                                        <i onClick={() => { Eye1(); }} className={`bi ${eye1 ? "bi bi-eye-slash" : "bi-eye"} cursor-pointer`}></i>
                                     </InputGroup.Text>
-                                </InputGroup>          
-                                {/* <p className="text-red-600"></p> */}
-                                {errors.passwordConfirm?.type === "required" && (
-                                    <p className="text-red-600">Ce champ est obligatoire</p>
+                                </InputGroup>
+                                {errors.confirmPassword && (
+                                    <p className="text-red-600">{errors.confirmPassword.message as string}</p>
                                 )}
-                                {/* <div className="text-red-600">
-                                {errorPassword}
-                                </div> */}
                             </Form.Group>
                         </Row>
                         <Form.Group>
