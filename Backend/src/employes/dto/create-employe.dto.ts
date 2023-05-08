@@ -1,34 +1,13 @@
 import { IsNotEmpty, IsEmail, IsString, Matches } from "class-validator";
 
 export class CreateEmployeDto {
-<<<<<<< HEAD
-   
-    prenom: string;
-
-    nom: string;
-
-    email: string;
-
-    mot_de_passe: string;
-
-    matricule: string;
-
-    role: string;
-
-    image: string;
-
-    date_inscription: string;
-
-    etat: boolean;
-}
-=======
   @IsString()
   @IsNotEmpty()
-  prenom1: string;
+  prenom: string;
 
   @IsString()
   @IsNotEmpty()
-  nom1: string;
+  nom: string;
 
   @IsEmail({}, { message: "Adresse e-mail invalide" })
   @Matches(
@@ -37,7 +16,7 @@ export class CreateEmployeDto {
     ),
     { message: "Format de l'email invalide" }
   )
-  email1: string;
+  email: string;
 
   @IsString()
   @IsNotEmpty()
@@ -45,7 +24,7 @@ export class CreateEmployeDto {
 
   @IsString()
   @IsNotEmpty()
-  matricule1: string;
+  matricule: string;
 
   @IsNotEmpty()
   role: string;
@@ -53,4 +32,3 @@ export class CreateEmployeDto {
   @IsNotEmpty()
   image: string;
 }
->>>>>>> origin/MHDLamine
