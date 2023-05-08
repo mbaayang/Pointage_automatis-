@@ -29,9 +29,9 @@ export class EtudiantService {
     return this.etudiantRepository.find();
   }
 
-/*   findOne(id: number) {
-    return this.etudiantRepository.findOneBy({id});
-  } */
+  findOne(id: number) {
+    return this.etudiantRepository.findOneBy({id_etudiant: id});
+  }
 
   update(id: number, updateEtudiantDto: UpdateEtudiantDto) {
     return this.etudiantRepository.update(id, updateEtudiantDto);

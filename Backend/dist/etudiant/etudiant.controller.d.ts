@@ -6,5 +6,6 @@ export declare class EtudiantController {
     constructor(etudiantService: EtudiantService);
     create(createEtudiantDto: CreateEtudiantDto, res: any): Promise<any>;
     findAll(): Promise<import("./entities/etudiant.entity").Etudiant[]>;
+    findOne(id: number): Promise<import("./entities/etudiant.entity").Etudiant>;
     update(id: number, updateEtudiantDto: UpdateEtudiantDto): Promise<import("typeorm").UpdateResult>;
 }

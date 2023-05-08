@@ -47,6 +47,7 @@ function AjoutEmploye() {
     const {
         register,
         watch,
+        reset,
         handleSubmit,
         formState: { errors },
     } = useForm({ mode: "onChange" });
@@ -75,6 +76,7 @@ function AjoutEmploye() {
                 });
                 console.log(response);
                 showSuccessAlert();
+                reset();
                 setTimeout(() => {
                     window.location.reload();
                 }, 2000);

@@ -24,10 +24,10 @@ export class EtudiantController {
     return this.etudiantService.findAll();
   }
 
-/*   @Get(':id')
+  @Get(':id')
   findOne(@Param('id') id: number) {
     return this.etudiantService.findOne(id);
-  } */
+  }
 
   @Put(':id')
   update(@Param('id') id: number, 

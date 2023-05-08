@@ -8,5 +8,6 @@ export declare class EtudiantService {
     checkEmailExists(email: string): Promise<boolean>;
     create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant>;
     findAll(): Promise<Etudiant[]>;
+    findOne(id: number): Promise<Etudiant>;
     update(id: number, updateEtudiantDto: UpdateEtudiantDto): Promise<import("typeorm").UpdateResult>;
 }
