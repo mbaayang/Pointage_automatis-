@@ -119,9 +119,7 @@ function Header() {
             </svg>
           </div>
         </Link>
-        <div className="rounded-full w-32 h-32 bg-slate-500 absolute shadow-md ml-24 mt-3">
-          <img src={`data:image/png;base64,${localStorage.getItem("image")}`} alt="" className="rounded-circle" />
-        </div>
+          <img src={`data:image/png;base64,${localStorage.getItem("image")}`} alt=""  className="rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3"/>
         <div className="text-white text-lg absolute ml-60 mt-4">
           <p>
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
