@@ -24,12 +24,19 @@ let EmployesController = class EmployesController {
         this.employesService = employesService;
     }
     async create(createEmployeDto, res) {
+        const base64Image = createEmployeDto.image;
+        const fileSizeInBytes = (base64Image.length * 0.75);
+        const fileSizeInMb = fileSizeInBytes / (1024 * 1024);
+        if (fileSizeInMb > 1) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'La taille de l\'image est trop grande.' });
+        }
         const emailExists = await this.employesService.checkEmailExists(createEmployeDto.email);
         if (emailExists) {
             return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
         }
         else {
-            return this.employesService.create(createEmployeDto);
+            const employe = this.employesService.create(createEmployeDto);
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Succes', employe });
         }
     }
     findAll() {
@@ -77,7 +84,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(":id"),
+    (0, common_1.Put)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
