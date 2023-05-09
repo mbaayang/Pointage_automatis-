@@ -205,6 +205,9 @@ function Liste_Employes() {
 
     if (donnee.message) {
       setErrormessage(donnee.message);
+      setTimeout(() => {
+        setErrormessage("");
+      }, 2000);
     } else {
       setErrormessage("");
       reset();
