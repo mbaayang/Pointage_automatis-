@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Put
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
-import {  UpdatePasswordDto } from './dto/updatePassword.dto';
+import { UpdatePasswordDto } from './dto/updatePassword.dto';
 
 
 @Controller('employes')
@@ -11,12 +11,23 @@ export class EmployesController {
 
   @Post()
   async create(@Body() createEmployeDto: CreateEmployeDto, @Res() res) {
+
+      // Vérifier la taille de l'image
+      const base64Image = createEmployeDto.image;
+      const fileSizeInBytes = (base64Image.length * 0.75);
+      const fileSizeInMb = fileSizeInBytes / (1024 * 1024); // Conversion en Mo
+  
+      if (fileSizeInMb > 1) {
+        return res.status(HttpStatus.BAD_REQUEST).json({ message: 'La taille de l\'image est trop grande.' });
+      }
+
     // Vérifier si le mail existe déjà
     const emailExists = await this.employesService.checkEmailExists(createEmployeDto.email);
     if (emailExists) {
       return res.status(HttpStatus.BAD_REQUEST).json({ message: 'L\'adresse email existe déjà.' });
     } else{
-    return this.employesService.create(createEmployeDto);
+    const employe = this.employesService.create(createEmployeDto)
+    return res.status(HttpStatus.OK).json({message:'Succes', employe}) ;
     }
   }
 

@@ -1,22 +1,34 @@
 import { IsNotEmpty, IsEmail, IsString, Matches } from "class-validator";
 
 export class CreateEmployeDto {
-   
-    prenom: string;
+  @IsString()
+  @IsNotEmpty()
+  prenom: string;
 
-    nom: string;
+  @IsString()
+  @IsNotEmpty()
+  nom: string;
 
-    email: string;
+  @IsEmail({}, { message: "Adresse e-mail invalide" })
+  @Matches(
+    new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    ),
+    { message: "Format de l'email invalide" }
+  )
+  email: string;
 
-    mot_de_passe: string;
+  @IsString()
+  @IsNotEmpty()
+  mot_de_passe: string;
 
-    matricule: string;
+  @IsString()
+  @IsNotEmpty()
+  matricule: string;
 
-    role: string;
+  @IsNotEmpty()
+  role: string;
 
-    image: string;
-
-    date_inscription: string;
-
-    etat: boolean;
+  @IsNotEmpty()
+  image: string;
 }

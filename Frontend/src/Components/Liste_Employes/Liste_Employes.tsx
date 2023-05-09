@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-//import './liste_Employes.json'
 import "./Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
 
@@ -549,7 +547,7 @@ function Liste_Employes() {
                   required: false,
                 })}
               >
-                <option className=" text-black">{defaultrole}</option>
+            <option className=" text-black">{defaultrole}</option>
                 <option
                   value="administrateur"
                   className={`text-black ${
@@ -582,6 +580,7 @@ function Liste_Employes() {
                 >
                   vigil
                 </option>
+
               </Form.Select>
               {errors.role?.type === "required" && (
                 <p className="text-red-500">Ce champ est requis</p>
