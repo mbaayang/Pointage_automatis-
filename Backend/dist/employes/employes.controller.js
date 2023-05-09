@@ -18,6 +18,7 @@ const employes_service_1 = require("./employes.service");
 const create_employe_dto_1 = require("./dto/create-employe.dto");
 const update_employe_dto_1 = require("./dto/update-employe.dto");
 const updatePassword_dto_1 = require("./dto/updatePassword.dto");
+const employe_entity_1 = require("./entities/employe.entity");
 let EmployesController = class EmployesController {
     constructor(employesService) {
         this.employesService = employesService;
@@ -45,6 +46,13 @@ let EmployesController = class EmployesController {
     }
     remove(id) {
         return this.employesService.remove(+id);
+    }
+    async login(user) {
+        const validatedUser = await this.employesService.validateUser(user.matricule);
+        if (!validatedUser) {
+            throw new common_1.UnauthorizedException({ message: "connect toi" });
+        }
+        return this.employesService.login(validatedUser);
     }
 };
 __decorate([
@@ -91,6 +99,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], EmployesController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('matricule'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [employe_entity_1.Employes]),
+    __metadata("design:returntype", Promise)
+], EmployesController.prototype, "login", null);
 EmployesController = __decorate([
     (0, common_1.Controller)('employes'),
     __metadata("design:paramtypes", [employes_service_1.EmployesService])

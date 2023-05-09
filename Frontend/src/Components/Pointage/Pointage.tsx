@@ -10,40 +10,39 @@ const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."
   );
-  const [prenom, setPrenom] = useState<string>("- -");
+  const [prenom, setPrenom] = useState<string>("kjy");
   const [nom, setNom] = useState<string>("- -");
-  const [matricule, setMatricule] = useState<string>("- -");
+  const [matricule, setMatricule] = useState<string>("k,jnj");
   const [profil, setProfil] = useState<string>("- -");
-  const [bloquer, setBloquer] = useState<boolean>();
-  const [mat, setMat] = useState<any>();
+  const [bloquer, setBloquer] = useState<boolean>(false);
+  const [mat, setMat] = useState<Object>();
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
       //console.log(data);
       if (data) {
-        //console.log(data.split("@")[1]);
-        setMat(data);
+        setMat({matricule:data});
      }
     });
   }, [mat]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/employes/${mat}`, { //mis à jour to be merged MHDLamine->DEV
-      method: "GET",
-      //body: JSON.stringify(mat),
+    fetch("http://localhost:3000/employes/matricule", { //mis à jour to be merged MHDLamine->DEV
+      method: "POST",
+      body: JSON.stringify(mat),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
       .then((res) => res.json())
       .then((res) => {
-        //console.log(mat);
+        console.log(res);
        // console.log(res.token);
 
-        if (res) {
+       /*  if (res) {
           const id = res.id;
-          fetch("http://localhost:3000/presence-employes/presence", { //mis à jour to be merged MHDLamine->DEV
+          fetch("http://localhost:3000/presence-employes/presence", {
             method: "POST",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
@@ -55,7 +54,7 @@ const Pointage = () => {
           })
           .then((res) => res.json())
           .then((res) => {
-            //console.log(res.prenom);
+            
           
           
           localStorage.setItem("prenom", res.prenom);
@@ -68,8 +67,8 @@ const Pointage = () => {
          
         }
         if (res.message == "accès refusé" && mat != undefined) {
-          //setSms_erreur(false);
-        }
+          
+        } */
       }),
       [mat];
   });

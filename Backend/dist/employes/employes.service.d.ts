@@ -7,6 +7,15 @@ export declare class EmployesService {
     private employesRepository;
     constructor(employesRepository: Repository<Employes>);
     checkEmailExists(email: string): Promise<boolean>;
+    validateUser(matricule: string): Promise<Employes | null>;
+    login(user: Employes): Promise<{
+        id: number;
+        role: string;
+        prenom: string;
+        nom: string;
+        email: string;
+        image: string;
+    }>;
     create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;
     findOne(matricule: string): Promise<Employes>;
