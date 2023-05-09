@@ -166,7 +166,7 @@ function AjoutEmploye() {
                                 <option value="administrateur" className=" text-black">Admin</option>
                                 <option value="surveillant" className=" text-black"> Surveillant</option>
                                 <option value="professeur" className=" text-black"> Professeur</option>
-                                <option value="vigile" className=" text-black"> Vigile</option>
+                                <option value="vigil" className=" text-black"> Vigile</option>
                             </Form.Select>
                             {errors.role?.type === "required" && (
                                 <p className="text-red-500">Ce champ est requis</p>
