@@ -32,7 +32,7 @@ function AjoutEtudiant() {
     let base64 = "";
 
     lecteur.onload = async function () {
-      base64 = lecteur.result.split(',')[1];
+      base64 = lecteur.result!.split(',')[1];
 
       try {
         const response = await axios.post("http://localhost:3000/etudiant", {

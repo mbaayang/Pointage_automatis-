@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UnauthorizedException, Put } from '@nestjs/common';
 import { EmployesService } from './employes.service';
 import { CreateEmployeDto } from './dto/create-employe.dto';
 import { UpdateEmployeDto } from './dto/update-employe.dto';
-import { UpdatePasswordDto } from './dto/updatePassword.dto';
+import {  UpdatePasswordDto } from './dto/updatePassword.dto';
+import { Employes } from './entities/employe.entity';
+
 
 
 @Controller('employes')
@@ -37,8 +39,8 @@ export class EmployesController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.employesService.findOne(+id);
+  findOne(@Param("id") matricule: string) {
+    return this.employesService.findOne(matricule);
   }
 
   @Put(":id")
@@ -58,5 +60,17 @@ export class EmployesController {
   remove(@Param("id") id: string) {
     return this.employesService.remove(+id);
   }
+
+ 
+  @Post('matricule')
+  async login(@Body() user: Employes): Promise<{}> {
+    const validatedUser = await this.employesService.validateUser(user.matricule);
+    if (!validatedUser) {
+ 
+    throw new UnauthorizedException({ message: "connect toi" });
+    } 
+    return this.employesService.login(validatedUser);
+  }
+
 
 }
