@@ -8,30 +8,6 @@ import "./Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
 
 function Liste_Employes() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({ mode: "onChange" });
-
-  const [modalShow, setModalShow] = React.useState(false);
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-  };
-  const handleShow = (id: any) => {
-    setShow(true);
-    getOnUser(id);
-  };
-  //************** */
-  //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
-  //************** */
-  const getOnUser_ = (id: any) => {
-    getOnUser(id);
-    setModalShow(true);
-    console.log(id);
-  };
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
   const [defaultnom, setDefaultnom] = useState<string>("");
@@ -44,6 +20,45 @@ function Liste_Employes() {
   const [etat, setEtat] = useState<boolean>(true);
   const [ajour, setAjour] = useState<boolean>(true);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ mode: "onChange" });
+
+  const [modalShow, setModalShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = (
+    id: any,
+    prenom: any,
+    nom: any,
+    email: any,
+    role: any
+  ) => {
+    getOnUser(id);
+    setDefaultnom(nom);
+    setDefaultprenom(prenom);
+    setDefaultemail(email);
+    setDefaultrole(role);
+
+    setShow(true);
+
+    /*  ajour ? setAjour(false) : setAjour(true); */
+    reset();
+  };
+  //************** */
+  //avant archivage getOnUser_ affiche le modale et en meme teps appelle la fonction getOnUser qui recupere l'ID
+  //************** */
+  const getOnUser_ = (id: any) => {
+    getOnUser(id);
+    setModalShow(true);
+    console.log(id);
+  };
+
   /*****************************************************************************************
    ******************************SWEET ALERT*********************************************
    ****************************************************************************************/
@@ -55,29 +70,28 @@ function Liste_Employes() {
       showConfirmButton: false, // Supprime le bouton "OK"
     });
   }
-  /* *********************************************************************************************************
+  /* *******************************************************************************
    **********************************RECUPERATION PAR ID****************************
-   ***************************************************************************************************** */
+   *********************************************************************************/
 
-  const getOnUser =  (id_employe: any) => {
-    setId(id_employe);
-    fetch(`http://localhost:3000/Employes/${id_employe}`)
- 
+  const getOnUser = (id: any) => {
+    setId(id);
+   /*  fetch(`http://localhost:3000/Employes/${id}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.prenom);
-        setDefaultnom(res.nom);
-        setDefaultprenom(res.prenom);
-        setDefaultemail(res.email);
-        setDefaultrole(res.role);
-      });
+         console.log(res); 
+           setDefaultnom(res.nom1);
+        setDefaultprenom(res.prenom1);
+        setDefaultemail(res.email1);
+        setDefaultrole(res.role); 
+      }); */
   };
 
   useEffect(() => {
     fetch("http://localhost:3000/Employes/")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
           //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
@@ -93,10 +107,7 @@ function Liste_Employes() {
                 data.id != localStorage.getItem("id")
               );
             } else {
-              return (
-                data.etat == etat &&
-                data.id != localStorage.getItem("id")
-              );
+              return data.etat == etat && data.id != localStorage.getItem("id");
             }
           })
         );
@@ -108,6 +119,7 @@ function Liste_Employes() {
         }
       });
   }, [users.length, recherche, etat, modalShow, ajour]);
+
   /* *********************************************************************************************************
    **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
    ***************************************************************************************************** */
@@ -144,13 +156,13 @@ function Liste_Employes() {
     });
 
     const response = await fetch(`http://localhost:3000/employes/${y}`, {
-      method: "PATCH",
+      method: "PUT",/*  aprés 30 min je me suis rendu compte que c'etait PUT pas PATCH */
       body: bodyContent,
       headers: headersList,
     });
 
     const data = await response.json();
-    // console.log(data);
+     console.log(data);
     setEtat(true);
     setModalShow(false);
   };
@@ -165,16 +177,24 @@ function Liste_Employes() {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
-
+    let prenom, nom, email, role;
+    data.prenom == "" ? (prenom = defaultprenom) : (prenom = data.prenom);
+    data.nom == "" ? (nom = defaultnom) : (nom = data.nom);
+    data.email == "" || data.email == defaultemail
+      ? (email = undefined)
+      : (email = data.email);
+    data.role == "" ? (role = defaultrole) : (role = data.role);
+    console.log(email);
+    
     const bodyContent = JSON.stringify({
-      prenom: data.prenom,
-      nom: data.nom,
-      email: data.email,
-      role: data.role,
+      prenom: prenom,
+      nom: nom,
+      email: email,
+      role: role,
     });
 
     const response = await fetch(`http://localhost:3000/employes/${id}`, {
-      method: "PATCH",
+      method: "PUT",
       body: bodyContent,
       headers: headersList,
     });
@@ -183,6 +203,9 @@ function Liste_Employes() {
 
     if (donnee.message) {
       setErrormessage(donnee.message);
+      setTimeout(() => {
+        setErrormessage("");
+      }, 2000);
     } else {
       setErrormessage("");
       reset();
@@ -348,7 +371,13 @@ function Liste_Employes() {
                   >
                     <svg
                       onClick={() => {
-                        handleShow(user.id);
+                        handleShow(
+                          user.id,
+                          user.prenom,
+                          user.nom,
+                          user.email,
+                          user.role
+                        );
                       }}
                       style={{ cursor: "pointer" }}
                       width="20"
@@ -465,7 +494,6 @@ function Liste_Employes() {
                 placeholder="Entrer votre prénom"
                 {...register("prenom", {
                   required: false,
-            
                 })}
               />
               {errors.prenom?.type === "required" && (

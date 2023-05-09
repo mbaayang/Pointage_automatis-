@@ -52,12 +52,12 @@ export class EmployesService {
   }
 
   async update(id: number, updateEmployeDto: UpdateEmployeDto) {
- 
+  
     const { email } = updateEmployeDto;
     if (email != undefined) {
-      const existe = await  this.employesRepository.findOne({ where: { email } });
+      const existe = await  this.employesRepository.findOne({ where: {email} });
       if (existe) {
-        console.log(`${email} ' '${existe}`);
+        //console.log(`${email1} ' '${existe}`);
         throw new ConflictException('Adresse e-mail déjà prise');
       }
     }
