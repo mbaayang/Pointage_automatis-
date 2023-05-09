@@ -10,9 +10,9 @@ const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."
   );
-  const [prenom, setPrenom] = useState<string>("kjy");
+  const [prenom, setPrenom] = useState<string>("- -");
   const [nom, setNom] = useState<string>("- -");
-  const [matricule, setMatricule] = useState<string>("k,jnj");
+  const [matricule, setMatricule] = useState<string>("- -");
   const [profil, setProfil] = useState<string>("- -");
   const [bloquer, setBloquer] = useState<boolean>(false);
   const [mat, setMat] = useState<Object>();
