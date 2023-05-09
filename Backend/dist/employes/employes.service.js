@@ -52,7 +52,6 @@ let EmployesService = class EmployesService {
         if (email != undefined) {
             const existe = await this.employesRepository.findOne({ where: { email } });
             if (existe) {
-                console.log(`${email} ' '${existe}`);
                 throw new common_1.ConflictException('Adresse e-mail déjà prise');
             }
         }
