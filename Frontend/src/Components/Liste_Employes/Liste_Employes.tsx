@@ -183,7 +183,7 @@ function Liste_Employes() {
     data.prenom == "" ? (prenom = defaultprenom) : (prenom = data.prenom);
     data.nom == "" ? (nom = defaultnom) : (nom = data.nom);
     data.email == "" || data.email == defaultemail
-      ? (email = undefined)
+      ? (email = "undefined")
       : (email = data.email);
     data.role == "" ? (role = defaultrole) : (role = data.role);
     console.log(email);
