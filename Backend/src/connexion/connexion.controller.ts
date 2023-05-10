@@ -20,12 +20,7 @@ export class AuthController {
     } 
     return this.authService.login(validatedUser);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('/etat')
-  profile(@Req() request: RequestWithUser) {
-    return request.user;
-  }
+  
 
 }
  

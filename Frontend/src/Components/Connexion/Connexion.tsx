@@ -29,7 +29,7 @@ function Connexion() {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        email1: data.email,
+        email: data.email,
         mot_de_passe: data.passe,
       }),
     })
