@@ -11,12 +11,12 @@ export function HistoriqueEmploye() {
   /* Stockage des données de l'historique dans une variable d'état */
   const [data, setData] = useState<Employe[]>([]);
 
-  /* toute l'historique est stockée dans la variable d'état data, mais pour la pagination, on ne veut afficher que 5 éléments à la fois, donc on crée une variable d'état pour stocker les 5 éléments à afficher */
+  /* toute l'historique est stockée dans la variable d'état data, mais pour la pagination, on ne veut afficher que 7 éléments à la fois, donc on crée une variable d'état pour stocker les 5 éléments à afficher */
   const [currentItems, setCurrentItems] = useState<Employe[]>([]);
 
   /* Variable d'état pour gèrer la page courante */
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(5);
+  const [itemsPerPage] = useState<number>(7);
   const [totalItems, setTotalItems] = useState<number>(0);
  
   /* Fonction de pagination */ 
@@ -86,8 +86,8 @@ useEffect(() => {
 
   return (
     <div
-      className="flex justify-center w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
-      style={{ marginLeft: "10%" }}
+      className="flex w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
+      style={{ marginLeft: "10%", height:"600px" }}
     >
       <div className="flex justify-start text-xl font-medium mt-4 space-x-2"
         style={{ color: "#81CCB7" }}>
