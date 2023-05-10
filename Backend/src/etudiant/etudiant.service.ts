@@ -30,7 +30,7 @@ export class EtudiantService {
   }
 
   findOne(id: number) {
-    return this.etudiantRepository.findOneBy({id_etudiant: id});
+    return this.etudiantRepository.findOneBy({id});
   }
 
   update(id: number, updateEtudiantDto: UpdateEtudiantDto) {

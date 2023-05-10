@@ -26,6 +26,44 @@ let EmployesService = class EmployesService {
         const employe = await this.employesRepository.findOneBy({ email });
         return !!employe;
     }
+    async validateUser(matricule) {
+        const user = await this.employesRepository.findOne({ where: { matricule } });
+        if (user) {
+            const etat = user.etat;
+            if (etat == false) {
+                throw new common_1.UnauthorizedException({
+                    correct: false,
+                    message: "compte archivé",
+                });
+            }
+            else {
+                return user;
+            }
+        }
+        else {
+            throw new common_1.UnauthorizedException({
+                correct: false,
+                message: "matricule invalide",
+            });
+        }
+    }
+    async login(user) {
+        const payload = { email1: user.email, sub: user.id };
+        const id = user.id;
+        const role = user.role;
+        const prenom = user.prenom;
+        const nom = user.nom;
+        const email = user.email;
+        const image = user.image;
+        return {
+            id: id,
+            role: role,
+            prenom: prenom,
+            nom: nom,
+            email: email,
+            image: image,
+        };
+    }
     async create(createEmployeDto) {
         const mot_de_passe = createEmployeDto.mot_de_passe;
         const hashedPassword = await bcrypt.hash(mot_de_passe, 10);
@@ -44,8 +82,8 @@ let EmployesService = class EmployesService {
     async findAll() {
         return await this.employesRepository.find({});
     }
-    async findOne(id) {
-        return await this.employesRepository.findOneById(id);
+    async findOne(matricule) {
+        return await this.employesRepository.findOneById(matricule);
     }
     async update(id, updateEmployeDto) {
         const { email } = updateEmployeDto;
