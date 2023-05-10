@@ -108,12 +108,12 @@ const Dashboard = () => {
               </Link>
               <Link to="presenceEtudiant" onClick={()=>{localStorage.removeItem('annee'); localStorage.setItem('annee', '2 ème année')}}>
                 <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
-                  2 ère année
+                  2 ème année
                 </span>
               </Link>
               <Link to="presenceEtudiant" onClick={()=>{localStorage.removeItem('annee'); localStorage.setItem('annee', '3 ème année')}}>
                 <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
-                  3 ère année
+                  3 ème année
                 </span>
               </Link>
             </div>
