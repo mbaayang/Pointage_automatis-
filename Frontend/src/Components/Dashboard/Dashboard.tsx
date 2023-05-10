@@ -101,17 +101,17 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
-              <Link to="presenceEtudiant">
+              <Link to="presenceEtudiant" onClick={()=>{localStorage.removeItem('annee'); localStorage.setItem('annee', '1 ère année')}}>
                 <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg">
                   1 ère année
                 </span>
               </Link>
-              <Link to="presenceEtudiant">
+              <Link to="presenceEtudiant" onClick={()=>{localStorage.removeItem('annee'); localStorage.setItem('annee', '2 ème année')}}>
                 <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
                   2 ère année
                 </span>
               </Link>
-              <Link to="presenceEtudiant">
+              <Link to="presenceEtudiant" onClick={()=>{localStorage.removeItem('annee'); localStorage.setItem('annee', '3 ème année')}}>
                 <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
                   3 ère année
                 </span>
