@@ -160,16 +160,15 @@ function AjoutEmploye() {
                             <Form.Select
                                 id="role"
                                 placeholder="Choisir un rôle"
-                                {...register("role", { required: true,})}
-                            >
-                                <option placeholder="Choisir un rôle"></option>
+                                {...register("role", { required: true,})}>
+                                <option value="" > Choisir un rôle </option>
                                 <option value="administrateur" className=" text-black">Admin</option>
                                 <option value="surveillant" className=" text-black"> Surveillant</option>
                                 <option value="professeur" className=" text-black"> Professeur</option>
                                 <option value="vigil" className=" text-black"> Vigile</option>
                             </Form.Select>
                             {errors.role?.type === "required" && (
-                                <p className="text-red-500">Ce champ est requis</p>
+                                <p className="text-red-500">Ce champ est obliguatoire</p>
                             )}
                         </Form.Group>
                         <Row>

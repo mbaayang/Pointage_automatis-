@@ -111,7 +111,6 @@ function Liste_Employes() {
             }
           })
         );
-        console.log(users.length);
         if (users.length == 0) {
           setIntrouvable(true);
         } else {
@@ -146,7 +145,6 @@ function Liste_Employes() {
     const y = x;
     const headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
@@ -156,7 +154,7 @@ function Liste_Employes() {
     });
 
     const response = await fetch(`http://localhost:3000/employes/${y}`, {
-      method: "PUT",/*  aprés 30 min je me suis rendu compte que c'etait PUT pas PATCH */
+      method: "PUT",
       body: bodyContent,
       headers: headersList,
     });
@@ -173,7 +171,6 @@ function Liste_Employes() {
     console.log(data);
     const headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
@@ -431,8 +428,6 @@ function Liste_Employes() {
         </tbody>
       </Table>
       <div className={` ${!introuvable ? "cacher" : ""}`}>
-        {" "}
-        {/*   <NoResult></NoResult> */}
         <div
           aria-colspan={6}
           className={`px-4 py-2 flex flex-col items-center justify-center`}
