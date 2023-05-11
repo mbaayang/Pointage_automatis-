@@ -7,4 +7,5 @@ export declare class Etudiant {
     niveau: string;
     photo: string;
     date_inscription: string;
+    etat: boolean;
 }

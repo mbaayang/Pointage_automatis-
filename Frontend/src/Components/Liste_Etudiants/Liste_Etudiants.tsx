@@ -4,16 +4,16 @@ import { useForm } from "react-hook-form";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-import "./Liste_Employes.css";
+import "../Liste_Employes/Liste_Employes.css";
 /* import NoResult from "../Historique/NoResult"; */
 
-function Liste_Employes() {
+function Liste_Etudiants() {
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
   const [defaultnom, setDefaultnom] = useState<string>("");
   const [defaultprenom, setDefaultprenom] = useState<string>("");
   const [defaultemail, setDefaultemail] = useState<string>("");
-  const [defaultrole, setDefaultrole] = useState<string>("");
+  const [defaultniveau, setDefaultniveau] = useState<string>("");
   const [recherche, setRecherche] = useState<string>("");
   const [introuvable, setIntrouvable] = useState<boolean>(false);
   const [errormessage, setErrormessage] = useState<string>("");
@@ -42,13 +42,13 @@ function Liste_Employes() {
     prenom: any,
     nom: any,
     email: any,
-    role: any
+    niveau: any
   ) => {
     getOnUser(id);
     setDefaultnom(nom);
     setDefaultprenom(prenom);
     setDefaultemail(email);
-    setDefaultrole(role);
+    setDefaultniveau(niveau);
 
     setShow(true);
 
@@ -85,11 +85,11 @@ function Liste_Employes() {
 
   useEffect(() => {
     fetch(
-      `http://localhost:3000/Employes/?_page=${currentPage}&_limit=${itemsPerPage}`
+      `http://localhost:3000/etudiant/?_page=${currentPage}&_limit=${itemsPerPage}`
     )
       .then((res) => res.json())
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
           //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
@@ -212,7 +212,7 @@ function Liste_Employes() {
       etat: etat,
     });
 
-    const response = await fetch(`http://localhost:3000/employes/${y}`, {
+    const response = await fetch(`http://localhost:3000/etudiant/${y}`, {
       method: "PUT",
       body: bodyContent,
       headers: headersList,
@@ -233,23 +233,23 @@ function Liste_Employes() {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
-    let prenom, nom, email, role;
+    let prenom, nom, email, niveau;
     data.prenom == "" ? (prenom = defaultprenom) : (prenom = data.prenom);
     data.nom == "" ? (nom = defaultnom) : (nom = data.nom);
     data.email == "" || data.email == defaultemail
       ? (email = undefined)
       : (email = data.email);
-    data.role == "" ? (role = defaultrole) : (role = data.role);
+    data.niveau == "" ? (niveau = defaultniveau) : (niveau = data.niveau);
     console.log(email);
 
     const bodyContent = JSON.stringify({
       prenom: prenom,
       nom: nom,
       email: email,
-      role: role,
+      niveau: niveau,
     });
 
-    const response = await fetch(`http://localhost:3000/employes/${id}`, {
+    const response = await fetch(`http://localhost:3000/etudiant/${id}`, {
       method: "PUT",
       body: bodyContent,
       headers: headersList,
@@ -354,7 +354,7 @@ function Liste_Employes() {
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>
             <th className="px-4 py-2 border-2 border-gray-300">Actions</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Rôles</th>
+            <th className="px-4 py-2 border-2 border-gray-300">Niveau</th>
           </tr>
         </thead>
         <tbody>
@@ -433,7 +433,7 @@ function Liste_Employes() {
                             user.prenom,
                             user.nom,
                             user.email,
-                            user.role
+                            user.niveau
                           );
                         }}
                         style={{ cursor: "pointer" }}
@@ -480,7 +480,7 @@ function Liste_Employes() {
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.role}</span>
+                    <span>{user.niveau}</span>
                   </div>
                 </td>
               </tr>
@@ -599,48 +599,43 @@ function Liste_Employes() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
-                Rôle<span className="text-danger">*</span>
+                Niveau<span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
-                defaultValue={defaultrole}
+                defaultValue={defaultniveau}
                 placeholder="Choisir un rôle"
-                {...register("role", {
+                {...register("niveau", {
                   required: false,
                 })}
               >
-                <option className=" text-black">{defaultrole}</option>
+                <option className=" text-black">{defaultniveau}</option>
                 <option
-                  value="administrateur"
+                  value="1 ère année"
                   className={`text-black ${
-                    defaultrole == "administrateur" ? "d-none" : ""
+                    defaultniveau == "1 ère année" ? "d-none" : ""
                   }`}
                 >
-                  administrateur
+                  1 ère année
                 </option>
                 <option
-                  value="surveillant"
+                  value="2 ème année"
                   className={`text-black ${
-                    defaultrole == "surveillant" ? "d-none" : ""
+                    defaultniveau == "2 ème année" ? "d-none" : ""
                   }`}
                 >
-                  surveillant
+                  2 ème année
+
                 </option>
                 <option
-                  value="professeur"
+                  value="3 ème année"
                   className={`text-black ${
-                    defaultrole == "professeur" ? "d-none" : ""
+                    defaultniveau == "2 ème année" ? "d-none" : ""
                   }`}
                 >
-                  professeur
+                  3 ème année
+
                 </option>
-                <option
-                  value="vigil"
-                  className={`text-black ${
-                    defaultrole == "vigil" ? "d-none" : ""
-                  }`}
-                >
-                  vigil
-                </option>
+               
               </Form.Select>
               {errors.role?.type === "required" && (
                 <p className="text-red-500">Ce champ est requis</p>
@@ -691,4 +686,4 @@ function Liste_Employes() {
     );
   }
 }
-export default Liste_Employes;
+export default Liste_Etudiants;
