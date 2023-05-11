@@ -5,7 +5,7 @@ export declare class PresenceEtudiantsController {
     private readonly presenceEtudiantsService;
     constructor(presenceEtudiantsService: PresenceEtudiantsService);
     create(createPresenceEtudiantDto: CreatePresenceEtudiantDto): string;
-    findAll(): string;
+    findAll(): Promise<import("./entities/presence_etudiant.entity").PresenceEtudiant[]>;
     findOne(id: string): string;
     update(id: string, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto): string;
     remove(id: string): string;

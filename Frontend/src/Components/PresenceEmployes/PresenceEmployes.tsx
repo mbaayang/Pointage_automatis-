@@ -1,37 +1,83 @@
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
-import { useState } from "react";
-import { Etudiant } from "../../Models/etudiant";
-import NoResult from '../HistoriqueEtudiant/NoResult';
-import Pagination from '../HistoriqueEtudiant/Pagination';
+import { useState, useEffect } from "react";
+import NoResult from '../HistoriqueEmploye/NoResult';
+import Pagination from '../HistoriqueEmploye/Pagination';
 import PresenceItem from './PresenceItem';
 
 /* Composant Historique */
 export function PresenceEmployes() {
 
     /* Stockage des données de l'historique dans une variable d'état */
-    const [data, setData] = useState<Etudiant[]>();
+    const [presence, setPresence] = useState<any>();
+
+    const [currentItems, setCurrentItems] = useState<[]>([]);
+
+    /* Variable d'état pour gèrer la page courante */
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage] = useState<number>(6);
+    const [totalItems, setTotalItems] = useState<number>(0);
+
+    /* Fonction de pagination */
+    const paginate = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastItem = pageNumber * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const currentItems = presence.slice(indexOfFirstItem, indexOfLastItem);
+        setCurrentItems(currentItems);
+    }
+
+    /* Variable d'état pour gèrer le mode recherche */
+    const [searchMode, setSearchMode] = useState<boolean>(false);
+
 
     /* Variable d'état pour vérifier si la recherche a eu un résultat ou non */
     const [hasResult, setHasResult] = useState<boolean>(true);
 
-    /* Fonction de recherche par date */
+    /* Fonction de recherche par nom */
     const search = (e: any) => {
-        /* const value = e.target.value;
+        setSearchMode(true);
+        const value = e.target.value;
         if (value === "") {
-            setData(etudiant_history);
+            setSearchMode(false);
+            setCurrentItems(presence.slice(0, itemsPerPage));
+            setHasResult(true);
             return;
         }
-        const result = etudiant_history.filter((item) => {
-            return item.nom.toLowerCase().includes(value.toLowerCase());
+        const result = presence.filter((item: any) => {
+            return item.employes.nom.toLowerCase().includes(value.toLowerCase());
         });
-        setHasResult(result.length > 0); 
-        setData(result); */
+        if (result.length > 0) {
+            setHasResult(true);
+            setCurrentItems(result);
+        } else {
+            setHasResult(false);
+            setCurrentItems([]);
+        }
     }
 
+    useEffect(() => {
+        fetch("http://localhost:3000/presence-employes", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => res.json())
+            .then((res) => {
+                const employes = res.map((item: any) => {
+                    return {
+                        ...item,
+                    };
+                });
+                setPresence(employes); 
+                setTotalItems(employes.length);
+                setCurrentItems(employes.slice(0, itemsPerPage));
+            });
+    }, []);
+
     return (
-        <div className="flex justify-center w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border" style={{ marginLeft: '10%' }}>
-            <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{ color: '#81CCB7' }}>
+        <div className="flex w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border" style={{ marginLeft: '10%' , height:'600px' }}>
+            <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{ color: '#81CCB7'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round"
                         d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -64,8 +110,20 @@ export function PresenceEmployes() {
                     </tr>
                 </thead>
                 <tbody>
+                    {hasResult && currentItems.map((item, index) => (
+                        <PresenceItem presence={item} key={index} />
+                    ))}
+                    {!hasResult &&
+                        <NoResult />
+                    }
                 </tbody>
             </Table>
+            {!searchMode && hasResult && <Pagination
+                paginate={paginate}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={totalItems}
+            />}
         </div>
     );
 }
