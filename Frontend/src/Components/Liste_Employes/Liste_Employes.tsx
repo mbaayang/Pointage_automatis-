@@ -147,7 +147,7 @@ function Liste_Employes() {
         handleChangePage({ currentTarget: { value: currentPage - 1 } })
       }
       disabled={currentPage === 1}
-      className="text-gray-700 px-3 py-2 rounded-full border-2"
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"} `}
     >
       {"<"}
     </button>
@@ -161,7 +161,7 @@ function Liste_Employes() {
         onClick={handleChangePage}
         className={
           currentPage === i
-            ? /* "bg-gray-200 px-3 py-1 rounded-lg" */" text-white px-3 py-2 rounded-full backgroundColor"
+            ? "text-white px-3 py-2 rounded-full backgroundColor"
             : "text-gray-700 px-3 py-2 rounded-full border-2"
         }
       >
@@ -177,7 +177,7 @@ function Liste_Employes() {
         handleChangePage({ currentTarget: { value: currentPage + 1 } })
       }
       disabled={currentPage === pageNumbers}
-      className="text-gray-700 px-3 py-2 rounded-full border-2"
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"}`}
     >
       {">"}
     </button>
