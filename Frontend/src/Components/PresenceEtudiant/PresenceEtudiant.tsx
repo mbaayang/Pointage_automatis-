@@ -8,7 +8,7 @@ import PresenceItem from './PresenceItem';
 
 /* Composant Historique */
 export function PresenceEtudiant() {
-
+    
     /* Stockage des données de l'historique dans une variable d'état */
     const [data, setData] = useState<Etudiant[]>();
 
@@ -40,7 +40,7 @@ export function PresenceEtudiant() {
                     <span className='underline'> Liste présence </span>
                 </Link>
                 <Link to={"../historiqueEtudiant"} >
-                    <span> Historiques </span>
+                    <span> Historiques</span>
                 </Link>
             </div>
             <div className="flex justify-end">

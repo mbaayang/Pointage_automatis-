@@ -69,7 +69,7 @@ function Liste_Employes() {
    ****************************************************************************************/
   function showSuccessAlert() {
     Swal.fire({
-      title: "Modification réussie!",
+      title: "Modification réussie !",
       icon: "success",
       timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
       showConfirmButton: false, // Supprime le bouton "OK"
@@ -105,6 +105,7 @@ function Liste_Employes() {
           res.filter((data: any) => {
             //je vérifie si le recherche est vide sinon
             if (recherche != "") {
+              handleChangePage({ currentTarget: { value: 1 } }); //clicler sur la page une recherche globale
               const value = data.email
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
@@ -126,14 +127,32 @@ function Liste_Employes() {
       });
   }, [users.length, recherche, etat, modalShow, ajour]);
 
-  {
-    /*  FOR PAGINATION */
-  }
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement>) => {
+  /***************************************************************
+   ******************** POUR LA PAGINATION **********************
+   **************************************************************/
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     setCurrentPage(Number(event.currentTarget.value));
   };
+
   const pageNumbers = Math.ceil(users.length / itemsPerPage);
   const pageButtons = [];
+  // Bouton flèche gauche
+  pageButtons.push(
+    <button
+      key="prev"
+      onClick={() =>
+        handleChangePage({ currentTarget: { value: currentPage - 1 } })
+      }
+      disabled={currentPage === 1}
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"} `}
+    >
+      {"<"}
+    </button>
+  );
+  //bouttons du milieu
   for (let i = 1; i <= pageNumbers; i++) {
     pageButtons.push(
       <button
@@ -142,14 +161,27 @@ function Liste_Employes() {
         onClick={handleChangePage}
         className={
           currentPage === i
-            ? "bg-gray-200 px-3 py-1 rounded-lg"
-            : "bg-white px-3 py-1 rounded-lg"
+            ? "text-white px-3 py-2 rounded-full backgroundColor"
+            : "text-gray-700 px-3 py-2 rounded-full border-2"
         }
       >
         {i}
       </button>
     );
   }
+  // Bouton flèche droite
+  pageButtons.push(
+    <button
+      key="next"
+      onClick={() =>
+        handleChangePage({ currentTarget: { value: currentPage + 1 } })
+      }
+      disabled={currentPage === pageNumbers}
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"}`}
+    >
+      {">"}
+    </button>
+  );
 
   /* *********************************************************************************************************
    **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
@@ -461,7 +493,7 @@ function Liste_Employes() {
         </tbody>
       </Table>
       {/*  FOR PAGINATION */}
-      <div className="flex justify-end my-4 fixed-bottom pr-10">
+      <div className="flex justify-end my-4 fixed-bottom pr-10 gap-2">
         {pageButtons}
       </div>
 
