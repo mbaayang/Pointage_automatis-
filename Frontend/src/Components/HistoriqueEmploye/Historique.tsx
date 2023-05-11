@@ -8,6 +8,7 @@ import HistoryItem from "./HistoryItem";
 
 /* Composant Historique */
 export function HistoriqueEmploye() {
+  
   /* Stockage des données de l'historique dans une variable d'état */
   const [data, setData] = useState<Employe[]>([]);
 
