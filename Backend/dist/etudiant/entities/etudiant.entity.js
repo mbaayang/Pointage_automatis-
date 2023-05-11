@@ -45,6 +45,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Etudiant.prototype, "date_inscription", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], Etudiant.prototype, "etat", void 0);
 Etudiant = __decorate([
     (0, typeorm_1.Entity)()
 ], Etudiant);

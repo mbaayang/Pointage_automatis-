@@ -10,6 +10,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import Pointage from "./Components/Pointage/Pointage";
 import Connexion from "./Components/Connexion/Connexion";
 import Liste_Employes from "./Components/Liste_Employes/Liste_Employes";
+import Liste_Etudiants from "./Components/Liste_Etudiants/Liste_Etudiants";
 import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes";
 import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant";
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
         <Route path="presenceEmploye" element={<PresenceEmployes />}></Route>
         <Route path="pointage" element={<Pointage />}></Route>
         <Route path="listeEmployes" element={<Liste_Employes />}></Route>
+        <Route path="listeEtudiants" element={<Liste_Etudiants />}></Route>
       </Route>
       <Route path="/vigil" element={<PageVigil />}></Route>
       <Route index element={<Connexion />}></Route>

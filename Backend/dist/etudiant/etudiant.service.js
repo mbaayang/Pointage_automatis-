@@ -35,7 +35,14 @@ let EtudiantService = class EtudiantService {
     findOne(id) {
         return this.etudiantRepository.findOneBy({ id });
     }
-    update(id, updateEtudiantDto) {
+    async update(id, updateEtudiantDto) {
+        const { email } = updateEtudiantDto;
+        if (email != undefined) {
+            const existe = await this.etudiantRepository.findOne({ where: { email } });
+            if (existe) {
+                throw new common_1.ConflictException('Adresse e-mail déjà prise');
+            }
+        }
         return this.etudiantRepository.update(id, updateEtudiantDto);
     }
 };
