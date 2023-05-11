@@ -69,7 +69,7 @@ function Connexion() {
       style={{ backgroundColor: "#306887" }}
     >
       <Form
-        className="bg-white w-1/3 h-3/5 p-5 space-y-5 rounded-lg"
+        className="bg-white w-1/3 h-3/5 p-5 space-y-10 rounded-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2
@@ -158,7 +158,6 @@ function Connexion() {
             <p className="text-red-500">Au moins 6 caractères</p>
           )}
         </Form.Group>
-        <div className="mt-4">
           <Button
             className="w-full font-medium text-2xl"
             type="submit"
@@ -166,11 +165,11 @@ function Connexion() {
               backgroundColor: "#81CCB7",
               border: "none",
               color: "#306887",
+              marginTop: "40px",
             }}
           >
             Se connecter
           </Button>
-        </div>
       </Form>
     </div>
   );
