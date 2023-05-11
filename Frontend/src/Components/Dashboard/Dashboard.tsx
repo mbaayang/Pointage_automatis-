@@ -277,10 +277,12 @@ const Dashboard = () => {
                 <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
                   Un employé
                 </span>
-              </Link>
+              </Link >
+              <Link to="listeEtudiants">
               <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
                 Un étudiant
               </span>
+              </Link>
             </div>
           </div>
         </div>
