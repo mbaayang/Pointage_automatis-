@@ -32,7 +32,7 @@ function AjoutEtudiant() {
     let base64 = "";
 
     lecteur.onload = async function () {
-      base64 = lecteur.result.split(',')[1];
+      base64 = lecteur.result!.split(',')[1];
 
       try {
         const response = await axios.post("http://localhost:3000/etudiant", {
@@ -129,16 +129,14 @@ function AjoutEtudiant() {
             </Form.Group>
             <Form.Group>
               <Form.Label>Niveau</Form.Label>
-              <Form.Control
-                as="select"
+              <Form.Select
                 {...register("niveau", { required: true })}
-                id="niveau"
-              >
-                <option value=""></option>
+                id="niveau">
+                <option value=""> Choisir le niveau </option>
                 <option value="1 ère année">1 ère année</option>
                 <option value="2 ème année">2 ème année</option>
                 <option value="3 ème année">3 ème année</option>
-              </Form.Control>
+              </Form.Select>
               {errors.niveau?.type === "required" && (
                 <p className="text-red-500">Ce champ est obligatoire</p>
               )}

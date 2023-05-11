@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ConflictException,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -22,6 +23,52 @@ export class EmployesService {
   async checkEmailExists(email: string): Promise<boolean> {
     const employe = await this.employesRepository.findOneBy({ email });
     return !!employe;
+  }
+
+  async validateUser(
+    matricule: string
+  ): Promise<Employes | null> {
+    const user = await this.employesRepository.findOne({ where: { matricule } });
+    if (user) {
+     
+        const etat = user.etat;
+        if (etat == false) {
+          throw new UnauthorizedException({
+            correct: false,
+            message: "compte archivé",
+          });
+        } else {
+          return user;
+        }
+       
+    } else {
+      throw new UnauthorizedException({
+        correct: false,
+        message: "matricule invalide",
+      });
+    }
+    /*  return null; */
+  }
+
+  async login(
+    user: Employes
+  ): Promise<{ id: number; role: string; prenom: string; nom: string; email: string; image: string }> {
+    const payload = { email1: user.email, sub: user.id };
+    const id = user.id;
+    const role = user.role;
+    const prenom = user.prenom;
+    const nom = user.nom;
+    const email = user.email;
+    const image = user.image;
+    return {
+  
+      id: id,
+      role: role,
+      prenom: prenom,
+      nom: nom,
+      email: email,
+      image: image,
+    };
   }
 
   async create(createEmployeDto: CreateEmployeDto){
@@ -47,8 +94,8 @@ export class EmployesService {
     return await this.employesRepository.find({});
   }
 
-  async findOne(id: number) {
-    return await this.employesRepository.findOneById(id);
+  async findOne(matricule: string) {
+    return await this.employesRepository.findOneById(matricule);
   }
 
   async update(id: number, updateEmployeDto: UpdateEmployeDto) {

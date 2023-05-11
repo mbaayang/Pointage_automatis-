@@ -19,6 +19,11 @@ function Liste_Employes() {
   const [errormessage, setErrormessage] = useState<string>("");
   const [etat, setEtat] = useState<boolean>(true);
   const [ajour, setAjour] = useState<boolean>(true);
+  {
+    /*  FOR PAGINATION */
+  }
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
 
   const {
     register,
@@ -64,7 +69,7 @@ function Liste_Employes() {
    ****************************************************************************************/
   function showSuccessAlert() {
     Swal.fire({
-      title: "Modification réussie!",
+      title: "Modification réussie !",
       icon: "success",
       timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
       showConfirmButton: false, // Supprime le bouton "OK"
@@ -76,7 +81,7 @@ function Liste_Employes() {
 
   const getOnUser = (id: any) => {
     setId(id);
-   /*  fetch(`http://localhost:3000/Employes/${id}`)
+    /*  fetch(`http://localhost:3000/Employes/${id}`)
       .then((res) => res.json())
       .then((res) => {
          console.log(res); 
@@ -88,7 +93,9 @@ function Liste_Employes() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/Employes/")
+    fetch(
+      `http://localhost:3000/Employes/?_page=${currentPage}&_limit=${itemsPerPage}`
+    )
       .then((res) => res.json())
       .then((res) => {
         //console.log(res);
@@ -98,6 +105,7 @@ function Liste_Employes() {
           res.filter((data: any) => {
             //je vérifie si le recherche est vide sinon
             if (recherche != "") {
+              handleChangePage({ currentTarget: { value: 1 } }); //clicler sur la page une recherche globale
               const value = data.email
                 .toLowerCase()
                 .includes(recherche.toLowerCase().trim());
@@ -111,7 +119,6 @@ function Liste_Employes() {
             }
           })
         );
-        console.log(users.length);
         if (users.length == 0) {
           setIntrouvable(true);
         } else {
@@ -119,6 +126,62 @@ function Liste_Employes() {
         }
       });
   }, [users.length, recherche, etat, modalShow, ajour]);
+
+  /***************************************************************
+   ******************** POUR LA PAGINATION **********************
+   **************************************************************/
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    setCurrentPage(Number(event.currentTarget.value));
+  };
+
+  const pageNumbers = Math.ceil(users.length / itemsPerPage);
+  const pageButtons = [];
+  // Bouton flèche gauche
+  pageButtons.push(
+    <button
+      key="prev"
+      onClick={() =>
+        handleChangePage({ currentTarget: { value: currentPage - 1 } })
+      }
+      disabled={currentPage === 1}
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"} `}
+    >
+      {"<"}
+    </button>
+  );
+  //bouttons du milieu
+  for (let i = 1; i <= pageNumbers; i++) {
+    pageButtons.push(
+      <button
+        key={i}
+        value={i}
+        onClick={handleChangePage}
+        className={
+          currentPage === i
+            ? "text-white px-3 py-2 rounded-full backgroundColor"
+            : "text-gray-700 px-3 py-2 rounded-full border-2"
+        }
+      >
+        {i}
+      </button>
+    );
+  }
+  // Bouton flèche droite
+  pageButtons.push(
+    <button
+      key="next"
+      onClick={() =>
+        handleChangePage({ currentTarget: { value: currentPage + 1 } })
+      }
+      disabled={currentPage === pageNumbers}
+      className={`text-gray-700 px-3 py-2 rounded-full border-2 ${recherche != "" && "d-none"}`}
+    >
+      {">"}
+    </button>
+  );
 
   /* *********************************************************************************************************
    **************************************LES LIENS ARCHIVÉ ET DESARCHIVE********************************
@@ -146,7 +209,6 @@ function Liste_Employes() {
     const y = x;
     const headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
@@ -156,13 +218,13 @@ function Liste_Employes() {
     });
 
     const response = await fetch(`http://localhost:3000/employes/${y}`, {
-      method: "PUT",/*  aprés 30 min je me suis rendu compte que c'etait PUT pas PATCH */
+      method: "PUT",
       body: bodyContent,
       headers: headersList,
     });
 
     const data = await response.json();
-     console.log(data);
+    console.log(data);
     setEtat(true);
     setModalShow(false);
   };
@@ -173,7 +235,6 @@ function Liste_Employes() {
     console.log(data);
     const headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
@@ -185,7 +246,7 @@ function Liste_Employes() {
       : (email = data.email);
     data.role == "" ? (role = defaultrole) : (role = data.role);
     console.log(email);
-    
+
     const bodyContent = JSON.stringify({
       prenom: prenom,
       nom: nom,
@@ -217,8 +278,8 @@ function Liste_Employes() {
 
   return (
     <div
-      className="flex justify-center w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
-      style={{ marginLeft: "10%" }}
+      className="flex w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
+      style={{ marginLeft: "10%", minHeight: "550px" }}
     >
       <div
         className="flex justify-start text-xl font-medium mt-4 space-x-2"
@@ -294,7 +355,6 @@ function Liste_Employes() {
         <thead>
           <tr>
             <th className="px-4 py-2 border-2 border-gray-300">Date</th>
-
             <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>
@@ -303,136 +363,141 @@ function Liste_Employes() {
           </tr>
         </thead>
         <tbody>
-          {users?.map((user: any) => (
-            <tr>
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span>{user.date_inscription}</span>
-                </div>
-              </td>
+          {users
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map((user: any) => (
+              <tr>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.date_inscription}</span>
+                  </div>
+                </td>
 
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span>{user.prenom}</span>
-                </div>
-              </td>
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span>{user.nom}</span>
-                </div>
-              </td>
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span>{user.email}</span>
-                </div>
-              </td>
-              <td
-                className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
-              >
-                {/**********************************************************
-                 ********************** Pour déarchivé ***********************
-                 **********************************************************/}
-                <div
-                  className="mb-2"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="déarchiver"
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.prenom}</span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.nom}</span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.email}</span>
+                  </div>
+                </td>
+                <td
+                  className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
                 >
-                  <span className={` ${!etat ? "" : "cacher"}`}>
-                    <svg
-                      onClick={() => {
-                        archiver(true, user.id);
-                      }}
-                      style={{ cursor: "pointer" }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="#BD2121"
-                      className="bi bi-archive"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                    </svg>
-                  </span>
-                </div>
-                {/**********************************************************
-                 ********************** Pour modifier et archivé ************
-                 **********************************************************/}
-                <div
-                  className={`flex justify-center items-center gap-2 ${
-                    etat ? "" : "cacher"
-                  }`}
-                >
-                  <span
-                    className={`border-2 border-gray-300 px-1 py-1 `}
+                  {/**********************************************************
+                   ********************** Pour déarchivé ***********************
+                   **********************************************************/}
+                  <div
+                    className="mb-2"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Modifier"
+                    title="déarchiver"
                   >
-                    <svg
-                      onClick={() => {
-                        handleShow(
-                          user.id,
-                          user.prenom,
-                          user.nom,
-                          user.email,
-                          user.role
-                        );
-                      }}
-                      style={{ cursor: "pointer" }}
-                      width="20"
-                      height="20"
-                      viewBox="0 0 53 55"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M8.94215 46.2643C7.2842 46.2643 5.73497 45.7271 4.62061 44.7299C3.20727 43.4771 2.52779 41.5849 2.7724 39.5394L3.77804 31.255C3.9683 29.6953 4.97394 27.6242 6.14266 26.4992L28.457 4.27971C34.0288 -1.26879 39.8452 -1.42221 45.7432 3.81947C51.6411 9.06114 51.8042 14.5329 46.2324 20.0814L23.9181 42.3009C22.7765 43.4515 20.6565 44.5254 18.9986 44.7813L10.2468 46.1874C9.78471 46.2129 9.37702 46.2643 8.94215 46.2643ZM37.1817 3.7939C35.0888 3.7939 33.2678 5.02122 31.4196 6.86219L9.10522 29.1075C8.56163 29.6444 7.93651 30.9229 7.82779 31.6644L6.82215 39.9485C6.71343 40.7923 6.93086 41.4827 7.42009 41.9173C7.90933 42.352 8.64317 42.5054 9.5401 42.3776L18.2919 40.9715C19.0801 40.8437 20.3847 40.1786 20.9283 39.6417L43.2427 17.4222C46.6129 14.0471 47.836 10.9277 42.9165 6.58093C40.7422 4.61211 38.8668 3.7939 37.1817 3.7939Z"
-                        fill="#306887"
-                      />
-                      <path
-                        d="M41.015 24.3508C40.9606 24.3508 40.8791 24.3508 40.8247 24.3508C32.3447 23.5581 25.5227 17.4984 24.218 9.57193C24.055 8.52359 24.816 7.55197 25.9303 7.37298C27.0447 7.21957 28.0775 7.9355 28.2678 8.98384C29.3006 15.1716 34.6278 19.9274 41.2596 20.5411C42.3739 20.6434 43.1893 21.5894 43.0806 22.6376C42.9447 23.6093 42.0478 24.3508 41.015 24.3508Z"
-                        fill="#306887"
-                      />
-                      <path
-                        d="M50.9615 54.5229H2.03846C0.924103 54.5229 0 53.6535 0 52.6052C0 51.5569 0.924103 50.6875 2.03846 50.6875H50.9615C52.0759 50.6875 53 51.5569 53 52.6052C53 53.6535 52.0759 54.5229 50.9615 54.5229Z"
-                        fill="#306887"
-                      />
-                    </svg>
-                  </span>
-                  <span
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Archiver"
-                    className={`border-2 border-gray-300 px-1 py-1 `}
+                    <span className={` ${!etat ? "" : "cacher"}`}>
+                      <svg
+                        onClick={() => {
+                          archiver(true, user.id);
+                        }}
+                        style={{ cursor: "pointer" }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="#BD2121"
+                        className="bi bi-archive"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                      </svg>
+                    </span>
+                  </div>
+                  {/**********************************************************
+                   ********************** Pour modifier et archivé ************
+                   **********************************************************/}
+                  <div
+                    className={`flex justify-center items-center gap-2 ${
+                      etat ? "" : "cacher"
+                    }`}
                   >
-                    <svg
-                      onClick={() => getOnUser_(user.id)}
-                      style={{ cursor: "pointer" }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="#BD2121"
-                      className="bi bi-archive"
-                      viewBox="0 0 16 16"
+                    <span
+                      className={`border-2 border-gray-300 px-1 py-1 `}
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Modifier"
                     >
-                      <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                    </svg>
-                  </span>
-                </div>
-              </td>
-              <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                  <span>{user.role}</span>
-                </div>
-              </td>
-            </tr>
-          ))}
+                      <svg
+                        onClick={() => {
+                          handleShow(
+                            user.id,
+                            user.prenom,
+                            user.nom,
+                            user.email,
+                            user.role
+                          );
+                        }}
+                        style={{ cursor: "pointer" }}
+                        width="20"
+                        height="20"
+                        viewBox="0 0 53 55"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.94215 46.2643C7.2842 46.2643 5.73497 45.7271 4.62061 44.7299C3.20727 43.4771 2.52779 41.5849 2.7724 39.5394L3.77804 31.255C3.9683 29.6953 4.97394 27.6242 6.14266 26.4992L28.457 4.27971C34.0288 -1.26879 39.8452 -1.42221 45.7432 3.81947C51.6411 9.06114 51.8042 14.5329 46.2324 20.0814L23.9181 42.3009C22.7765 43.4515 20.6565 44.5254 18.9986 44.7813L10.2468 46.1874C9.78471 46.2129 9.37702 46.2643 8.94215 46.2643ZM37.1817 3.7939C35.0888 3.7939 33.2678 5.02122 31.4196 6.86219L9.10522 29.1075C8.56163 29.6444 7.93651 30.9229 7.82779 31.6644L6.82215 39.9485C6.71343 40.7923 6.93086 41.4827 7.42009 41.9173C7.90933 42.352 8.64317 42.5054 9.5401 42.3776L18.2919 40.9715C19.0801 40.8437 20.3847 40.1786 20.9283 39.6417L43.2427 17.4222C46.6129 14.0471 47.836 10.9277 42.9165 6.58093C40.7422 4.61211 38.8668 3.7939 37.1817 3.7939Z"
+                          fill="#306887"
+                        />
+                        <path
+                          d="M41.015 24.3508C40.9606 24.3508 40.8791 24.3508 40.8247 24.3508C32.3447 23.5581 25.5227 17.4984 24.218 9.57193C24.055 8.52359 24.816 7.55197 25.9303 7.37298C27.0447 7.21957 28.0775 7.9355 28.2678 8.98384C29.3006 15.1716 34.6278 19.9274 41.2596 20.5411C42.3739 20.6434 43.1893 21.5894 43.0806 22.6376C42.9447 23.6093 42.0478 24.3508 41.015 24.3508Z"
+                          fill="#306887"
+                        />
+                        <path
+                          d="M50.9615 54.5229H2.03846C0.924103 54.5229 0 53.6535 0 52.6052C0 51.5569 0.924103 50.6875 2.03846 50.6875H50.9615C52.0759 50.6875 53 51.5569 53 52.6052C53 53.6535 52.0759 54.5229 50.9615 54.5229Z"
+                          fill="#306887"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Archiver"
+                      className={`border-2 border-gray-300 px-1 py-1 `}
+                    >
+                      <svg
+                        onClick={() => getOnUser_(user.id)}
+                        style={{ cursor: "pointer" }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="#BD2121"
+                        className="bi bi-archive"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                      </svg>
+                    </span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.role}</span>
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
+      {/*  FOR PAGINATION */}
+      <div className="flex justify-end my-4 fixed-bottom pr-10 gap-2">
+        {pageButtons}
+      </div>
+
       <div className={` ${!introuvable ? "cacher" : ""}`}>
-        {" "}
-        {/*   <NoResult></NoResult> */}
         <div
           aria-colspan={6}
           className={`px-4 py-2 flex flex-col items-center justify-center`}
@@ -474,6 +539,7 @@ function Liste_Employes() {
             />
           </svg>
         </div>
+
         <Modal.Body>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3">
@@ -547,7 +613,7 @@ function Liste_Employes() {
                   required: false,
                 })}
               >
-            <option className=" text-black">{defaultrole}</option>
+                <option className=" text-black">{defaultrole}</option>
                 <option
                   value="administrateur"
                   className={`text-black ${
@@ -580,7 +646,6 @@ function Liste_Employes() {
                 >
                   vigil
                 </option>
-
               </Form.Select>
               {errors.role?.type === "required" && (
                 <p className="text-red-500">Ce champ est requis</p>

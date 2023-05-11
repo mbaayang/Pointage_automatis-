@@ -16,7 +16,7 @@ let Etudiant = class Etudiant {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Etudiant.prototype, "id_etudiant", void 0);
+], Etudiant.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

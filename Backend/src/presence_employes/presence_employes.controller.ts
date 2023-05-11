@@ -7,7 +7,7 @@ import { UpdatePresenceEmployeDto } from './dto/update-presence_employe.dto';
 export class PresenceEmployesController {
   constructor(private readonly presenceEmployesService: PresenceEmployesService) {}
 
-  @Post()
+  @Post('presence')
   create(@Body() createPresenceEmployeDto: CreatePresenceEmployeDto) {
     return this.presenceEmployesService.create(createPresenceEmployeDto);
   }

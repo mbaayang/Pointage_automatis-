@@ -1,8 +1,5 @@
 import { AuthService } from './connexion.service';
 import { Employes } from '../employes/entities/employe.entity';
-type RequestWithUser = {
-    user: Partial<Employes>;
-};
 export declare class AuthController {
     private readonly authService;
     connexionService: any;
@@ -10,6 +7,4 @@ export declare class AuthController {
     login(user: Employes): Promise<{
         access_token: string;
     }>;
-    profile(request: RequestWithUser): Partial<Employes>;
 }
-export {};
