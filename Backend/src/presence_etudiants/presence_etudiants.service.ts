@@ -23,7 +23,7 @@ export class PresenceEtudiantsService {
   }
 
   update(id: number, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto) {
-    return `This action updates a #${id} presenceEtudiant`;
+    return this.presenceEtudiantRepository.update(id, updatePresenceEtudiantDto);
   }
 
   remove(id: number) {

@@ -8,6 +8,6 @@ export declare class PresenceEtudiantsService {
     create(createPresenceEtudiantDto: CreatePresenceEtudiantDto): string;
     findAll(): Promise<PresenceEtudiant[]>;
     findOne(id: number): string;
-    update(id: number, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto): string;
+    update(id: number, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): string;
 }

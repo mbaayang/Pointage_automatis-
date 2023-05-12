@@ -31,7 +31,7 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
         return `This action returns a #${id} presenceEtudiant`;
     }
     update(id, updatePresenceEtudiantDto) {
-        return `This action updates a #${id} presenceEtudiant`;
+        return this.presenceEtudiantRepository.update(id, updatePresenceEtudiantDto);
     }
     remove(id) {
         return `This action removes a #${id} presenceEtudiant`;

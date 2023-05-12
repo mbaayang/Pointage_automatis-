@@ -20,6 +20,9 @@ export class PresenceEtudiant {
     @Column()
     etat_retard: string;
 
+    @Column({default: 1})
+    statut: number;
+
     @JoinColumn()
     @ManyToOne(type => Etudiant)
     etudiant: number;

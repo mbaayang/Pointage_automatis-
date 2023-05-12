@@ -4,5 +4,6 @@ export declare class PresenceEtudiant {
     heure: string;
     etat_presence: string;
     etat_retard: string;
+    statut: number;
     etudiant: number;
 }
