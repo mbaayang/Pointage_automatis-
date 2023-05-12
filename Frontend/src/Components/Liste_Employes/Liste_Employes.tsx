@@ -22,7 +22,7 @@ function Liste_Employes() {
   const [tableau, setTableau] = useState<any>([]);
   const [initchecked, setInitchecked] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(true);
-  
+
   {
     /*  FOR PAGINATION */
   }
@@ -64,15 +64,14 @@ function Liste_Employes() {
   //************** */
   const getOnUser_ = (id: any) => {
     getOnUser(id);
-    setDisplay(true)
+    setDisplay(true);
     setModalShow(true);
     //console.log(id);
   };
-  const getFullUser = ()=>{
-    setDisplay(false)
+  const getFullUser = () => {
+    setDisplay(false);
     setModalShow(true);
-  }
-
+  };
 
   /*****************************************************************************************
    ******************************SWEET ALERT*********************************************
@@ -85,20 +84,20 @@ function Liste_Employes() {
       showConfirmButton: false, // Supprime le bouton "OK"
     });
   }
-  function archivageReussie(){
-    etat ?
-    Swal.fire({
-      title: "Archivage réussie !",
-      icon: "success",
-      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
-      showConfirmButton: false, // Supprime le bouton "OK"
-    }) : 
-    Swal.fire({
-      title: "Restauration réussie !",
-      icon: "success",
-      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
-      showConfirmButton: false, // Supprime le bouton "OK"
-    })
+  function archivageReussie() {
+    etat
+      ? Swal.fire({
+          title: "Archivage réussie !",
+          icon: "success",
+          timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+          showConfirmButton: false, // Supprime le bouton "OK"
+        })
+      : Swal.fire({
+          title: "Restauration réussie !",
+          icon: "success",
+          timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+          showConfirmButton: false, // Supprime le bouton "OK"
+        });
   }
   /* *******************************************************************************
    **********************************RECUPERATION PAR ID****************************
@@ -192,7 +191,7 @@ function Liste_Employes() {
     <button
       key="next"
       onClick={() =>
-        handleChangePage({ currentTarget: {  value: currentPage + 1 } })
+        handleChangePage({ currentTarget: { value: currentPage + 1 } })
       }
       disabled={currentPage === pageNumbers}
       className={`text-gray-700 px-3 py-2 rounded-full border-2 ${
@@ -222,66 +221,61 @@ function Liste_Employes() {
     const value = e.target.value;
     setRecherche(value);
   };
-    /* *********************************************************************************************************
+  /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES ( + ) Archiver / dearchivé****************************
    ***************************************************************************************************** */
-   //ICI C'EST L'AJOUT OU LE RETRAIT
-     function selection(id: string) {
+  //ICI C'EST L'AJOUT OU LE RETRAIT
+  function selection(id: string) {
     if (tableau.includes(id)) {
       for (let index = 0; index < tableau.length; index++) {
-       
         if (tableau[index] == id) {
-          tableau[index] = -1
+          tableau[index] = -1;
         }
-        
-    
-   
-    }
+      }
     } else {
       setTableau([...tableau, id]);
     }
-   
-    
   }
-   //ICI C'EST POUR ENVOYER LES DONNEES
-   const archiver_plus = async (etat: any) => {
+  //ICI C'EST POUR ENVOYER LES DONNEES
+  const archiver_plus = async (etat: any) => {
     let x;
     for (let index = 0; index < tableau.length; index++) {
-     x =  tableau[index]
+      x = tableau[index];
       console.log(x);
       const headersList = {
         Accept: "*/*",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       };
-  
+
       const bodyContent = JSON.stringify({
         etat: etat,
       });
-  
+
       const response = await fetch(`http://localhost:3000/employes/${x}`, {
         method: "PUT",
         body: bodyContent,
         headers: headersList,
       });
-  
+
       const data = await response.json();
       console.log(data);
-     
     }
-   
+
     setEtat(true);
     setModalShow(false);
-    setTableau(tableau.filter((i: any) =>{ i == "ajour"})); 
+    setTableau(
+      tableau.filter((i: any) => {
+        i == "ajour";
+      })
+    );
     console.log(initchecked);
-    setInitchecked(false)
-    archivageReussie()
+    setInitchecked(false);
+    archivageReussie();
     setTimeout(() => {
-      window.location.reload()
+      window.location.reload();
     }, 1500);
-    
-   
-   }
+  };
 
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES Archiver / dearchivé****************************
@@ -308,8 +302,7 @@ function Liste_Employes() {
     console.log(data);
     setEtat(true);
     setModalShow(false);
-    archivageReussie()
-   
+    archivageReussie();
   };
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
@@ -356,7 +349,6 @@ function Liste_Employes() {
       setEtat(true);
       showSuccessAlert();
       ajour ? setAjour(false) : setAjour(true);
-
     }
   };
 
@@ -438,50 +430,43 @@ function Liste_Employes() {
       <Table striped className="mt-3">
         <thead>
           <tr>
-            <th className=" px-2 py-2 border-2 border-gray-300" >
-             {/*  ARCHIVER ET DEARCHIVER PLUS */}
-            <span className={` ${!etat ? "" : "cacher"}`}>
-                      <svg
-                        onClick={() => {
-                         
-                          archiver_plus(true)
-                          
-                        }}
-                        style={{ cursor: "pointer" }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="#BD2121"
-                        className="bi bi-archive"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                      </svg>
-                      </span>
-                      <span className={` ${etat ? "" : "cacher"}`}>
-                      <svg
-                        onClick={() => {
-                          
-                          getFullUser()
-                          
-                        }}
-                        style={{ cursor: "pointer" }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="#BD2121"
-                        className="bi bi-archive"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                      </svg>
-                      </span>
-                   </th>  {/* selection multiple */}
-            <th className="px-4 py-2 border-2 border-gray-300" onClick={()=>{
-            console.log(tableau);
-           
-         
-            }}>Date</th>
+            <th style={{boxSizing :"border-box"}} className="px-3 py-3 border-2 border-gray-300 d-flex justify-content-center ">
+              {/*  ARCHIVER ET DEARCHIVER PLUS */}
+              <span className={` ${!etat ? "" : "cacher"}`}>
+                <svg
+                  onClick={() => {
+                    archiver_plus(true);
+                  }}
+                  style={{ cursor: "pointer" }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="#BD2121"
+                  className="bi bi-archive"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                </svg>
+              </span>
+              <span className={` ${etat ? "" : "cacher"}`}>
+                <svg
+                  onClick={() => {
+                    getFullUser();
+                  }}
+                  style={{ cursor: "pointer" }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="#BD2121"
+                  className="bi bi-archive"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                </svg>
+              </span>
+            </th>{" "}
+            {/* selection multiple */}
+            <th className="px-4 py-2 border-2 border-gray-300">Date</th>
             <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>
@@ -494,17 +479,20 @@ function Liste_Employes() {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((user: any) => (
               <tr>
-                <td className="border-2 border-gray-300 px-4 py-2" >
-                <div className="flex justify-center items-center gap-2">
-                  <form action="" id="">
-                <input  type="checkbox" defaultChecked={initchecked}  name="checkbox"   onChange={(e)=>{ 
-                   selection(e.target.value)
-                
-                }} value={user.id} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"></input> {/* selection multiple */}
-    </form>
-
-
-                </div>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <input
+                      type="checkbox"
+                      defaultChecked={initchecked}
+                      name="checkbox"
+                      onChange={(e) => {
+                        selection(e.target.value);
+                      }}
+                      value={user.id}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    ></input>{" "}
+                    {/* selection multiple */}
+                  </div>
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
@@ -822,7 +810,9 @@ function Liste_Employes() {
               NON
             </button>
             <button
-              className={`bg-success p-2 rounded-3 text-light ${display ? "" : "d-none"}`}
+              className={`bg-success p-2 rounded-3 text-light ${
+                display ? "" : "d-none"
+              }`}
               onClick={() => {
                 archiver(false, id);
               }}
@@ -830,9 +820,11 @@ function Liste_Employes() {
               OUI
             </button>
             <button
-              className={`bg-success p-2 rounded-3 text-light ${!display ? "" : "d-none"}`}
+              className={`bg-success p-2 rounded-3 text-light ${
+                !display ? "" : "d-none"
+              }`}
               onClick={() => {
-                archiver_plus(false)
+                archiver_plus(false);
               }}
             >
               OUI
