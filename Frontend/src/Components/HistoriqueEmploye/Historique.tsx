@@ -1,7 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Employe } from "../../Models/employe";
 import NoResult from "./NoResult";
 import Pagination from "./Pagination";
 import HistoryItem from "./HistoryItem";
