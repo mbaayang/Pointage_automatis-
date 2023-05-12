@@ -99,6 +99,15 @@ function Liste_Employes() {
           showConfirmButton: false, // Supprime le bouton "OK"
         });
   }
+/* champs vide */ 
+  function archivageAnnuler() {
+    Swal.fire({
+      title: "Aucun ligne n'a été selectionné !",
+      icon: "error",
+      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
   /* *******************************************************************************
    **********************************RECUPERATION PAR ID****************************
    *********************************************************************************/
@@ -238,6 +247,15 @@ function Liste_Employes() {
   }
   //ICI C'EST POUR ENVOYER LES DONNEES
   const archiver_plus = async (etat: any) => {
+    if ((tableau.length == 0) || (tableau[0] == -1)) {
+      
+      archivageAnnuler()
+      setModalShow(false);
+      
+    }
+    else{
+
+
     let x;
     for (let index = 0; index < tableau.length; index++) {
       x = tableau[index];
@@ -275,6 +293,8 @@ function Liste_Employes() {
     setTimeout(() => {
       window.location.reload();
     }, 1500);
+  }
+
   };
 
   /* *********************************************************************************************************
@@ -412,6 +432,7 @@ function Liste_Employes() {
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-6 h-6"
+            
           >
             <path
               strokeLinecap="round"
@@ -422,6 +443,7 @@ function Liste_Employes() {
         </div>
         <input
           onChange={(e) => search(e)}
+          
           type="text"
           placeholder="Rechercher un nom"
           className="border-2 border-gray-300 rounded-r-md p-2 w-56"
@@ -430,7 +452,9 @@ function Liste_Employes() {
       <Table striped className="mt-3">
         <thead>
           <tr>
-            <th style={{boxSizing :"border-box"}} className="px-3 py-3 border-2 border-gray-300 d-flex justify-content-center ">
+            <th data-toggle="tooltip"
+          data-placement="top"
+          title="action multiple" style={{boxSizing :"border-box"}} className="px-3 py-3 border-2 border-gray-300 d-flex justify-content-center ">
               {/*  ARCHIVER ET DEARCHIVER PLUS */}
               <span className={` ${!etat ? "" : "cacher"}`}>
                 <svg
@@ -479,9 +503,10 @@ function Liste_Employes() {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((user: any) => (
               <tr>
-                <td className="border-2 border-gray-300 px-4 py-2">
+                <td className="border-2 border-gray-300 px-4 py-2 " >
                   <div className="flex justify-center items-center gap-2">
                     <input
+               
                       type="checkbox"
                       defaultChecked={initchecked}
                       name="checkbox"

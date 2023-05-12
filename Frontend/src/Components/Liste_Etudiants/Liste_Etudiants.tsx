@@ -96,6 +96,14 @@ function Liste_Etudiants() {
           showConfirmButton: false, // Supprime le bouton "OK"
         });
   }
+  function archivageAnnuler() {
+    Swal.fire({
+      title: "Aucun ligne n'a été selectionné !",
+      icon: "error",
+      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
   /* *******************************************************************************
    **********************************RECUPERATION PAR ID****************************
    *********************************************************************************/
@@ -236,6 +244,13 @@ function Liste_Etudiants() {
   }
   //ICI C'EST POUR ENVOYER LES DONNEES
   const archiver_plus = async (etat: any) => {
+    if ((tableau.length == 0) || (tableau[0] == -1)) {
+      
+      archivageAnnuler()
+      setModalShow(false);
+      
+    }
+    else{
     let x;
     for (let index = 0; index < tableau.length; index++) {
       x = tableau[index];
@@ -301,6 +316,7 @@ function Liste_Etudiants() {
     setEtat(true);
     setModalShow(false);
     archivageReussie();
+  }
   };
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
@@ -428,7 +444,9 @@ function Liste_Etudiants() {
       <Table striped className="mt-3">
         <thead>
           <tr>
-            <th className=" px-2 py-3 border-2 border-gray-300 d-flex justify-content-center">
+            <th data-toggle="tooltip"
+          data-placement="top"
+          title="action multiple" className=" px-2 py-3 border-2 border-gray-300 d-flex justify-content-center">
               {/*  ARCHIVER ET DEARCHIVER PLUS */}
               <span className={` ${!etat ? "" : "cacher"}`}>
                 <svg
