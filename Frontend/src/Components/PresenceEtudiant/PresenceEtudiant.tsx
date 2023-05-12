@@ -63,12 +63,15 @@ export function PresenceEtudiant() {
         },
     }).then((res) => res.json())
         .then((res) => {
-            const etudiant = res.filter((item: any) => {return item.etudiant.niveau == localStorage.getItem("annee")}).map((item: any) => {
+            const currentDate = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+            const etudiant = res.filter((item: any) => {
+                return item.etudiant.niveau == localStorage.getItem("annee") && item.date == currentDate}).map((item: any) => {
                 return {
                     ... item,
                 };
             });
-            setPresence(etudiant);
+            setPresence(etudiant); console.log(etudiant);
+            
             setTotalItems(etudiant.length);
             setCurrentItems(etudiant.slice(0, itemsPerPage));
         });

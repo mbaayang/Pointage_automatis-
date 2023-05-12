@@ -10,10 +10,10 @@ import HistoryItem from "./HistoryItem";
 export function HistoriqueEmploye() {
   
   /* Stockage des données de l'historique dans une variable d'état */
-  const [data, setData] = useState<Employe[]>([]);
+  const [data, setData] = useState<any>();
 
   /* toute l'historique est stockée dans la variable d'état data, mais pour la pagination, on ne veut afficher que 7 éléments à la fois, donc on crée une variable d'état pour stocker les 5 éléments à afficher */
-  const [currentItems, setCurrentItems] = useState<Employe[]>([]);
+  const [currentItems, setCurrentItems] = useState<[]>([]);
 
   /* Variable d'état pour gèrer la page courante */
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -48,8 +48,8 @@ const search = (e: any) => {
     }  
     const dateSearch = new Date(e.target.value);
     
-    const result = data.filter((item) => {
-        const date =  new Date(item.date_inscription);
+    const result = data.filter((item: any) => {
+        const date =  new Date(item.date);
         return date.getFullYear() === dateSearch.getFullYear() && date.getMonth() + 1 === dateSearch.getMonth() + 1 && date.getDate() === dateSearch.getDate();
      });
 
@@ -64,14 +64,15 @@ const search = (e: any) => {
 
 useEffect(() => {
   /* Récupération des données de l'historique */
-  fetch("http://localhost:3000/employes", {
+  fetch("http://localhost:3000/presence-employes", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       },
       }).then((response) => {
-        response.json().then((data: Employe[]) => {
-          const employes = data.map((item) => {
+        response.json().then((data) => {
+          const currentDate = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+          const employes = data.filter((item: any) => {return item.date != currentDate}).map((item: any) => {
             return {
               ...item,
             };
@@ -105,6 +106,7 @@ useEffect(() => {
         <thead>
           <tr>
             <th className="px-4 py-2 border-2 border-gray-300">Date</th>
+            <th className="px-4 py-2 border-2 border-gray-300">Heure</th>
             <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>

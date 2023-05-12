@@ -64,7 +64,8 @@ export function PresenceEmployes() {
             },
         }).then((res) => res.json())
             .then((res) => {
-                const employes = res.map((item: any) => {
+                const currentDate = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+                const employes = res.filter((item: any) => { return item.date == currentDate}).map((item: any) => {
                     return {
                         ...item,
                     };
@@ -105,8 +106,8 @@ export function PresenceEmployes() {
                         <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
                         <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
                         <th className="px-4 py-2 border-2 border-gray-300">Email</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Etat</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Retard</th>
+                        <th className="px-4 py-2 border-2 border-gray-300">Heure d'arrivé</th>
+                        <th className="px-4 py-2 border-2 border-gray-300">Heure de sortie</th>
                     </tr>
                 </thead>
                 <tbody>
