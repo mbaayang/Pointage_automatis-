@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
 import "../Liste_Employes/Liste_Employes.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 /* import NoResult from "../Historique/NoResult"; */
 
 function Liste_Etudiants() {
@@ -22,6 +24,9 @@ function Liste_Etudiants() {
   const [tableau, setTableau] = useState<any>([]);
   const [initchecked, setInitchecked] = useState<boolean>(false);
   const [display, setDisplay] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [skeleton, setSkeleton] = useState<any>(["","","","","",""]);
+  
   {
     /*  FOR PAGINATION */
   }
@@ -137,6 +142,7 @@ function Liste_Etudiants() {
             } else {
               return data.etat == etat && data.id != localStorage.getItem("id");
             }
+           
           })
         );
         if (users.length == 0) {
@@ -144,8 +150,9 @@ function Liste_Etudiants() {
         } else {
           setIntrouvable(false);
         }
+        setIsLoading(false);
       });
-  }, [users.length, recherche, etat, modalShow, ajour]);
+  }, [users.length, recherche, etat, modalShow, ajour, currentPage, itemsPerPage]);
 
   /***************************************************************
    ******************** POUR LA PAGINATION **********************
@@ -288,7 +295,7 @@ function Liste_Etudiants() {
     setTimeout(() => {
       window.location.reload();
     }, 1500);
-  };
+  }  };
 
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES Archiver / dearchivé****************************
@@ -317,7 +324,7 @@ function Liste_Etudiants() {
     setModalShow(false);
     archivageReussie();
   }
-  };
+
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
    ***************************************************************************************************** */
@@ -365,6 +372,8 @@ function Liste_Etudiants() {
       ajour ? setAjour(false) : setAjour(true);
     }
   };
+
+
 
   return (
     <div
@@ -491,7 +500,50 @@ function Liste_Etudiants() {
           </tr>
         </thead>
         <tbody>
-          {users
+        {isLoading &&  skeleton
+              
+              .map(() => (
+             <tr >
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             
+           </tr>
+          ))}
+
+          {!isLoading && users
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((user: any) => (
               <tr>
@@ -546,7 +598,7 @@ function Liste_Etudiants() {
                     <span className={` ${!etat ? "" : "cacher"}`}>
                       <svg
                         onClick={() => {
-                          archiver(true, user.id);
+                          archiver(true, user.id); 
                         }}
                         style={{ cursor: "pointer" }}
                         xmlns="http://www.w3.org/2000/svg"
@@ -632,7 +684,7 @@ function Liste_Etudiants() {
                   </div>
                 </td>
               </tr>
-            ))}
+             ))}
         </tbody>
       </Table>
       {/*  FOR PAGINATION */}
