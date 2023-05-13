@@ -66,7 +66,6 @@ function Header() {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.message);
         if (res.message == "Le mot de passe est incorrect") {
           setError("actuel mot de passe incorrect");
         }
