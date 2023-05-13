@@ -153,7 +153,9 @@ function Liste_Employes() {
         } else {
           setIntrouvable(false);
         }
-        setIsLoading(false);
+        if (users.length != 0) {
+          setIsLoading(false);
+      }
       });
   }, [users.length, recherche, etat, modalShow, ajour, currentPage, itemsPerPage]);
 

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import NoResult from "./NoResult";
 import Pagination from "./Pagination";
 import HistoryItem from "./HistoryItem";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 /* Composant Historique */
 export function HistoriqueEmploye() {
@@ -18,6 +20,8 @@ export function HistoriqueEmploye() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(7);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [skeleton, setSkeleton] = useState<any>(["","","","","",""]);
  
   /* Fonction de pagination */ 
   const paginate = (pageNumber: number) => {
@@ -79,9 +83,13 @@ useEffect(() => {
         setData(employes);
         setTotalItems(employes.length);
         setCurrentItems(employes.slice(0, itemsPerPage));
+       
+        if (employes.length != 0) {
+          setIsLoading(false);
+      }
       });
     });
-    }, []); 
+    }, [itemsPerPage]); 
           
 
   return (
@@ -115,7 +123,49 @@ useEffect(() => {
           </tr>
         </thead>
         <tbody>
-        {hasResult && currentItems.map((item, index) => (
+        {isLoading &&  skeleton
+              
+              .map(() => (
+             <tr >
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             
+           </tr>
+          ))}
+        {!isLoading && hasResult && currentItems.map((item, index) => (
             <HistoryItem data={item} key={index} />
         ))}
         {!hasResult && 

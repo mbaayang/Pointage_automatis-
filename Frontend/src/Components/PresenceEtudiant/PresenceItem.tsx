@@ -3,12 +3,14 @@ import { useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
+
 /* Définition des types des props du composant PresenceItem */
 type PresenceItemProps = {
     presence: any
 }
 /* Composant PresenceItem qui représente un élément du tableau historique */
 const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemProps) => {
+  
     let yellow = 'bg-yellow-500 text-white'
     let red = 'bg-red-500 text-white'
     let green = 'bg-emerald-500 text-white'

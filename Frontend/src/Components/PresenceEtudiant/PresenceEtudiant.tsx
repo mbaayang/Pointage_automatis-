@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import NoResult from '../HistoriqueEtudiant/NoResult';
 import Pagination from '../HistoriqueEtudiant/Pagination';
 import PresenceItem from './PresenceItem';
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 /* Composant Historique */
 export function PresenceEtudiant() {
     
@@ -12,6 +13,8 @@ export function PresenceEtudiant() {
     const [presence, setPresence] = useState<any>();
 
     const [currentItems, setCurrentItems] = useState<[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [skeleton, setSkeleton] = useState<any>(["","","","","",""]);
 
   /* Variable d'état pour gèrer la page courante */
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -74,6 +77,10 @@ export function PresenceEtudiant() {
             
             setTotalItems(etudiant.length);
             setCurrentItems(etudiant.slice(0, itemsPerPage));
+            if (etudiant.length != 0) {
+                setIsLoading(false);
+            }
+            
         });
 }, []);
 
@@ -112,7 +119,49 @@ export function PresenceEtudiant() {
                     </tr>
                 </thead>
                 <tbody>
-                {hasResult && currentItems.map((item, index) => (
+                {isLoading && skeleton
+              
+              .map(() => (
+             <tr >
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
+             
+           </tr>
+          ))}
+                {!skeleton && hasResult && currentItems.map((item, index) => (
                 <PresenceItem presence={item} key={index} />
                 ))}
                 {!hasResult &&
