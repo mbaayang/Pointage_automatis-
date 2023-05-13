@@ -123,7 +123,6 @@ function Liste_Etudiants() {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
           //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
