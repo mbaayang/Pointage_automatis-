@@ -1,7 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Etudiant } from "../../Models/etudiant";
 import NoResult from "./NoResult";
 import Pagination from "./Pagination";
 import HistoryItem from "./HistoryItem";
@@ -9,10 +8,10 @@ import HistoryItem from "./HistoryItem";
 /* Composant Historique */
 export function HistoriqueEtudiant() {
   /* Stockage des données de l'historique dans une variable d'état */
-  const [data, setData] = useState<Etudiant[]>([]);
+  const [data, setData] = useState<any>();
 
   /* toute l'historique est stockée dans la variable d'état data, mais pour la pagination, on ne veut afficher que 7 éléments à la fois, donc on crée une variable d'état pour stocker les 5 éléments à afficher */
-  const [currentItems, setCurrentItems] = useState<Etudiant[]>([]);
+  const [currentItems, setCurrentItems] = useState<[]>([]);
 
   /* Variable d'état pour gèrer la page courante */
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -47,7 +46,7 @@ export function HistoriqueEtudiant() {
     }
     const dateSearch = new Date(e.target.value);
 
-    const result = data.filter((item) => {
+    const result = data.filter((item: any) => {
       const date = new Date(item.date_inscription);
       return date.getFullYear() === dateSearch.getFullYear() && date.getMonth() + 1 === dateSearch.getMonth() + 1 && date.getDate() === dateSearch.getDate();
     });
@@ -63,14 +62,16 @@ export function HistoriqueEtudiant() {
 
   useEffect(() => {
     /* Récupération des données de l'historique */
-    fetch("http://localhost:3000/etudiant", {
+    fetch("http://localhost:3000/presence-etudiants", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((response) => {
-      response.json().then((data: Etudiant[]) => {
-        const etudiants = data.filter((item) => { return item.niveau == localStorage.getItem("annee") }).map((item) => {
+      response.json().then((data) => {
+        const currentDate = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+        const etudiants = data.filter((item: any) => {
+           return item.etudiant.niveau == localStorage.getItem("annee") && item.date != currentDate }).map((item: any) => {
           return {
             ...item,
           };
@@ -107,6 +108,7 @@ export function HistoriqueEtudiant() {
         <thead>
           <tr>
             <th className="px-4 py-2 border-2 border-gray-300">Date</th>
+            <th className="px-4 py-2 border-2 border-gray-300">Heure</th>
             <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>
