@@ -10,28 +10,44 @@ const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."
   );
-  const [id, setId] = useState<any>();
+  const [id, setId] = useState<Object>();
   const [prenom, setPrenom] = useState<string>("- -");
   const [nom, setNom] = useState<string>("- -");
   const [image, setImage] = useState<string>("- -");
   const [matricule, setMatricule] = useState<string>("- -");
   const [role, setRole] = useState<string>("- -");
-  const [bloquer, setBloquer] = useState<boolean>(false);
-  const [mat, setMat] = useState<Object>();
+  const [bloquer, setBloquer] = useState<boolean>();
+  const [mat, setMat] = useState<Object>({matricule:""});
+  const [donnee, setDonnee] = useState<Object>();
   const [users, SetUsers] = useState<any>([])
+  const [etat, setEtat] = useState<boolean>(true)
+
+  const ouvrir = () => {
+    const socket = socketIOClient(ENDPOINT);  
+      socket.emit("porte", "1"); 
+  }
+
+  const fermer = () => {
+    const socket = socketIOClient(ENDPOINT);  
+    socket.emit("porte", "0"); 
+  }
+
+  const porte = () => {
+    if(etat == true){
+      ouvrir();
+    }
+    else if(etat == false){
+      fermer();
+    }
+  }
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
       console.log(data);
-      if (data) {
         setMat({matricule:data});
-     }
     });
-  }, [mat]);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/employes/matricule", { //mis à jour to be merged MHDLamine->DEV
+    fetch("http://localhost:3000/employes/matricule", { 
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -40,27 +56,61 @@ const Pointage = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        if(res.message == "compte archivé" || res.message == "matricule invalide"){
-          setBloquer(true);
-          setPrenom("- -");
-          setNom("- -");
-          setRole("- -");
-          setImage("- -");
-          setMatricule("- -");
-          setId("- -")
-          setDefaulttext("")
+        console.log(res);  
+        if(res.message == 'matricule invalide'){
+          //setBloquer(false);
+        fetch("http://localhost:3000/etudiant/matricule", { 
+        method: "POST",
+        body: JSON.stringify(mat),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          fetch("http://localhost:3000/presence-etudiants/presence", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify(
+                   id
+                ),
+                
+              })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res);
+                
+            })
+            setPrenom(res.prenom);
+            setNom(res.nom);
+            setRole(res.role);
+            setImage(res.photo);
+            setMatricule(res.matricule);
+            setId({etudiant:res.id, email:res.email});
+            //setEmail({email:res.email});
+            setBloquer(false);
+            porte();
+            setEtat(true);
+            setTimeout(()=>{setEtat(false),3000})    
+           if(res.message == 'compte archivé' || res.message == 'matricule invalide'){
+            setBloquer(true);
+            setPrenom("- -");
+            setNom("- -");
+            setRole("- -");
+            setImage("- -");
+            setMatricule("- -");
+            setId("- -")
+            setDefaulttext("")
+          }
+          
+        })
         }
+        
         else{
-        setPrenom(res.prenom);
-        setNom(res.nom);
-        setRole(res.role);
-        setImage(res.image);
-        setMatricule(res.matricule);
-        setId(res.id);
-        setBloquer(false);
-
-        fetch("http://localhost:3000/presence-employes/presence", {
+          fetch("http://localhost:3000/presence-employes/presence", {
             method: "POST",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
@@ -72,17 +122,60 @@ const Pointage = () => {
           })
           .then((res) => res.json())
           .then((res) => {
+            console.log(res);
             
-          
-          
-          localStorage.setItem("prenom", res.prenom);
-          
-        
-          localStorage.setItem("nom", res.nom);
-          localStorage.setItem("email", res.email);
-          
-        });
+        }); 
+        setPrenom(res.prenom);
+        setNom(res.nom);
+        setRole(res.role);
+        setImage(res.image);
+        setMatricule(res.matricule);
+        setId({employe:res.id, email:res.email});
+        //setEmail({email:res.email});
+        setBloquer(false);
+        porte();
+        setEtat(true);
+        setTimeout(()=>{setEtat(false),3000}) 
       }
+      setEtat(false)
+       if(res.message == "compte archivé"){
+        setBloquer(true);
+        setPrenom("- -");
+        setNom("- -");
+        setRole("- -");
+        setImage("- -");
+        setMatricule("- -");
+        setId("- -")
+        setDefaulttext("")
+      }
+      else{
+        fetch("http://localhost:3000/presence-employes/email", { 
+          method: "POST",
+          body: JSON.stringify({email:res.email}),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          setDonnee({id:res.id});
+          const h_s = new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds();
+          setId({heure_sortie:h_s});
+          fetch(`http://localhost:3000/presence-employes/${res.id}`, { 
+            method: "PATCH",
+            body: JSON.stringify(id),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res);})})
+        
+      }
+       
+      
       }),
       [mat];
   });

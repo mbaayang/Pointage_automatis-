@@ -4,7 +4,7 @@ import { UpdatePresenceEtudiantDto } from './dto/update-presence_etudiant.dto';
 export declare class PresenceEtudiantsController {
     private readonly presenceEtudiantsService;
     constructor(presenceEtudiantsService: PresenceEtudiantsService);
-    create(createPresenceEtudiantDto: CreatePresenceEtudiantDto): string;
+    create(createPresenceEtudiantDto: CreatePresenceEtudiantDto, res: any): Promise<any>;
     findAll(): string;
     findOne(id: string): string;
     update(id: string, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto): string;

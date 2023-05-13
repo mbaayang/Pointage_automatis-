@@ -1,9 +1,20 @@
+import { Repository } from "typeorm";
 import { CreatePresenceEmployeDto } from './dto/create-presence_employe.dto';
 import { UpdatePresenceEmployeDto } from './dto/update-presence_employe.dto';
+import { PresenceEmploye } from './entities/presence_employe.entity';
 export declare class PresenceEmployesService {
-    create(createPresenceEmployeDto: CreatePresenceEmployeDto): string;
+    private presenceRepository;
+    constructor(presenceRepository: Repository<PresenceEmploye>);
+    checkDateExists(date: string): Promise<boolean>;
+    checkEmailExists(email: string): Promise<boolean>;
+    create(createPresenceEmployeDto: CreatePresenceEmployeDto): Promise<PresenceEmploye>;
     findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updatePresenceEmployeDto: UpdatePresenceEmployeDto): string;
+    findOne(email: string): Promise<PresenceEmploye>;
+    update(id: number, updatePresenceEmployeDto: UpdatePresenceEmployeDto): Promise<import("typeorm").UpdateResult>;
     remove(id: number): string;
+    validateUser(email: string): Promise<PresenceEmploye | null>;
+    login(user: PresenceEmploye): Promise<{
+        id: number;
+        email: string;
+    }>;
 }

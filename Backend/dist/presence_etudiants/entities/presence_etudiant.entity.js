@@ -35,6 +35,10 @@ __decorate([
     __metadata("design:type", String)
 ], PresenceEtudiant.prototype, "etat_retard", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], PresenceEtudiant.prototype, "email", void 0);
+__decorate([
     (0, typeorm_1.JoinColumn)(),
     (0, typeorm_1.ManyToOne)(type => etudiant_entity_1.Etudiant),
     __metadata("design:type", Number)

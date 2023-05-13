@@ -53,7 +53,7 @@ export class EmployesService {
   async login(
     user: Employes
   ): Promise<{ id: number; role: string; prenom: string; nom: string; email: string; image: string; matricule: string }> {
-    const payload = { email1: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.id };
     const id = user.id;
     const role = user.role;
     const prenom = user.prenom;

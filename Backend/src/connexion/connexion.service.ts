@@ -54,14 +54,15 @@ export class AuthService {
 
   async login(
     user: Employes
-  ): Promise<{ access_token: string; id: number; role: string; prenom: string; nom: string; email: string; image: string }> {
-    const payload = { email1: user.email, sub: user.id };
+  ): Promise<{ access_token: string; id: number; role: string; prenom: string; nom: string; email: string; image: string; }> {
+    const payload = { email: user.email, sub: user.id };
     const id = user.id;
     const role = user.role;
     const prenom = user.prenom;
     const nom = user.nom;
     const email = user.email;
     const image = user.image;
+    //const matricule = user.matricule;
     return {
       access_token: this.jwtService.sign(payload),
       id: id,
@@ -70,6 +71,7 @@ export class AuthService {
       nom: nom,
       email: email,
       image: image,
+      //matricule: matricule,
     };
   }
 }

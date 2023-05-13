@@ -23,8 +23,8 @@ export class Etudiant{
     @Column({type: 'longtext'})
     photo: string;
 
-/*     @Column() 
-    etat: string; */
+    @Column({ default: true })
+    etat: boolean;
 
     @Column()
     date_inscription: string;

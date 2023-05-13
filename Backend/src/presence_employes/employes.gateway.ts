@@ -7,6 +7,7 @@ import {
   WebSocketServer,
 } from "@nestjs/websockets";
 import { Socket } from "socket.io";
+import { Server } from "ws";
 import { SerialPort } from "serialport";
 import { ReadlineParser } from "@serialport/parser-readline";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -24,47 +25,46 @@ import { Client } from "socket.io/dist/client";
   stopBits: 1,
 });
 
-const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+/* const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 parser.on('data', console.log); 
 port.write('');
-parser.write('');
+parser.write(''); */
 
 
 
 @WebSocketGateway({ cors: true })
 export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
   logger = new ConsoleLogger();
-  fanOn = "";
+  fanOn = "0";
   @WebSocketServer()
-  //public server: Server;
+  public server: Server;
+  
 
-  public socket: Socket;
+  //public socket: Socket;
 
-  constructor(@InjectRepository(Employes) private climatModel: Repository<Employes>) {}
+  constructor(@InjectRepository(Employes) private employes: Repository<Employes>) {}
 
   handleConnection(@ConnectedSocket() client: Socket) {
-    /* const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds(); */
+    
 
-    client.on("rfid", (onData) => {
-//      port.write(onData);
+    client.on("porte",(onData) => {
+     port.write(this.fanOn);  
       this.fanOn = onData;
-      console.log(onData);  
+      console.log(onData); 
+      
     });
-    /* client.on("fanOff", (offData) => {
-      this.fanOn = offData;
-    }); */
 
+    /* client.on("rfid", (data) => {
+      port.pipe(new ReadlineParser({ delimiter: '\r\n' })).emit("rfid", data);
+      console.log(data)  
+     }); */
+    
     var parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-        parser.on('data', function(data) { 
+        parser.on('data',(data) => { 
             console.log(data);
             client.emit("rfid", data);
-            this.matricule = data;
+            //this.matricule = data;
+            
         })
 
 
