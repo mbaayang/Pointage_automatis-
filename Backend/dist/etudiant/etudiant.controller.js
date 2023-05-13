@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EtudiantController = void 0;
+const etudiant_entity_1 = require("./entities/etudiant.entity");
 const common_1 = require("@nestjs/common");
 const etudiant_service_1 = require("./etudiant.service");
 const create_etudiant_dto_1 = require("./dto/create-etudiant.dto");
@@ -46,6 +47,13 @@ let EtudiantController = class EtudiantController {
     update(id, updateEtudiantDto) {
         return this.etudiantService.update(id, updateEtudiantDto);
     }
+    async login(user) {
+        const validatedUser = await this.etudiantService.validateUser(user.matricule);
+        if (!validatedUser) {
+            throw new common_1.UnauthorizedException({ message: "Etudiant inéxistant" });
+        }
+        return this.etudiantService.login(validatedUser);
+    }
 };
 __decorate([
     (0, common_1.Post)(),
@@ -76,6 +84,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, update_etudiant_dto_1.UpdateEtudiantDto]),
     __metadata("design:returntype", void 0)
 ], EtudiantController.prototype, "update", null);
+__decorate([
+    (0, common_1.Post)('matricule'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [etudiant_entity_1.Etudiant]),
+    __metadata("design:returntype", Promise)
+], EtudiantController.prototype, "login", null);
 EtudiantController = __decorate([
     (0, common_1.Controller)('etudiant'),
     __metadata("design:paramtypes", [etudiant_service_1.EtudiantService])

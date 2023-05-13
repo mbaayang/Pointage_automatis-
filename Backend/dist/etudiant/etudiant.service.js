@@ -25,6 +25,44 @@ let EtudiantService = class EtudiantService {
         const etudiant = await this.etudiantRepository.findOneBy({ email });
         return !!etudiant;
     }
+    async validateUser(matricule) {
+        const user = await this.etudiantRepository.findOne({ where: { matricule } });
+        if (user) {
+            const etat = user.etat;
+            if (etat == false) {
+                throw new common_1.UnauthorizedException({
+                    correct: false,
+                    message: "compte archivé",
+                });
+            }
+            else {
+                return user;
+            }
+        }
+        else {
+            throw new common_1.UnauthorizedException({
+                correct: false,
+                message: "matricule invalide",
+            });
+        }
+    }
+    async login(user) {
+        const payload = { email: user.email, sub: user.id };
+        const id = user.id;
+        const prenom = user.prenom;
+        const nom = user.nom;
+        const email = user.email;
+        const matricule = user.matricule;
+        const photo = user.photo;
+        return {
+            id: id,
+            prenom: prenom,
+            nom: nom,
+            email: email,
+            matricule: matricule,
+            photo: photo,
+        };
+    }
     create(createEtudiantDto) {
         const newEtudiant = this.etudiantRepository.create(Object.assign(Object.assign({}, createEtudiantDto), { date_inscription: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() }));
         return this.etudiantRepository.save(newEtudiant);

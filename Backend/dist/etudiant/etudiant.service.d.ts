@@ -6,6 +6,15 @@ export declare class EtudiantService {
     private etudiantRepository;
     constructor(etudiantRepository: Repository<Etudiant>);
     checkEmailExists(email: string): Promise<boolean>;
+    validateUser(matricule: string): Promise<Etudiant | null>;
+    login(user: Etudiant): Promise<{
+        id: number;
+        prenom: string;
+        nom: string;
+        email: string;
+        photo: string;
+        matricule: string;
+    }>;
     create(createEtudiantDto: CreateEtudiantDto): Promise<Etudiant>;
     findAll(): Promise<Etudiant[]>;
     findOne(id: number): Promise<Etudiant>;

@@ -14,6 +14,43 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PresenceEtudiantsService = void 0;
 const common_1 = require("@nestjs/common");
+<<<<<<< HEAD
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
+const presence_etudiant_entity_1 = require("./entities/presence_etudiant.entity");
+let PresenceEtudiantsService = class PresenceEtudiantsService {
+    constructor(presenceEtuRepository) {
+        this.presenceEtuRepository = presenceEtuRepository;
+    }
+    async checkDateExists(date) {
+        const presence = await this.presenceEtuRepository.findOneBy({ date });
+        return !!presence;
+    }
+    async checkEmailExists(email) {
+        const presence = await this.presenceEtuRepository.findOneBy({ email });
+        return !!presence;
+    }
+    async create(createPresenceEtudiantDto) {
+        const h = new Date().getHours();
+        const m = new Date().getMinutes();
+        const s = new Date().getSeconds();
+        let message = "";
+        if (h >= 8 && m > 30) {
+            message = "Oui";
+        }
+        else {
+            message = "Non";
+        }
+        const newPresence = this.presenceEtuRepository.create({
+            date: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            heure: new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
+            etat_presence: "En attente",
+            etat_retard: message,
+            email: createPresenceEtudiantDto.email,
+            etudiant: createPresenceEtudiantDto.etudiant
+        });
+        return await this.presenceEtuRepository.save(newPresence);
+=======
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const presence_etudiant_entity_1 = require("./entities/presence_etudiant.entity");
@@ -23,6 +60,7 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
     }
     create(createPresenceEtudiantDto) {
         return 'This action adds a new presenceEtudiant';
+>>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
     }
     findAll() {
         return this.presenceEtudiantRepository.find({ relations: ['etudiant'] });
@@ -39,8 +77,13 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
 };
 PresenceEtudiantsService = __decorate([
     (0, common_1.Injectable)(),
+<<<<<<< HEAD
+    __param(0, (0, typeorm_2.InjectRepository)(presence_etudiant_entity_1.PresenceEtudiant)),
+    __metadata("design:paramtypes", [typeorm_1.Repository])
+=======
     __param(0, (0, typeorm_1.InjectRepository)(presence_etudiant_entity_1.PresenceEtudiant)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
+>>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
 ], PresenceEtudiantsService);
 exports.PresenceEtudiantsService = PresenceEtudiantsService;
 //# sourceMappingURL=presence_etudiants.service.js.map

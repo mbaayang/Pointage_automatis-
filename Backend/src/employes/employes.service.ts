@@ -52,13 +52,14 @@ export class EmployesService {
 
   async login(
     user: Employes
-  ): Promise<{ id: number; role: string; prenom: string; nom: string; email: string; image: string }> {
-    const payload = { email1: user.email, sub: user.id };
+  ): Promise<{ id: number; role: string; prenom: string; nom: string; email: string; image: string; matricule: string }> {
+    const payload = { email: user.email, sub: user.id };
     const id = user.id;
     const role = user.role;
     const prenom = user.prenom;
     const nom = user.nom;
     const email = user.email;
+    const matricule = user.matricule;
     const image = user.image;
     return {
   
@@ -67,6 +68,7 @@ export class EmployesService {
       prenom: prenom,
       nom: nom,
       email: email,
+      matricule: matricule,
       image: image,
     };
   }

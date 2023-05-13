@@ -9,4 +9,5 @@ export declare class Employes {
     image: string;
     date_inscription: string;
     etat: boolean;
+    pointage: boolean;
 }

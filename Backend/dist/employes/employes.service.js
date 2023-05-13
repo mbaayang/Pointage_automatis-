@@ -48,12 +48,13 @@ let EmployesService = class EmployesService {
         }
     }
     async login(user) {
-        const payload = { email1: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id };
         const id = user.id;
         const role = user.role;
         const prenom = user.prenom;
         const nom = user.nom;
         const email = user.email;
+        const matricule = user.matricule;
         const image = user.image;
         return {
             id: id,
@@ -61,6 +62,7 @@ let EmployesService = class EmployesService {
             prenom: prenom,
             nom: nom,
             email: email,
+            matricule: matricule,
             image: image,
         };
     }

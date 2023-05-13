@@ -32,6 +32,9 @@ export class Employes {
   @Column({ default: true })
   etat: boolean;
 
+  @Column({ default: false })
+  pointage: boolean;
+
   /* @OneToMany(() => PresenceEmploye, (presence) => presence.employe)
   employes: Employes[]; */
 }
