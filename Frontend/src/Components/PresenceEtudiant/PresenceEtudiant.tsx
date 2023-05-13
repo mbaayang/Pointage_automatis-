@@ -70,8 +70,7 @@ export function PresenceEtudiant() {
                     ... item,
                 };
             });
-            setPresence(etudiant); console.log(etudiant);
-            
+            setPresence(etudiant);
             setTotalItems(etudiant.length);
             setCurrentItems(etudiant.slice(0, itemsPerPage));
         });
