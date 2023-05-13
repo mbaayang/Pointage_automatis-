@@ -4,19 +4,18 @@ import { useForm } from "react-hook-form";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Swal from "sweetalert2";
-import "./Liste_Employes.css";
+import "../Liste_Employes/Liste_Employes.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
 /* import NoResult from "../Historique/NoResult"; */
 
-function Liste_Employes() {
+function Liste_Etudiants() {
   const [users, setUsers] = useState<any>([]);
   const [id, setId] = useState<string>("");
   const [defaultnom, setDefaultnom] = useState<string>("");
   const [defaultprenom, setDefaultprenom] = useState<string>("");
   const [defaultemail, setDefaultemail] = useState<string>("");
-  const [defaultrole, setDefaultrole] = useState<string>("");
+  const [defaultniveau, setDefaultniveau] = useState<string>("");
   const [recherche, setRecherche] = useState<string>("");
   const [introuvable, setIntrouvable] = useState<boolean>(false);
   const [errormessage, setErrormessage] = useState<string>("");
@@ -27,6 +26,7 @@ function Liste_Employes() {
   const [display, setDisplay] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState(true);
   const [skeleton, setSkeleton] = useState<any>(["","","","","",""]);
+  
   {
     /*  FOR PAGINATION */
   }
@@ -50,13 +50,13 @@ function Liste_Employes() {
     prenom: any,
     nom: any,
     email: any,
-    role: any
+    niveau: any
   ) => {
     getOnUser(id);
     setDefaultnom(nom);
     setDefaultprenom(prenom);
     setDefaultemail(email);
-    setDefaultrole(role);
+    setDefaultniveau(niveau);
 
     setShow(true);
 
@@ -68,7 +68,6 @@ function Liste_Employes() {
   //************** */
   const getOnUser_ = (id: any) => {
     getOnUser(id);
-    setDisplay(true);
     setModalShow(true);
     //console.log(id);
   };
@@ -76,7 +75,6 @@ function Liste_Employes() {
     setDisplay(false);
     setModalShow(true);
   };
-
   /*****************************************************************************************
    ******************************SWEET ALERT*********************************************
    ****************************************************************************************/
@@ -103,7 +101,6 @@ function Liste_Employes() {
           showConfirmButton: false, // Supprime le bouton "OK"
         });
   }
-  /* champs vide */
   function archivageAnnuler() {
     Swal.fire({
       title: "Aucun ligne n'a été selectionné !",
@@ -122,11 +119,10 @@ function Liste_Employes() {
 
   useEffect(() => {
     fetch(
-      `http://localhost:3000/Employes/?_page=${currentPage}&_limit=${itemsPerPage}`
+      `http://localhost:3000/etudiant/?_page=${currentPage}&_limit=${itemsPerPage}`
     )
       .then((res) => res.json())
       .then((res) => {
-        //console.log(res);
         //Je vai stocker les données dans ma variable users
         setUsers(
           //avant le stockage je vai filtrer les données, ça prends deux paramètres les données et le nombre
@@ -145,7 +141,7 @@ function Liste_Employes() {
             } else {
               return data.etat == etat && data.id != localStorage.getItem("id");
             }
-            
+           
           })
         );
         if (users.length == 0) {
@@ -238,6 +234,7 @@ function Liste_Employes() {
     const value = e.target.value;
     setRecherche(value);
   };
+
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES ( + ) Archiver / dearchivé****************************
    ***************************************************************************************************** */
@@ -255,49 +252,51 @@ function Liste_Employes() {
   }
   //ICI C'EST POUR ENVOYER LES DONNEES
   const archiver_plus = async (etat: any) => {
-    if (tableau.length == 0 || tableau[0] == -1) {
-      archivageAnnuler();
+    if ((tableau.length == 0) || (tableau[0] == -1)) {
+      
+      archivageAnnuler()
       setModalShow(false);
-    } else {
-      let x;
-      for (let index = 0; index < tableau.length; index++) {
-        x = tableau[index];
-        console.log(x);
-        const headersList = {
-          Accept: "*/*",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        };
-
-        const bodyContent = JSON.stringify({
-          etat: etat,
-        });
-
-        const response = await fetch(`http://localhost:3000/employes/${x}`, {
-          method: "PUT",
-          body: bodyContent,
-          headers: headersList,
-        });
-
-        const data = await response.json();
-        console.log(data);
-      }
-
-      setEtat(true);
-      setModalShow(false);
-      setTableau(
-        tableau.filter((i: any) => {
-          i == "ajour";
-        })
-      );
-      console.log(initchecked);
-      setInitchecked(false);
-      archivageReussie();
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
+      
     }
-  };
+    else{
+    let x;
+    for (let index = 0; index < tableau.length; index++) {
+      x = tableau[index];
+      console.log(x);
+      const headersList = {
+        Accept: "*/*",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      };
+
+      const bodyContent = JSON.stringify({
+        etat: etat,
+      });
+
+      const response = await fetch(`http://localhost:3000/etudiant/${x}`, {
+        method: "PUT",
+        body: bodyContent,
+        headers: headersList,
+      });
+
+      const data = await response.json();
+      console.log(data);
+    }
+
+    setEtat(true);
+    setModalShow(false);
+    setTableau(
+      tableau.filter((i: any) => {
+        i == "ajour";
+      })
+    );
+    console.log(initchecked);
+    setInitchecked(false);
+    archivageReussie();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  }  };
 
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES Archiver / dearchivé****************************
@@ -314,7 +313,7 @@ function Liste_Employes() {
       etat: etat,
     });
 
-    const response = await fetch(`http://localhost:3000/employes/${y}`, {
+    const response = await fetch(`http://localhost:3000/etudiant/${y}`, {
       method: "PUT",
       body: bodyContent,
       headers: headersList,
@@ -325,7 +324,8 @@ function Liste_Employes() {
     setEtat(true);
     setModalShow(false);
     archivageReussie();
-  };
+  }
+
   /* *********************************************************************************************************
    **********************************ENVOI DES DONNEES DU FORMULAIRE MODIFIER****************************
    ***************************************************************************************************** */
@@ -336,23 +336,23 @@ function Liste_Employes() {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
-    let prenom, nom, email, role;
+    let prenom, nom, email, niveau;
     data.prenom == "" ? (prenom = defaultprenom) : (prenom = data.prenom);
     data.nom == "" ? (nom = defaultnom) : (nom = data.nom);
     data.email == "" || data.email == defaultemail
       ? (email = undefined)
       : (email = data.email);
-    data.role == "" ? (role = defaultrole) : (role = data.role);
+    data.niveau == "" ? (niveau = defaultniveau) : (niveau = data.niveau);
     console.log(email);
 
     const bodyContent = JSON.stringify({
       prenom: prenom,
       nom: nom,
       email: email,
-      role: role,
+      niveau: niveau,
     });
 
-    const response = await fetch(`http://localhost:3000/employes/${id}`, {
+    const response = await fetch(`http://localhost:3000/etudiant/${id}`, {
       method: "PUT",
       body: bodyContent,
       headers: headersList,
@@ -374,9 +374,11 @@ function Liste_Employes() {
     }
   };
 
+
+
   return (
     <div
-      className="flex w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border relative"
+      className="flex w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
       style={{ marginLeft: "10%", minHeight: "550px" }}
     >
       <div
@@ -452,13 +454,9 @@ function Liste_Employes() {
       <Table striped className="mt-3">
         <thead>
           <tr>
-            <th
-              data-toggle="tooltip"
-              data-placement="top"
-              title="action multiple"
-              style={{ boxSizing: "border-box" }}
-              className="px-3 py-3 border-2 border-gray-300 d-flex justify-content-center "
-            >
+            <th data-toggle="tooltip"
+          data-placement="top"
+          title="action multiple" className=" px-2 py-3 border-2 border-gray-300 d-flex justify-content-center">
               {/*  ARCHIVER ET DEARCHIVER PLUS */}
               <span className={` ${!etat ? "" : "cacher"}`}>
                 <svg
@@ -499,14 +497,11 @@ function Liste_Employes() {
             <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
             <th className="px-4 py-2 border-2 border-gray-300">Email</th>
             <th className="px-4 py-2 border-2 border-gray-300">Actions</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Rôles</th>
+            <th className="px-4 py-2 border-2 border-gray-300">Niveau</th>
           </tr>
         </thead>
         <tbody>
-          
-         
-
-          {isLoading &&  skeleton
+        {isLoading &&  skeleton
               
               .map(() => (
              <tr >
@@ -549,152 +544,148 @@ function Liste_Employes() {
            </tr>
           ))}
 
-          {!isLoading &&
-            users
-              .slice(
-                (currentPage - 1) * itemsPerPage,
-                currentPage * itemsPerPage
-              )
-              .map((user: any) => (
-                <tr>
-                  <td className="border-2 border-gray-300 px-4 py-2 ">
-                    <div className="flex justify-center items-center gap-2">
-                      <input
-                        type="checkbox"
-                        defaultChecked={initchecked}
-                        name="checkbox"
-                        onChange={(e) => {
-                          selection(e.target.value);
-                        }}
-                        value={user.id}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      ></input>{" "}
-                      {/* selection multiple */}
-                    </div>
-                  </td>
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="flex justify-center items-center gap-2">
-                      <h1>{user.date_inscription || <Skeleton />}</h1>
-                    </div>
-                  </td>
+          {!isLoading && users
+            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            .map((user: any) => (
+              <tr>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <input
+                      type="checkbox"
+                      defaultChecked={initchecked}
+                      name="checkbox"
+                      onChange={(e) => {
+                        selection(e.target.value);
+                      }}
+                      value={user.id}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                    ></input>{" "}
+                    {/* selection multiple */}
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.date_inscription}</span>
+                  </div>
+                </td>
 
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="flex justify-center items-center gap-2">
-                      <span>{user.prenom || <Skeleton />}</span>
-                    </div>
-                  </td>
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="flex justify-center items-center gap-2">
-                      <span>{user.nom || <Skeleton />}</span>
-                    </div>
-                  </td>
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="flex justify-center items-center gap-2">
-                      <span>{user.email || <Skeleton />}</span>
-                    </div>
-                  </td>
-                  <td
-                    className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.prenom}</span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.nom}</span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.email}</span>
+                  </div>
+                </td>
+                <td
+                  className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
+                >
+                  {/**********************************************************
+                   ********************** Pour déarchivé ***********************
+                   **********************************************************/}
+                  <div
+                    className="mb-2"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="déarchiver"
                   >
-                    {/**********************************************************
-                     ********************** Pour déarchivé ***********************
-                     **********************************************************/}
-                    <div
-                      className="mb-2"
+                    <span className={` ${!etat ? "" : "cacher"}`}>
+                      <svg
+                        onClick={() => {
+                          archiver(true, user.id); 
+                        }}
+                        style={{ cursor: "pointer" }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="#BD2121"
+                        className="bi bi-archive"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                      </svg>
+                    </span>
+                  </div>
+                  {/**********************************************************
+                   ********************** Pour modifier et archivé ************
+                   **********************************************************/}
+                  <div
+                    className={`flex justify-center items-center gap-2 ${
+                      etat ? "" : "cacher"
+                    }`}
+                  >
+                    <span
+                      className={`border-2 border-gray-300 px-1 py-1 `}
                       data-toggle="tooltip"
                       data-placement="top"
-                      title="déarchiver"
+                      title="Modifier"
                     >
-                      <span className={` ${!etat ? "" : "cacher"}`}>
-                        <svg
-                          onClick={() => {
-                            archiver(true, user.id);
-                          }}
-                          style={{ cursor: "pointer" }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="#BD2121"
-                          className="bi bi-archive"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                        </svg>
-                      </span>
-                    </div>
-                    {/**********************************************************
-                     ********************** Pour modifier et archivé ************
-                     **********************************************************/}
-                    <div
-                      className={`flex justify-center items-center gap-2 ${
-                        etat ? "" : "cacher"
-                      }`}
+                      <svg
+                        onClick={() => {
+                          handleShow(
+                            user.id,
+                            user.prenom,
+                            user.nom,
+                            user.email,
+                            user.niveau
+                          );
+                        }}
+                        style={{ cursor: "pointer" }}
+                        width="20"
+                        height="20"
+                        viewBox="0 0 53 55"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.94215 46.2643C7.2842 46.2643 5.73497 45.7271 4.62061 44.7299C3.20727 43.4771 2.52779 41.5849 2.7724 39.5394L3.77804 31.255C3.9683 29.6953 4.97394 27.6242 6.14266 26.4992L28.457 4.27971C34.0288 -1.26879 39.8452 -1.42221 45.7432 3.81947C51.6411 9.06114 51.8042 14.5329 46.2324 20.0814L23.9181 42.3009C22.7765 43.4515 20.6565 44.5254 18.9986 44.7813L10.2468 46.1874C9.78471 46.2129 9.37702 46.2643 8.94215 46.2643ZM37.1817 3.7939C35.0888 3.7939 33.2678 5.02122 31.4196 6.86219L9.10522 29.1075C8.56163 29.6444 7.93651 30.9229 7.82779 31.6644L6.82215 39.9485C6.71343 40.7923 6.93086 41.4827 7.42009 41.9173C7.90933 42.352 8.64317 42.5054 9.5401 42.3776L18.2919 40.9715C19.0801 40.8437 20.3847 40.1786 20.9283 39.6417L43.2427 17.4222C46.6129 14.0471 47.836 10.9277 42.9165 6.58093C40.7422 4.61211 38.8668 3.7939 37.1817 3.7939Z"
+                          fill="#306887"
+                        />
+                        <path
+                          d="M41.015 24.3508C40.9606 24.3508 40.8791 24.3508 40.8247 24.3508C32.3447 23.5581 25.5227 17.4984 24.218 9.57193C24.055 8.52359 24.816 7.55197 25.9303 7.37298C27.0447 7.21957 28.0775 7.9355 28.2678 8.98384C29.3006 15.1716 34.6278 19.9274 41.2596 20.5411C42.3739 20.6434 43.1893 21.5894 43.0806 22.6376C42.9447 23.6093 42.0478 24.3508 41.015 24.3508Z"
+                          fill="#306887"
+                        />
+                        <path
+                          d="M50.9615 54.5229H2.03846C0.924103 54.5229 0 53.6535 0 52.6052C0 51.5569 0.924103 50.6875 2.03846 50.6875H50.9615C52.0759 50.6875 53 51.5569 53 52.6052C53 53.6535 52.0759 54.5229 50.9615 54.5229Z"
+                          fill="#306887"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Archiver"
+                      className={`border-2 border-gray-300 px-1 py-1 `}
                     >
-                      <span
-                        className={`border-2 border-gray-300 px-1 py-1 `}
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Modifier"
+                      <svg
+                        onClick={() => getOnUser_(user.id)}
+                        style={{ cursor: "pointer" }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="#BD2121"
+                        className="bi bi-archive"
+                        viewBox="0 0 16 16"
                       >
-                        <svg
-                          onClick={() => {
-                            handleShow(
-                              user.id,
-                              user.prenom,
-                              user.nom,
-                              user.email,
-                              user.role
-                            );
-                          }}
-                          style={{ cursor: "pointer" }}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 53 55"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.94215 46.2643C7.2842 46.2643 5.73497 45.7271 4.62061 44.7299C3.20727 43.4771 2.52779 41.5849 2.7724 39.5394L3.77804 31.255C3.9683 29.6953 4.97394 27.6242 6.14266 26.4992L28.457 4.27971C34.0288 -1.26879 39.8452 -1.42221 45.7432 3.81947C51.6411 9.06114 51.8042 14.5329 46.2324 20.0814L23.9181 42.3009C22.7765 43.4515 20.6565 44.5254 18.9986 44.7813L10.2468 46.1874C9.78471 46.2129 9.37702 46.2643 8.94215 46.2643ZM37.1817 3.7939C35.0888 3.7939 33.2678 5.02122 31.4196 6.86219L9.10522 29.1075C8.56163 29.6444 7.93651 30.9229 7.82779 31.6644L6.82215 39.9485C6.71343 40.7923 6.93086 41.4827 7.42009 41.9173C7.90933 42.352 8.64317 42.5054 9.5401 42.3776L18.2919 40.9715C19.0801 40.8437 20.3847 40.1786 20.9283 39.6417L43.2427 17.4222C46.6129 14.0471 47.836 10.9277 42.9165 6.58093C40.7422 4.61211 38.8668 3.7939 37.1817 3.7939Z"
-                            fill="#306887"
-                          />
-                          <path
-                            d="M41.015 24.3508C40.9606 24.3508 40.8791 24.3508 40.8247 24.3508C32.3447 23.5581 25.5227 17.4984 24.218 9.57193C24.055 8.52359 24.816 7.55197 25.9303 7.37298C27.0447 7.21957 28.0775 7.9355 28.2678 8.98384C29.3006 15.1716 34.6278 19.9274 41.2596 20.5411C42.3739 20.6434 43.1893 21.5894 43.0806 22.6376C42.9447 23.6093 42.0478 24.3508 41.015 24.3508Z"
-                            fill="#306887"
-                          />
-                          <path
-                            d="M50.9615 54.5229H2.03846C0.924103 54.5229 0 53.6535 0 52.6052C0 51.5569 0.924103 50.6875 2.03846 50.6875H50.9615C52.0759 50.6875 53 51.5569 53 52.6052C53 53.6535 52.0759 54.5229 50.9615 54.5229Z"
-                            fill="#306887"
-                          />
-                        </svg>
-                      </span>
-                      <span
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Archiver"
-                        className={`border-2 border-gray-300 px-1 py-1 `}
-                      >
-                        <svg
-                          onClick={() => getOnUser_(user.id)}
-                          style={{ cursor: "pointer" }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="#BD2121"
-                          className="bi bi-archive"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
-                        </svg>
-                      </span>
-                    </div>
-                  </td>
-                  <td className="border-2 border-gray-300 px-4 py-2">
-                    <div className="flex justify-center items-center gap-2">
-                      <span>{user.role}</span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                      </svg>
+                    </span>
+                  </div>
+                </td>
+                <td className="border-2 border-gray-300 px-4 py-2">
+                  <div className="flex justify-center items-center gap-2">
+                    <span>{user.niveau}</span>
+                  </div>
+                </td>
+              </tr>
+             ))}
         </tbody>
       </Table>
       {/*  FOR PAGINATION */}
@@ -809,47 +800,39 @@ function Liste_Employes() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>
-                Rôle<span className="text-danger">*</span>
+                Niveau<span className="text-danger">*</span>
               </Form.Label>
               <Form.Select
-                defaultValue={defaultrole}
+                defaultValue={defaultniveau}
                 placeholder="Choisir un rôle"
-                {...register("role", {
+                {...register("niveau", {
                   required: false,
                 })}
               >
-                <option className=" text-black">{defaultrole}</option>
+                <option className=" text-black">{defaultniveau}</option>
                 <option
-                  value="administrateur"
+                  value="1 ère année"
                   className={`text-black ${
-                    defaultrole == "administrateur" ? "d-none" : ""
+                    defaultniveau == "1 ère année" ? "d-none" : ""
                   }`}
                 >
-                  administrateur
+                  1 ère année
                 </option>
                 <option
-                  value="surveillant"
+                  value="2 ème année"
                   className={`text-black ${
-                    defaultrole == "surveillant" ? "d-none" : ""
+                    defaultniveau == "2 ème année" ? "d-none" : ""
                   }`}
                 >
-                  surveillant
+                  2 ème année
                 </option>
                 <option
-                  value="professeur"
+                  value="3 ème année"
                   className={`text-black ${
-                    defaultrole == "professeur" ? "d-none" : ""
+                    defaultniveau == "2 ème année" ? "d-none" : ""
                   }`}
                 >
-                  professeur
-                </option>
-                <option
-                  value="vigil"
-                  className={`text-black ${
-                    defaultrole == "vigil" ? "d-none" : ""
-                  }`}
-                >
-                  vigil
+                  3 ème année
                 </option>
               </Form.Select>
               {errors.role?.type === "required" && (
@@ -913,4 +896,4 @@ function Liste_Employes() {
     );
   }
 }
-export default Liste_Employes;
+export default Liste_Etudiants;

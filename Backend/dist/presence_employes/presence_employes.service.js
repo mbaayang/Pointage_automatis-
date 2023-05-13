@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PresenceEmployesService = void 0;
 const common_1 = require("@nestjs/common");
+<<<<<<< HEAD
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const presence_employe_entity_1 = require("./entities/presence_employe.entity");
@@ -49,9 +50,20 @@ let PresenceEmployesService = class PresenceEmployesService {
             employe: createPresenceEmployeDto.employe
         });
         return await this.presenceRepository.save(newPresence);
+=======
+const typeorm_1 = require("@nestjs/typeorm");
+const presence_employe_entity_1 = require("./entities/presence_employe.entity");
+const typeorm_2 = require("typeorm");
+let PresenceEmployesService = class PresenceEmployesService {
+    constructor(presenceEmployeRepository) {
+        this.presenceEmployeRepository = presenceEmployeRepository;
+    }
+    create(createPresenceEmployeDto) {
+        return 'This action adds a new presenceEmploye';
+>>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
     }
     findAll() {
-        return `This action returns all presenceEmployes`;
+        return this.presenceEmployeRepository.find({ relations: ['employe'] });
     }
     findOne(email) {
         const user = this.presenceRepository.findOne({ where: { email } });
@@ -81,8 +93,13 @@ let PresenceEmployesService = class PresenceEmployesService {
 };
 PresenceEmployesService = __decorate([
     (0, common_1.Injectable)(),
+<<<<<<< HEAD
     __param(0, (0, typeorm_2.InjectRepository)(presence_employe_entity_1.PresenceEmploye)),
     __metadata("design:paramtypes", [typeorm_1.Repository])
+=======
+    __param(0, (0, typeorm_1.InjectRepository)(presence_employe_entity_1.PresenceEmploye)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
+>>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
 ], PresenceEmployesService);
 exports.PresenceEmployesService = PresenceEmployesService;
 //# sourceMappingURL=presence_employes.service.js.map

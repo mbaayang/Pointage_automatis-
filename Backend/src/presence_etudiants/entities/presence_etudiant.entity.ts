@@ -22,6 +22,9 @@ export class PresenceEtudiant {
 
     @Column({ nullable: true })
     email: string;
+    
+    @Column({default: 1})
+    statut: number;
 
     @JoinColumn()
     @ManyToOne(type => Etudiant)

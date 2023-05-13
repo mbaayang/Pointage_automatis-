@@ -1,0 +1,6 @@
+.bg-color-day + body {
+    background-color: white;
+}
+.bg-color-night + body  {
+    background-color: #303030; 
+}

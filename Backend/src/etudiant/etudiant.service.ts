@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, } from '@nestjs/common';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
 import { Etudiant } from './entities/etudiant.entity';
@@ -77,10 +77,20 @@ export class EtudiantService {
   }
 
   findOne(id: number) {
-    return this.etudiantRepository.findOneBy({id: id});
+    
+    return this.etudiantRepository.findOneBy({id});
   }
 
-  update(id: number, updateEtudiantDto: UpdateEtudiantDto) {
+  async update(id: number, updateEtudiantDto: UpdateEtudiantDto) {
+    const { email } = updateEtudiantDto;
+    if (email != undefined) {
+      const existe = await  this.etudiantRepository.findOne({ where: {email} });
+      if (existe) {
+        //console.log(`${email1} ' '${existe}`);
+        throw new ConflictException('Adresse e-mail déjà prise');
+      }
+    }
+   
     return this.etudiantRepository.update(id, updateEtudiantDto);
   }
 

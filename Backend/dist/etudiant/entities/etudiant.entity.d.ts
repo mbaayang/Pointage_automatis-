@@ -8,4 +8,5 @@ export declare class Etudiant {
     photo: string;
     etat: boolean;
     date_inscription: string;
+    etat: boolean;
 }

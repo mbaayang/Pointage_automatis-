@@ -42,10 +42,12 @@ export class PresenceEtudiantsService {
     });
     
     return await this.presenceEtuRepository.save(newPresence);
+
   }
+  
 
   findAll() {
-    return `This action returns all presenceEtudiants`;
+    return this.presenceEtuRepository.find({relations: ['etudiant']});
   }
 
   findOne(id: number) {
@@ -53,7 +55,7 @@ export class PresenceEtudiantsService {
   }
 
   update(id: number, updatePresenceEtudiantDto: UpdatePresenceEtudiantDto) {
-    return `This action updates a #${id} presenceEtudiant`;
+    return this.presenceEtuRepository.update(id, updatePresenceEtudiantDto);
   }
 
   remove(id: number) {

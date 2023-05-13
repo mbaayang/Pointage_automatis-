@@ -42,13 +42,11 @@ function Header() {
     axios.get(`http://localhost:3000/employes/${localStorage.getItem(
       "id"
     )}`).then((response) => {
-        console.log(response);
         setUsers(response.data)
     })
 }, [])
 
   const onSubmit = (data: any) => {
-    console.log(data);
     fetch(
       `http://localhost:3000/employes/password/${localStorage.getItem(
         "email"
@@ -68,8 +66,6 @@ function Header() {
     )
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.message);
-        console.log(localStorage.getItem("email"));
         if (res.message == "Le mot de passe est incorrect") {
           setError("actuel mot de passe incorrect");
         }
@@ -77,9 +73,6 @@ function Header() {
           setError("");
           showSuccessAlert();
           reset();
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
         }
       });
   };
@@ -120,7 +113,7 @@ function Header() {
             </svg>
           </div>
         </Link>
-          <img src={`data:image/png;base64,${localStorage.getItem("image")}`} alt="" className="rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3" />
+          <img src={`data:image/png;base64,${localStorage.getItem("image")}`} alt=""  className="rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3"/>
         <div className="text-white text-lg absolute ml-60 mt-4">
           <p>
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}

@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@nestjs/common";
+import {ConsoleLogger, Injectable } from "@nestjs/common";
 import {
   ConnectedSocket,
   OnGatewayConnection,
@@ -33,6 +33,7 @@ parser.write(''); */
 
 
 @WebSocketGateway({ cors: true })
+@Injectable()
 export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
   logger = new ConsoleLogger();
   fanOn = "0";

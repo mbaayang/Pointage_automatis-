@@ -14,7 +14,7 @@ const hoverStyle = "hover:bg-emerald-100 hover:text-emerald-700 hover:border-eme
 const lastPage = Math.ceil(totalItems / itemsPerPage);
 
 return (
-  <div className="flex mt-3 justify-end items-center gap-2">
+  <div className="flex m-10 justify-end items-center gap-2 fixed-bottom">
       {currentPage > 1 &&  <button onClick={() => paginate(currentPage - 1)} className={`text-gray-700  px-3 py-3 rounded-full border ${hoverStyle}`}>
           <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                className="fill-current"

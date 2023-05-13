@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Repository } from "typeorm";
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePresenceEmployeDto } from './dto/create-presence_employe.dto';
 import { UpdatePresenceEmployeDto } from './dto/update-presence_employe.dto';
 import { PresenceEmploye } from './entities/presence_employe.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PresenceEmployesService {
@@ -45,7 +45,7 @@ async checkEmailExists(email: string): Promise<boolean> {
   }
 
   findAll() {
-    return `This action returns all presenceEmployes`;
+    return this.presenceRepository.find({relations: ['employe']});
   }
 
   findOne(email: string):Promise<PresenceEmploye> {
