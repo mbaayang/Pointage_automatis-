@@ -1,14 +1,35 @@
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import NoResult from "./NoResult";
 import Pagination from "./Pagination";
 import HistoryItem from "./HistoryItem";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from "react-bootstrap/Form";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 /* Composant Historique */
 export function HistoriqueEmploye() {
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ mode: "onChange" });
   
   /* Stockage des données de l'historique dans une variable d'état */
   const [data, setData] = useState<any>();
@@ -18,7 +39,7 @@ export function HistoriqueEmploye() {
 
   /* Variable d'état pour gèrer la page courante */
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(7);
+  const [itemsPerPage] = useState<number>(6);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [skeleton, setSkeleton] = useState<any>(["","","","","",""]);
@@ -91,6 +112,55 @@ useEffect(() => {
     });
     }, [itemsPerPage]); 
           
+    const GeneratePDF = () => {
+      const filterDate = data.filter((item: any) => {
+        const date = new Date(item.date);
+        return date >= new Date(startDate) && date <= new Date(endDate);
+      });
+      const docDefinition = {
+        content: [
+          {
+            text: "Historique des employes",
+            style: "header",
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+              body: [
+                [
+                  {text: "Date", style: "headerTable"},
+                  {text: "Heure", style: "headerTable"},
+                  {text: "Prénom", style: "headerTable"},
+                  {text: "Nom", style: "headerTable"},
+                  {text: "Email", style: "headerTable"},
+                  {text: "Rôle", style: "headerTable"},
+                  {text: "Etat", style: "headerTable"},
+                  {text: "Retard", style: "headerTable"}
+                ],
+                ...filterDate.map((item: any) => [
+                  item.date,
+                  item.heure,
+                  item.employe.prenom,
+                  item.employe.nom,
+                  item.employe.email,
+                  item.employe.role,
+                  item.etat_presence,
+                  item.etat_retard
+                ]),
+              ],
+            },
+            style: 'data'
+          },
+        ],
+        styles: {
+          header: {fontSize: 16, bold: true, marginBottom: 10 },
+          data: {fontSize: 11},
+          headerTable: {bold: true, fontSize: 11, color: 'white', alignement: 'center', fillColor: "#306887"}
+        },
+      };
+      pdfMake.createPdf(docDefinition).download("historique_employes.pdf");
+    }
 
   return (
     <div
@@ -102,7 +172,7 @@ useEffect(() => {
         <Link to={"../presenceEmploye"}>
         <span> Liste présence </span>
         </Link>
-        <Link to={"historiqueEmploye"}>
+        <Link to={"../historiqueEmploye"}>
         <span className="underline"> Historiques </span>
         </Link>
       </div>
@@ -179,6 +249,66 @@ useEffect(() => {
         itemsPerPage={itemsPerPage}
         totalItems={totalItems}  
       />}
+
+      <div className="flex justify-start fixed-bottom m-10">
+      <button className="text-white p-2 rounded-md" onClick={handleShow} style={{backgroundColor:'#306887'}}>
+        Télécharger en PDF
+      </button>
+      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header>
+          <Modal.Title>Choisir une plage date</Modal.Title>
+          <svg
+            onClick={handleClose}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-7 h-7"
+            style={{ cursor: "pointer" }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit(GeneratePDF)} className=" space-y-2">
+            <Form.Group className="flex space-x-16">
+              <Form.Label className=" text-lg">Du: </Form.Label>
+              <Form.Control type="date" value={startDate} className="w-4/5"
+                id="debut"
+                {...register("debut", {
+                  required: true,
+                })}
+                onChange={(event) => setStartDate(event.target.value)}/>
+            </Form.Group>
+            {errors.debut?.type === "required" && (
+                <p className="text-red-500 ml-24">Ce champ est obligatoire</p>
+              )}
+            <Form.Group className="flex space-x-16">
+              <Form.Label className=" text-lg">Au: </Form.Label>
+              <Form.Control type="date"  value={endDate} className="w-4/5"
+                id="fin"
+                {...register("fin", {
+                  required: true,
+                })}
+                onChange={(event) => setEndDate(event.target.value)}/>
+            </Form.Group>
+            {errors.fin?.type === "required" && (
+                <p className="text-red-500 ml-24">Ce champ est obligatoire</p>
+              )}
+            <div className="flex justify-end">
+              <Button variant="outline-success" type="submit">
+              Télécharger
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
