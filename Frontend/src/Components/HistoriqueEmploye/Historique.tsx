@@ -94,7 +94,7 @@ useEffect(() => {
         <Link to={"../presenceEmploye"}>
         <span> Liste présence </span>
         </Link>
-        <Link to={"historiqueEmploye"}>
+        <Link to={"../historiqueEmploye"}>
         <span className="underline"> Historiques </span>
         </Link>
       </div>

@@ -93,7 +93,7 @@ export function HistoriqueEtudiant() {
         <Link to={"../presenceEtudiant"} >
           <span> Liste présence </span>
         </Link>
-        <Link to={"historiqueEtudiant"} >
+        <Link to={"../historiqueEtudiant"} >
           <span className="underline"> Historiques</span>
         </Link>
       </div>
