@@ -1,7 +1,8 @@
 import "./Dashboard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import certificat from "../../assets/certificate.svg";
+import certificat_night from "../../assets/certificate_night.svg";
 import { Link } from "react-router-dom";
 import "../DashboardProf/DashboardProf";
 import DashboardProf from "../DashboardProf/DashboardProf";
@@ -28,6 +29,7 @@ const Dashboard = () => {
     // }
   });
 
+
   if (
     localStorage.getItem("role") == "administrateur" ||
     localStorage.getItem("role") == "surveillant"
@@ -42,7 +44,7 @@ const Dashboard = () => {
            */}
 
           <div className="col">
-            <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="42"
@@ -57,17 +59,17 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <p className="h4 text-color">Liste des employés</p>
+              <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Liste des employés</p>
             </div>
             <Link
               to="presenceEmploye"
-              className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc"
+              className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}
             >
               <p className="h4 text-color">Effectifs</p>
               <div
                 className="image-edit"
                 style={{
-                  backgroundImage: `url(${certificat})`,
+                  backgroundImage: `url(${certificat_night})`,
                 }}
               >
                 <span className="text-5xl text-color cursor-pointer"> 16 </span>
@@ -82,7 +84,7 @@ const Dashboard = () => {
            */}
 
           <div className="col">
-            <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="42"
@@ -95,11 +97,11 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <p className="d-flex flex-column justify-content-center align-items-center h4 text-color">
+              <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>
                 Liste des Etudiants
               </p>
             </div>
-            <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+            <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
               <Link
                 to="presenceEtudiant"
                 onClick={() => {
@@ -143,7 +145,7 @@ const Dashboard = () => {
            */}
           {localStorage.getItem("role") == "administrateur" && (
             <div className="col">
-              <div className="d-flex justify-content-center align-items-center rounded-top space-x-2 nav">
+              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
                 <svg
                   fill="#306887"
                   xmlns="http://www.w3.org/2000/svg"
@@ -154,9 +156,9 @@ const Dashboard = () => {
                   {" "}
                   <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z" />
                 </svg>
-                <p className="h4 text-color"> Ajouter </p>
+                <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter </p>
               </div>
-              <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
                 <span
                   onClick={handleShow1}
                   className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
@@ -174,10 +176,10 @@ const Dashboard = () => {
           )}
           {localStorage.getItem("role") == "surveillant" && (
             <div className="col">
-              <div className="d-flex justify-content-center align-items-center rounded-top space-x-2 nav">
-                <p className="h4 text-color"> Ajouter un étudiant</p>
+              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+                <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter un étudiant</p>
               </div>
-              <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
                 <p className="h4 text-color">Ajout</p>
                 <div
                   className="image-edit"
@@ -217,7 +219,7 @@ const Dashboard = () => {
               localStorage.getItem("role") == "surveillant" ? "cacher" : ""
             } `}
           >
-            <div className="d-flex justify-content-center align-items-center gap-2 rounded-top space-x-2  nav">
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="40"
@@ -238,7 +240,7 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <div className="h4 text-color">Modifier</div>
+              <div className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Modifier</div>
             </div>
             {/*    <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
               <p className="h4 text-color">Modifier</p>
@@ -272,7 +274,7 @@ const Dashboard = () => {
               </Link>
               
             </div> */}
-            <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
+            <div     className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
               <Link to="listeEmployes">
                 <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
                   Un employé

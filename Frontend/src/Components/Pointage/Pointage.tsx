@@ -15,7 +15,7 @@ const Pointage = () => {
   const [matricule, setMatricule] = useState<string>("- -");
   const [profil, setProfil] = useState<string>("- -");
   const [bloquer, setBloquer] = useState<boolean>(false);
-  const [mat, setMat] = useState<Object>();
+  const [mat, setMat] = useState<any>();
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
@@ -79,8 +79,8 @@ const Pointage = () => {
       <div className="row gap-8">
         <div className="col">
           <div
-            style={{ backgroundColor: "#81ccb7" }}
-            className="d-flex justify-content-center  information"
+         
+            className="d-flex justify-content-center  information left"
           >
             <div className="pt-4 profil">
               <img src={defaultProfil} alt="" />
