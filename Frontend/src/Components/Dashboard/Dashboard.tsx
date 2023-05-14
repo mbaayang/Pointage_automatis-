@@ -33,7 +33,7 @@ const Dashboard = () => {
     localStorage.getItem("role") == "surveillant"
   ) {
     return (
-      <div className="container text- mt-64">
+      <div className="container  text- mt-64">
         <div className="row">
           {/*
            ****************************************************************************

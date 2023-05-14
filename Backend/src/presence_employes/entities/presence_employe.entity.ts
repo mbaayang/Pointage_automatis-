@@ -11,13 +11,16 @@ export class PresenceEmploye {
     date: string;
 
     @Column()
-    heure: string;
+    heure_arrivée: string;
 
     @Column()
-    etat_presence: string;
+    heure_sortie: string;
 
     @Column()
     etat_retard: string;
+
+    @Column({ nullable: true })
+    email: string;
 
     @JoinColumn()
     @ManyToOne(type => Employes)

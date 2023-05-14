@@ -25,15 +25,19 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], PresenceEmploye.prototype, "heure", void 0);
+], PresenceEmploye.prototype, "heure_arriv\u00E9e", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], PresenceEmploye.prototype, "etat_presence", void 0);
+], PresenceEmploye.prototype, "heure_sortie", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], PresenceEmploye.prototype, "etat_retard", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], PresenceEmploye.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.JoinColumn)(),
     (0, typeorm_1.ManyToOne)(type => employe_entity_1.Employes),

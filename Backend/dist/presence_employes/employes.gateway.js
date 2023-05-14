@@ -11,40 +11,58 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersGateway = void 0;
 const common_1 = require("@nestjs/common");
 const websockets_1 = require("@nestjs/websockets");
+const socket_io_1 = require("socket.io");
+const ws_1 = require("ws");
 const serialport_1 = require("serialport");
 const parser_readline_1 = require("@serialport/parser-readline");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const employe_entity_1 = require("../employes/entities/employe.entity");
+const port = new serialport_1.SerialPort({
+    path: "/dev/ttyUSB0",
+    baudRate: 9600,
+    dataBits: 8,
+    parity: "none",
+    stopBits: 1,
+});
 let UsersGateway = class UsersGateway {
-    constructor(presenceEmploye) {
-        this.presenceEmploye = presenceEmploye;
-        this.matricule = '';
-        this.port = new serialport_1.SerialPort({
-            path: '/dev/ttyUSB0',
-            baudRate: 9600,
-            dataBits: 8,
-            parity: 'none',
-            stopBits: 1,
-            autoOpen: false
-        });
-        this.parser = this.port.pipe(new parser_readline_1.ReadlineParser({ delimiter: '\r\n' }));
+    constructor(employes) {
+        this.employes = employes;
+        this.logger = new common_1.ConsoleLogger();
+        this.fanOn = "0";
     }
-    handleConnection(client, ...args) {
-        this.parser.on('data', (data) => {
+    handleConnection(client) {
+        client.on("porte", (onData) => {
+            port.write(this.fanOn);
+            this.fanOn = onData;
+            console.log(onData);
+        });
+        var parser = port.pipe(new parser_readline_1.ReadlineParser({ delimiter: '\r\n' }));
+        parser.on('data', (data) => {
             console.log(data);
             client.emit("rfid", data);
-            this.matricule = data;
         });
+        this.logger.log(this.fanOn);
     }
     handleDisconnect(client) {
         client.leave();
     }
 };
+__decorate([
+    (0, websockets_1.WebSocketServer)(),
+    __metadata("design:type", typeof (_a = typeof ws_1.Server !== "undefined" && ws_1.Server) === "function" ? _a : Object)
+], UsersGateway.prototype, "server", void 0);
+__decorate([
+    __param(0, (0, websockets_1.ConnectedSocket)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket]),
+    __metadata("design:returntype", void 0)
+], UsersGateway.prototype, "handleConnection", null);
 __decorate([
     __param(0, (0, websockets_1.ConnectedSocket)()),
     __metadata("design:type", Function),

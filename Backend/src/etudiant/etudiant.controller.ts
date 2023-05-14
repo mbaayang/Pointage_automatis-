@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Put, HttpStatus, Res } from '@nestjs/common';
+import { Etudiant } from 'src/etudiant/entities/etudiant.entity';
+import { Controller, Get, Post, Body, Param, Put, HttpStatus, Res, UnauthorizedException } from '@nestjs/common';
 import { EtudiantService } from './etudiant.service';
 import { CreateEtudiantDto } from './dto/create-etudiant.dto';
 import { UpdateEtudiantDto } from './dto/update-etudiant.dto';
@@ -44,5 +45,15 @@ export class EtudiantController {
   update(@Param('id') id: number, 
   @Body() updateEtudiantDto: UpdateEtudiantDto) {
     return this.etudiantService.update(id, updateEtudiantDto);
+  }
+
+  @Post('matricule')
+  async login(@Body() user: Etudiant): Promise<{}> {
+    const validatedUser = await this.etudiantService.validateUser(user.matricule);
+    if (!validatedUser) {
+ 
+    throw new UnauthorizedException({ message: "Etudiant inéxistant" });
+    } 
+    return this.etudiantService.login(validatedUser);
   }
 }
