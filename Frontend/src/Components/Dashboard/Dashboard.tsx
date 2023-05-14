@@ -19,7 +19,6 @@ const Dashboard = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-
   const socket = socketIOClient(ENDPOINT);
   socket.on("rfid", (data) => {
     console.log(data);
@@ -28,6 +27,9 @@ const Dashboard = () => {
     //setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });
     // }
   });
+/**************************************************************************
+*****************************LE MODE NUIT*********************************
+***************************************************************************/
 
 
   if (

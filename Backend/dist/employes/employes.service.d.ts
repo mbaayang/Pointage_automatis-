@@ -15,6 +15,7 @@ export declare class EmployesService {
         nom: string;
         email: string;
         image: string;
+        matricule: string;
     }>;
     create(createEmployeDto: CreateEmployeDto): Promise<Employes>;
     findAll(): Promise<Employes[]>;

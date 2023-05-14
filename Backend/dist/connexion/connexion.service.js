@@ -54,7 +54,7 @@ let AuthService = class AuthService {
         }
     }
     async login(user) {
-        const payload = { email1: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id };
         const id = user.id;
         const role = user.role;
         const prenom = user.prenom;

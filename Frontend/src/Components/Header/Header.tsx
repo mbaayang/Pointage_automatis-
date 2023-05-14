@@ -15,7 +15,6 @@ function Header() {
   const handleShow = () => setShow(true);
   const [error, setError] = useState<any>("");
   const [users, setUsers] = useState<any>();
-  const [nightmode, setNightmode] = useState<boolean>();
   const navigate = useNavigate();
   
   const {

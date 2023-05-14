@@ -3,6 +3,7 @@ import Header from "../src/Components/Header/Header";
 import "./NIGHMODE.css"
 
 function PageAdmin() {
+  
   document.body.dataset.theme = localStorage.getItem("night")?.toString()
   const token = localStorage.getItem("token");
   if (!token) {

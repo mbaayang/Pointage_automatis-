@@ -21,8 +21,18 @@ let PresenceEtudiantsController = class PresenceEtudiantsController {
     constructor(presenceEtudiantsService) {
         this.presenceEtudiantsService = presenceEtudiantsService;
     }
-    create(createPresenceEtudiantDto) {
-        return this.presenceEtudiantsService.create(createPresenceEtudiantDto);
+    async create(createPresenceEtudiantDto, res) {
+        const dateExists = await this.presenceEtudiantsService.checkDateExists(createPresenceEtudiantDto.date);
+        const idExists = await this.presenceEtudiantsService.checkEmailExists(createPresenceEtudiantDto.email);
+        if (dateExists && idExists) {
+            console.log(idExists);
+            console.log(dateExists);
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'Vous avez déjà badgé' });
+        }
+        else {
+            const etudiant = this.presenceEtudiantsService.create(createPresenceEtudiantDto);
+            return res.status(common_1.HttpStatus.OK).json({ message: 'Succes', etudiant });
+        }
     }
     findAll() {
         return this.presenceEtudiantsService.findAll();
@@ -38,11 +48,12 @@ let PresenceEtudiantsController = class PresenceEtudiantsController {
     }
 };
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Post)('presence'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_presence_etudiant_dto_1.CreatePresenceEtudiantDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [create_presence_etudiant_dto_1.CreatePresenceEtudiantDto, Object]),
+    __metadata("design:returntype", Promise)
 ], PresenceEtudiantsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),

@@ -67,7 +67,7 @@ export class EmployesController {
     const validatedUser = await this.employesService.validateUser(user.matricule);
     if (!validatedUser) {
  
-    throw new UnauthorizedException({ message: "connect toi" });
+    throw new UnauthorizedException({ message: "Employé inéxistant" });
     } 
     return this.employesService.login(validatedUser);
   }
