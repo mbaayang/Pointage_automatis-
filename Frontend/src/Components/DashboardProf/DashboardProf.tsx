@@ -1,12 +1,46 @@
 import './DashboardProf.css';
 import certificat from "../../assets/certificate.svg";
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
 
 function DashboardProf() {
+    const [niveau1, setNiveau1] = useState(0);
+    const [niveau2, setNiveau2] = useState(0);
+    const [niveau3, setNiveau3] = useState(0);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/presence-etudiants", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => res.json())
+            .then((res) => {
+                const currentDate = new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate();
+                const niveau1Etudiants = res.filter((item: any) => {
+                    return item.etudiant.niveau === "1 ère année" && item.date == currentDate;
+                });
+                const niveau2Etudiants = res.filter((item: any) => {
+                    return item.etudiant.niveau === "2 ème année" && item.date == currentDate;
+                });
+                const niveau3Etudiants = res.filter((item: any) => {
+                    return item.etudiant.niveau === "3 ème année" && item.date == currentDate;
+                });
+
+                setNiveau1(niveau1Etudiants.length);
+                setNiveau2(niveau2Etudiants.length);
+                setNiveau3(niveau3Etudiants.length);
+            });
+    }, []);
+
     return (
         <div className="container contenue">
             <div className="row">
-                <Link to="presenceEtudiant" className="col">
+                <Link to="presenceEtudiant" className="col"
+                    onClick={() => {
+                        localStorage.removeItem("annee");
+                        localStorage.setItem("annee", "1 ère année");
+                    }}>
                     <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
                         <svg
                             width="40"
@@ -27,11 +61,15 @@ function DashboardProf() {
                             style={{
                                 backgroundImage: `url(${certificat})`,
                             }}>
-                            <span className="text-5xl text-color cursor-pointer"> 16 </span>
+                            <span className="text-5xl text-color cursor-pointer"> {niveau1} </span>
                         </div>
                     </div>
                 </Link>
-                <Link to="presenceEtudiant" className="col">
+                <Link to="presenceEtudiant" className="col"
+                    onClick={() => {
+                        localStorage.removeItem("annee");
+                        localStorage.setItem("annee", "2 ème année");
+                    }}>
                     <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
                         <svg
                             width="40"
@@ -52,11 +90,15 @@ function DashboardProf() {
                             style={{
                                 backgroundImage: `url(${certificat})`,
                             }}>
-                            <span className="text-5xl text-color cursor-pointer"> 16 </span>
+                            <span className="text-5xl text-color cursor-pointer"> {niveau2} </span>
                         </div>
                     </div>
                 </Link>
-                <Link to="presenceEtudiant" className="col">
+                <Link to="presenceEtudiant" className="col"
+                    onClick={() => {
+                        localStorage.removeItem("annee");
+                        localStorage.setItem("annee", "3 ème année");
+                    }}>
                     <div className="d-flex justify-content-center align-items-center gap-2 rounded-top nav">
                         <svg
                             width="40"
@@ -77,7 +119,7 @@ function DashboardProf() {
                             style={{
                                 backgroundImage: `url(${certificat})`,
                             }}>
-                            <span className="text-5xl text-color cursor-pointer"> 16 </span>
+                            <span className="text-5xl text-color cursor-pointer"> {niveau3} </span>
                         </div>
                     </div>
                 </Link>

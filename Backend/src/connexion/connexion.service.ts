@@ -40,16 +40,15 @@ export class AuthService {
       } else {
         throw new UnauthorizedException({
           correct: false,
-          message: "mot de passe invalide",
+          message: "Mot de passe invalide",
         });
       }
     } else {
       throw new UnauthorizedException({
         correct: false,
-        message: "mail invalide",
+        message: "Adresse email invalide",
       });
     }
-    /*  return null; */
   }
 
   async login(

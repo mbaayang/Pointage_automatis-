@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import "./Connexion.css";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
@@ -37,6 +37,9 @@ function Connexion() {
       .then((res) => {
         if (res.correct == false) {
           setError(res.message);
+          setTimeout(() => {
+            setError("");
+          }, 3000);
         } else {
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.access_token);
@@ -45,7 +48,6 @@ function Connexion() {
           localStorage.setItem("nom", res.nom);
           localStorage.setItem("email", res.email);
           localStorage.setItem("image", res.image);
-          //localStorage.setItem("matricule", res.matricule);
           if (localStorage.getItem("role") == "vigil") {
             navigate("/vigil");
           } else {
@@ -67,27 +69,20 @@ function Connexion() {
   return (
     <div
       className="w-full h-screen d-flex justify-center align-items-center"
-      style={{ backgroundColor: "#306887" }}
-    >
-      <Form
-        className="bg-white w-1/3 h-3/5 p-5 space-y-10 rounded-lg"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h2
-          className="text-center text-3xl font-medium"
-          style={{ color: "#306887" }}
-        >
+      style={{ backgroundColor: "#306887" }}>
+        <div className="bg-white w-1/3 h-3/5 p-5 rounded-lg">
+        <h2 className="text-center text-3xl font-medium mb-5" style={{ color: "#306887" }}>
           CONNEXION
         </h2>
-        <div
-          className={`alert alert-danger ${error == "" ? "cacher" : ""}`}
-          role="alert"
-        >
-          {error}
-        </div>
+        {error&& (
+          <div className="alert alert-danger text-center" role="alert">
+          <strong> Erreur! </strong> {error}
+          </div>
+        )}
+        <Form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Form.Group>
           <Form.Label htmlFor="email" className="text-xl">
-            Email{" "}
+            Adresse email
           </Form.Label>
           <InputGroup>
             <InputGroup.Text>
@@ -166,12 +161,12 @@ function Connexion() {
               backgroundColor: "#81CCB7",
               border: "none",
               color: "#306887",
-              marginTop: "40px",
             }}
           >
             Se connecter
           </Button>
       </Form>
+      </div>
     </div>
   );
 }

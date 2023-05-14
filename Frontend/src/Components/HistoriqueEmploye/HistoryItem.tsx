@@ -15,11 +15,6 @@ const HistoryItem: React.FC<HistoryItemProps> = ({data}: HistoryItemProps) => {
         </td>
         <td className="border-2 border-gray-300 px-4 py-2">
             <div className="flex justify-center items-center gap-2">
-                <span>{data.heure}</span>
-            </div>
-        </td>
-        <td className="border-2 border-gray-300 px-4 py-2">
-            <div className="flex justify-center items-center gap-2">
                 <span>{data.employe.prenom}</span>
             </div>
         </td>
@@ -39,18 +34,13 @@ const HistoryItem: React.FC<HistoryItemProps> = ({data}: HistoryItemProps) => {
             </div>
         </td>
         <td className="border-2 border-gray-300 px-4 py-2">
-            {data.etat_presence === "Absent(e)" &&
-            <div className="flex justify-center items-center gap-2 bg-red-500 text-white">
-                <span className=" py-1">{data.etat_presence}</span>
-            </div>}
-            {data.etat_presence === "Présent(e)" &&
-            <div className="flex justify-center items-center gap-2 text-white bg-emerald-500">
-                <span className=" py-1">{data.etat_presence}</span>
-            </div>}
+            <div className="flex justify-center items-center gap-2">
+                <span className=" py-1">{data.heure_arrivée}</span>
+            </div>
         </td>
         <td className="border-2 border-gray-300 px-4 py-2">
             <div className="flex justify-center items-center gap-2">
-                <span>{data.etat_retard}</span>
+                <span>{data.heure_sortie}</span>
             </div>
         </td>
     </tr>
