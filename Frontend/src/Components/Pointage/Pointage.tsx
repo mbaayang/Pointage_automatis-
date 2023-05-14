@@ -22,7 +22,7 @@ const Pointage = () => {
   const [donnee, setDonnee] = useState<any>();
   const [users, SetUsers] = useState<any>([])
   const [etat, setEtat] = useState<boolean>(true)
-
+  document.body.dataset.theme = localStorage.getItem("night")?.toString()
   const ouvrir = () => {
     const socket = socketIOClient(ENDPOINT);  
       socket.emit("porte", "1"); 
@@ -188,12 +188,12 @@ const Pointage = () => {
         <div className="col">
           <div
          
-            className="d-flex justify-content-center  information left"
+            className={`d-flex justify-content-center ${localStorage.getItem("night") ? "information-moon left-moon" : "information left"}  `}
           >
             
             <div className="pt-4 profil">
               <img src={`data:image/png;base64,${image}`} alt="" className="rounded-full w-32 h-32 shadow-md" />
-              <div className="pt-2 text" style={{ textAlign: "center" }}>
+              <div className={`pt-2 ${localStorage.getItem("night") ? "text-moon" : "text"} `} style={{ textAlign: "center" }}>
                 <p>
                   matricule: <span className="pl-5 fw-bold"> {matricule}</span>
                 </p>
@@ -211,7 +211,7 @@ const Pointage = () => {
           </div>
         </div>
         <div className="col">
-          <div className="d-flex justify-content-center align-items-center information">
+          <div className={`d-flex justify-content-center align-items-center ${localStorage.getItem("night") ? "information-moon" : "information"}`}>
             <div className="pt-4 profil">
               <span className={`text ${matricule == "- -" ? "" : "cacher"}`}>
                 {" "}

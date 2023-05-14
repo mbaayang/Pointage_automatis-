@@ -84,7 +84,7 @@ export function PresenceEmployes() {
     }, []);
 
     return (
-        <div className="flex w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border" style={{ marginLeft: '10%' , height:'600px' }}>
+        <div className={`flex w-4/5 px-5 py-1 flex-col drop-shadow-lg text-center border ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`} style={{ marginLeft: '10%' , height:'600px' }}>
             <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{ color: '#81CCB7'}}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -108,13 +108,13 @@ export function PresenceEmployes() {
             <Table striped className='mt-3'>
                 <thead>
                     <tr>
-                        <th className="px-4 py-2 border-2 border-gray-300">Date</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Heure</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Email</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Heure d'arrivé</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Heure de sortie</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Email</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure d'arrivé</th>
+                        <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure de sortie</th>
                     </tr>
                 </thead>
                 {isLoading && skeleton

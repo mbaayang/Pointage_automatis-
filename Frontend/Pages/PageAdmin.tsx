@@ -14,7 +14,7 @@ function PageAdmin() {
       <div className="mt-48" style={{ marginTop: "12rem" }}>
         <Outlet />
       </div>
-      <Header />
+      <Header/>
     </div>
   );
 }

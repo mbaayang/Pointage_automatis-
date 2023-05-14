@@ -1,6 +1,6 @@
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Component } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -8,6 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { log } from "console";
+import { bottom } from "@popperjs/core";
 
 function Header() {
   const [show, setShow] = useState(false);
@@ -16,6 +17,7 @@ function Header() {
   const [error, setError] = useState<any>("");
   const [users, setUsers] = useState<any>();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   
   const {
     register,
@@ -42,17 +44,23 @@ function Header() {
   const NiGHMARE = (e:any) =>{
     if (e == false) {
       localStorage.setItem("night", "true")
-      console.log("activer");
-      window.location.reload();
+      /* window.location.reload(); */
+    /*   console.log(); */
+      
+ 
+    
     }
     if (e == true) {
       localStorage.removeItem("night")
-      console.log("déactiver");
-      window.location.reload();
-      
+      /* window.location.reload(); */
+
     }
+    window.location.reload();
+
     }
-   
+ /*  const a = window.location.reload() */
+
+  
 
 
   /*****************************************************************************************
@@ -107,7 +115,9 @@ function Header() {
 
   return (
     <>
+    
       <div className="w-full h-20 fixed-top header">
+       
         <Link to={"/admin"}>
           <div className="mode">
           { !localStorage.getItem("night") &&  (
@@ -179,7 +189,7 @@ function Header() {
           <p>
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
           </p>
-          <p>{localStorage.getItem("role")}</p>
+          <p>{localStorage.getItem("role")} </p>
        
                
             
@@ -276,7 +286,7 @@ function Header() {
       </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header>
+        <Modal.Header  className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`}>
           <Modal.Title>Modifier le mot de passe</Modal.Title>
           <svg
             onClick={handleClose}
@@ -295,7 +305,7 @@ function Header() {
             />
           </svg>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`}>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div
               className={`alert alert-danger ${error == "" ? "cacher" : ""} `}
