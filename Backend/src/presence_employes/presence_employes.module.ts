@@ -4,11 +4,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PresenceEmployesService } from './presence_employes.service';
 import { PresenceEmployesController } from './presence_employes.controller';
-import { UsersGateway } from './employes.gateway';
+//import { UsersGateway } from './employes.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Employes, PresenceEmploye])],
   controllers: [PresenceEmployesController],
-  providers: [UsersGateway, PresenceEmployesService]
+  providers: [/* UsersGateway */ PresenceEmployesService]
 })
 export class PresenceEmployesModule {}

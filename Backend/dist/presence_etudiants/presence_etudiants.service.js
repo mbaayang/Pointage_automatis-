@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PresenceEtudiantsService = void 0;
 const common_1 = require("@nestjs/common");
-<<<<<<< HEAD
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const presence_etudiant_entity_1 = require("./entities/presence_etudiant.entity");
@@ -50,26 +49,15 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
             etudiant: createPresenceEtudiantDto.etudiant
         });
         return await this.presenceEtuRepository.save(newPresence);
-=======
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const presence_etudiant_entity_1 = require("./entities/presence_etudiant.entity");
-let PresenceEtudiantsService = class PresenceEtudiantsService {
-    constructor(presenceEtudiantRepository) {
-        this.presenceEtudiantRepository = presenceEtudiantRepository;
-    }
-    create(createPresenceEtudiantDto) {
-        return 'This action adds a new presenceEtudiant';
->>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
     }
     findAll() {
-        return this.presenceEtudiantRepository.find({ relations: ['etudiant'] });
+        return this.presenceEtuRepository.find({ relations: ['etudiant'] });
     }
     findOne(id) {
         return `This action returns a #${id} presenceEtudiant`;
     }
     update(id, updatePresenceEtudiantDto) {
-        return this.presenceEtudiantRepository.update(id, updatePresenceEtudiantDto);
+        return this.presenceEtuRepository.update(id, updatePresenceEtudiantDto);
     }
     remove(id) {
         return `This action removes a #${id} presenceEtudiant`;
@@ -77,13 +65,8 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
 };
 PresenceEtudiantsService = __decorate([
     (0, common_1.Injectable)(),
-<<<<<<< HEAD
     __param(0, (0, typeorm_2.InjectRepository)(presence_etudiant_entity_1.PresenceEtudiant)),
     __metadata("design:paramtypes", [typeorm_1.Repository])
-=======
-    __param(0, (0, typeorm_1.InjectRepository)(presence_etudiant_entity_1.PresenceEtudiant)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
->>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
 ], PresenceEtudiantsService);
 exports.PresenceEtudiantsService = PresenceEtudiantsService;
 //# sourceMappingURL=presence_etudiants.service.js.map

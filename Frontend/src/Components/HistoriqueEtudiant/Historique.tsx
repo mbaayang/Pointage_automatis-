@@ -10,6 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
@@ -29,7 +30,6 @@ export function HistoriqueEtudiant() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ mode: "onChange" });
 
   /* Stockage des données de l'historique dans une variable d'état */
@@ -85,6 +85,15 @@ export function HistoriqueEtudiant() {
       setHasResult(false);
       setCurrentItems([]);
     }
+  }
+
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Historique téléchargée!",
+      icon: "success",
+      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
   }
 
   useEffect(() => {
@@ -159,6 +168,11 @@ export function HistoriqueEtudiant() {
       },
     };
     pdfMake.createPdf(docDefinition).download("historique_etudiants.pdf");
+    showSuccessAlert();
+    setTimeout(() => {
+      window.location.reload();
+    }
+    , 2000);
   }
 
   return (
