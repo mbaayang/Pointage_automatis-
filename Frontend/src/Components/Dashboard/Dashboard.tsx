@@ -44,7 +44,7 @@ const Dashboard = () => {
            */}
 
           <div className="col">
-            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="42"
@@ -59,20 +59,20 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Liste des employés</p>
+              <p className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Liste des employés</p>
             </div>
             <Link
               to="presenceEmploye"
-              className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}
+              className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}
             >
-              <p className="h4 text-color">Effectifs</p>
+              <p className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }`}>Effectifs</p>
               <div
                 className="image-edit"
                 style={{
-                  backgroundImage: `url(${certificat_night})`,
+                  backgroundImage: `url(${localStorage.getItem("night") ? certificat_night : certificat })`, 
                 }}
               >
-                <span className="text-5xl text-color cursor-pointer"> 16 </span>
+                <span className={`text-5xl cursor-pointer ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }`}> 16 </span>
               </div>
             </Link>
           </div>
@@ -84,7 +84,7 @@ const Dashboard = () => {
            */}
 
           <div className="col">
-            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="42"
@@ -97,11 +97,11 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>
+              <p className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>
                 Liste des Etudiants
               </p>
             </div>
-            <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
+            <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
               <Link
                 to="presenceEtudiant"
                 onClick={() => {
@@ -109,7 +109,7 @@ const Dashboard = () => {
                   localStorage.setItem("annee", "1 ère année");
                 }}
               >
-                <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg">
+                <span className={`d-flex justify-content-center align-items-center rounded h4  ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}>
                   1 ère année
                 </span>
               </Link>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                   localStorage.setItem("annee", "2 ème année");
                 }}
               >
-                <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
+                <span className={`d-flex justify-content-center align-items-center rounded h4  ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}>
                   2 ème année
                 </span>
               </Link>
@@ -131,7 +131,7 @@ const Dashboard = () => {
                   localStorage.setItem("annee", "3 ème année");
                 }}
               >
-                <span className="d-flex justify-content-center align-items-center rounded  h4 text-color text-bg">
+                <span className={`d-flex justify-content-center align-items-center rounded h4  ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}>
                   3 ème année
                 </span>
               </Link>
@@ -145,7 +145,7 @@ const Dashboard = () => {
            */}
           {localStorage.getItem("role") == "administrateur" && (
             <div className="col">
-              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
                 <svg
                   fill="#306887"
                   xmlns="http://www.w3.org/2000/svg"
@@ -156,18 +156,18 @@ const Dashboard = () => {
                   {" "}
                   <path d="M25,2C12.317,2,2,12.317,2,25s10.317,23,23,23s23-10.317,23-23S37.683,2,25,2z M37,26H26v11h-2V26H13v-2h11V13h2v11h11V26z" />
                 </svg>
-                <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter </p>
+                <p className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter </p>
               </div>
-              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
+              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
                 <span
                   onClick={handleShow1}
-                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
+                  className={`d-flex justify-content-center align-items-center rounded h4 cursor-pointer ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}
                 >
                   Un employé
                 </span>
                 <span
                   onClick={handleShow2}
-                  className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer"
+                  className={`d-flex justify-content-center align-items-center rounded h4 cursor-pointer ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}
                 >
                   Un étudiant
                 </span>
@@ -176,10 +176,10 @@ const Dashboard = () => {
           )}
           {localStorage.getItem("role") == "surveillant" && (
             <div className="col">
-              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
-                <p className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter un étudiant</p>
+              <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+                <p className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}> Ajouter un étudiant</p>
               </div>
-              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
+              <div  className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
                 <p className="h4 text-color">Ajout</p>
                 <div
                   className="image-edit"
@@ -219,7 +219,7 @@ const Dashboard = () => {
               localStorage.getItem("role") == "surveillant" ? "cacher" : ""
             } `}
           >
-            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
+            <div className={`d-flex justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-moon" : "nav" } `}>
               <svg
                 width="40"
                 height="40"
@@ -240,7 +240,7 @@ const Dashboard = () => {
                   fill="#306887"
                 />
               </svg>
-              <div className={`h4  ${!localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Modifier</div>
+              <div className={`h4  ${localStorage.getItem("night") ? "text-color-moon" : "text-color" }  `}>Modifier</div>
             </div>
             {/*    <div className="d-flex flex-column justify-content-center align-items-center gap-2 rounded-top nav-blanc">
               <p className="h4 text-color">Modifier</p>
@@ -274,14 +274,14 @@ const Dashboard = () => {
               </Link>
               
             </div> */}
-            <div     className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${!localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
+            <div     className={`d-flex flex-column justify-content-center align-items-center gap-2 rounded-top  ${localStorage.getItem("night") ? "nav-blanc-moon" : "nav-blanc" }`}>
               <Link to="listeEmployes">
-                <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
+                <span className={`d-flex justify-content-center align-items-center rounded h4 cursor-pointer ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}>
                   Un employé
                 </span>
               </Link >
               <Link to="listeEtudiants">
-              <span className="d-flex justify-content-center align-items-center rounded h4 text-color text-bg cursor-pointer">
+              <span className={`d-flex justify-content-center align-items-center rounded h4 cursor-pointer ${localStorage.getItem("night") ? "text-bg-moon text-color-moon" : "text-bg text-color" }`}>
                 Un étudiant
               </span>
               </Link>
