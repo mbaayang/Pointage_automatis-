@@ -76,17 +76,17 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
         <tr>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.date}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.date}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.heure}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.heure}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.etudiant.prenom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.prenom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
@@ -96,7 +96,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.etudiant.email}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.email}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
@@ -114,7 +114,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.etat_retard}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etat_retard}</span>
                 </div>
             </td>
         </tr>

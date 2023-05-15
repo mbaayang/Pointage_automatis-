@@ -378,7 +378,7 @@ function Liste_Etudiants() {
 
   return (
     <div
-      className="flex w-4/5 mt-48 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
+      className={`flex w-4/5 mt-48 px-5 py-1 flex-col  drop-shadow-lg text-center border ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"} `}
       style={{ marginLeft: "10%", minHeight: "550px" }}
     >
       <div
@@ -492,12 +492,12 @@ function Liste_Etudiants() {
               </span>
             </th>{" "}
             {/* selection multiple */}
-            <th className="px-4 py-2 border-2 border-gray-300">Date</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Email</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Actions</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Niveau</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Date</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Prenom</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Nom</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Email</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Actions</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""} `}>Niveau</th>
           </tr>
         </thead>
         <tbody>
@@ -565,23 +565,23 @@ function Liste_Etudiants() {
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.date_inscription}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.date_inscription}</span>
                   </div>
                 </td>
 
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.prenom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.prenom}</span>
                   </div>
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.nom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.nom}</span>
                   </div>
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.email}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.email}</span>
                   </div>
                 </td>
                 <td
@@ -681,7 +681,7 @@ function Liste_Etudiants() {
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
-                    <span>{user.niveau}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.niveau}</span>
                   </div>
                 </td>
               </tr>

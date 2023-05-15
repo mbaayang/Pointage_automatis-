@@ -53,6 +53,10 @@ __decorate([
     (0, typeorm_1.Column)({ default: true }),
     __metadata("design:type", Boolean)
 ], Employes.prototype, "etat", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], Employes.prototype, "pointage", void 0);
 Employes = __decorate([
     (0, typeorm_1.Entity)()
 ], Employes);

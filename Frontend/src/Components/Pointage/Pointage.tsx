@@ -6,29 +6,50 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://localhost:3000";
 
+
 const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."
   );
+  const [id, setId] = useState<any>();
   const [prenom, setPrenom] = useState<string>("- -");
   const [nom, setNom] = useState<string>("- -");
+  const [image, setImage] = useState<string>("- -");
   const [matricule, setMatricule] = useState<string>("- -");
   const [profil, setProfil] = useState<string>("- -");
-  const [bloquer, setBloquer] = useState<boolean>(false);
-  const [mat, setMat] = useState<any>();
+  const [role, setRole] = useState<string>("- -");
+  const [bloquer, setBloquer] = useState<boolean>();
+  const [mat, setMat] = useState<any>({matricule:""});
+  const [donnee, setDonnee] = useState<any>();
+  const [users, SetUsers] = useState<any>([])
+  const [etat, setEtat] = useState<boolean>(true)
+  document.body.dataset.theme = localStorage.getItem("night")?.toString()
+  const ouvrir = () => {
+    const socket = socketIOClient(ENDPOINT);  
+      socket.emit("porte", "1"); 
+  }
+
+  const fermer = () => {
+    const socket = socketIOClient(ENDPOINT);  
+    socket.emit("porte", "0"); 
+  }
+
+  const porte = () => {
+    if(etat == true){
+      ouvrir();
+    }
+    else if(etat == false){
+      fermer();
+    }
+  }
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
-      //console.log(data);
-      if (data) {
+      console.log(data);
         setMat({matricule:data});
-     }
     });
-  }, [mat]);
-
-  useEffect(() => {
-    fetch("http://localhost:3000/employes/matricule", { //mis à jour to be merged MHDLamine->DEV
+    fetch("http://localhost:3000/employes/matricule", { 
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -37,11 +58,60 @@ const Pointage = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-       // console.log(res.token);
-
-       /*  if (res) {
-          const id = res.id;
+        console.log(res);  
+        if(res.message == 'matricule invalide'){
+          //setBloquer(false);
+        fetch("http://localhost:3000/etudiant/matricule", { 
+        method: "POST",
+        body: JSON.stringify(mat),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+          fetch("http://localhost:3000/presence-etudiants/presence", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify(
+                   id
+                ),
+                
+              })
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res);
+                
+            })
+            setPrenom(res.prenom);
+            setNom(res.nom);
+            setRole(res.role);
+            setImage(res.photo);
+            setMatricule(res.matricule);
+            setId({etudiant:res.id, email:res.email});
+            //setEmail({email:res.email});
+            setBloquer(false);
+            porte();
+            setEtat(true);
+            setTimeout(()=>{setEtat(false),3000})    
+           if(res.message == 'compte archivé' || res.message == 'matricule invalide'){
+            setBloquer(true);
+            setPrenom("- -");
+            setNom("- -");
+            setRole("- -");
+            setImage("- -");
+            setMatricule("- -");
+            setId("- -")
+            setDefaulttext("")
+          }
+          
+        })
+        }
+        
+        else{
           fetch("http://localhost:3000/presence-employes/presence", {
             method: "POST",
             headers: {
@@ -54,21 +124,60 @@ const Pointage = () => {
           })
           .then((res) => res.json())
           .then((res) => {
+            console.log(res);
             
-          
-          
-          localStorage.setItem("prenom", res.prenom);
-          
+        }); 
+        setPrenom(res.prenom);
+        setNom(res.nom);
+        setRole(res.role);
+        setImage(res.image);
+        setMatricule(res.matricule);
+        setId({employe:res.id, email:res.email});
+        //setEmail({email:res.email});
+        setBloquer(false);
+        porte();
+        setEtat(true);
+        setTimeout(()=>{setEtat(false),3000}) 
+      }
+      setEtat(false)
+       if(res.message == "compte archivé"){
+        setBloquer(true);
+        setPrenom("- -");
+        setNom("- -");
+        setRole("- -");
+        setImage("- -");
+        setMatricule("- -");
+        setId("- -")
+        setDefaulttext("")
+      }
+      else{
+        fetch("http://localhost:3000/presence-employes/email", { 
+          method: "POST",
+          body: JSON.stringify({email:res.email}),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          setDonnee({id:res.id});
+          const h_s = new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds();
+          setId({heure_sortie:h_s});
+          fetch(`http://localhost:3000/presence-employes/${res.id}`, { 
+            method: "PATCH",
+            body: JSON.stringify(id),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res);})})
         
-          localStorage.setItem("nom", res.nom);
-          localStorage.setItem("email", res.email);
-          
-        });
-         
-        }
-        if (res.message == "accès refusé" && mat != undefined) {
-          
-        } */
+      }
+       
+      
       }),
       [mat];
   });
@@ -80,11 +189,12 @@ const Pointage = () => {
         <div className="col">
           <div
          
-            className="d-flex justify-content-center  information left"
+            className={`d-flex justify-content-center ${localStorage.getItem("night") ? "information-moon left-moon" : "information left"}  `}
           >
+            
             <div className="pt-4 profil">
-              <img src={defaultProfil} alt="" />
-              <div className="pt-2 text" style={{ textAlign: "center" }}>
+              <img src={`data:image/png;base64,${image}`} alt="" className="rounded-full w-32 h-32 shadow-md" />
+              <div className={`pt-2 ${localStorage.getItem("night") ? "text-moon" : "text"} `} style={{ textAlign: "center" }}>
                 <p>
                   matricule: <span className="pl-5 fw-bold"> {matricule}</span>
                 </p>
@@ -95,14 +205,14 @@ const Pointage = () => {
                   nom: <span className="pl-5 fw-bold"> {nom}</span>
                 </p>
                 <p>
-                  profil: <span className="pl-5 fw-bold"> {profil}</span>
+                  profil: <span className="pl-5 fw-bold"> {role}</span>
                 </p>
               </div>
             </div>
           </div>
         </div>
         <div className="col">
-          <div className="d-flex justify-content-center align-items-center information">
+          <div className={`d-flex justify-content-center align-items-center ${localStorage.getItem("night") ? "information-moon" : "information"}`}>
             <div className="pt-4 profil">
               <span className={`text ${matricule == "- -" ? "" : "cacher"}`}>
                 {" "}

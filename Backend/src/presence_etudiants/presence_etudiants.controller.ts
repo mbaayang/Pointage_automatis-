@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
 import { PresenceEtudiantsService } from './presence_etudiants.service';
 import { CreatePresenceEtudiantDto } from './dto/create-presence_etudiant.dto';
 import { UpdatePresenceEtudiantDto } from './dto/update-presence_etudiant.dto';
@@ -7,9 +7,18 @@ import { UpdatePresenceEtudiantDto } from './dto/update-presence_etudiant.dto';
 export class PresenceEtudiantsController {
   constructor(private readonly presenceEtudiantsService: PresenceEtudiantsService) {}
 
-  @Post()
-  create(@Body() createPresenceEtudiantDto: CreatePresenceEtudiantDto) {
-    return this.presenceEtudiantsService.create(createPresenceEtudiantDto);
+  @Post('presence')
+  async create(@Body() createPresenceEtudiantDto: CreatePresenceEtudiantDto, @Res() res) {
+    const dateExists = await this.presenceEtudiantsService.checkDateExists(createPresenceEtudiantDto.date);
+   const idExists = await this.presenceEtudiantsService.checkEmailExists(createPresenceEtudiantDto.email);
+   if (dateExists && idExists) {
+    console.log(idExists);console.log(dateExists);
+    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Vous avez déjà badgé' });
+  }
+   else{
+  const etudiant = this.presenceEtudiantsService.create(createPresenceEtudiantDto)
+  return res.status(HttpStatus.OK).json({message:'Succes', etudiant}) ;
+  }
   }
 
   @Get()

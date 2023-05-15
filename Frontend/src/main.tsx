@@ -1,7 +1,12 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { Route, createBrowserRouter, RouterProvider, createRoutesFromElements,} from "react-router-dom";
+import {
+  Route,
+  createBrowserRouter,
+  RouterProvider,
+  createRoutesFromElements,
+} from "react-router-dom";
 import PageAdmin from "../Pages/PageAdmin";
 import PageVigil from "../Pages/PageVigil";
 import { HistoriqueEtudiant } from "./Components/HistoriqueEtudiant/Historique";
@@ -19,7 +24,10 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/admin" element={<PageAdmin />}>
         <Route index element={<Dashboard />}></Route>
-        <Route path="historiqueEtudiant" element={<HistoriqueEtudiant />}></Route>
+        <Route
+          path="historiqueEtudiant"
+          element={<HistoriqueEtudiant />}
+        ></Route>
         <Route path="historiqueEmploye" element={<HistoriqueEmploye />}></Route>
         <Route path="presenceEtudiant" element={<PresenceEtudiant />}></Route>
         <Route path="presenceEmploye" element={<PresenceEmployes />}></Route>

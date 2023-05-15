@@ -35,6 +35,10 @@ __decorate([
     __metadata("design:type", String)
 ], PresenceEtudiant.prototype, "etat_retard", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], PresenceEtudiant.prototype, "email", void 0);
+__decorate([
     (0, typeorm_1.Column)({ default: 1 }),
     __metadata("design:type", Number)
 ], PresenceEtudiant.prototype, "statut", void 0);
