@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import "./Liste_Employes.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import checked_on from "../../assets/checked_on.svg";
+import checked_off from "../../assets/checked_off.svg";
 
 /* import NoResult from "../Historique/NoResult"; */
 
@@ -261,6 +263,8 @@ function Liste_Employes() {
    ***************************************************************************************************** */
   //ICI C'EST L'AJOUT OU LE RETRAIT
   function selection(id: string) {
+ 
+    
     if (tableau.includes(id)) {
       for (let index = 0; index < tableau.length; index++) {
         if (tableau[index] == id) {
@@ -270,6 +274,8 @@ function Liste_Employes() {
     } else {
       setTableau([...tableau, id]);
     }
+    console.log(tableau);
+    
   }
   //ICI C'EST POUR ENVOYER LES DONNEES
   const archiver_plus = async (etat: any) => {
@@ -311,9 +317,9 @@ function Liste_Employes() {
       console.log(initchecked);
       setInitchecked(false);
       archivageReussie();
-      setTimeout(() => {
+     /*  setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 1500); */
     }
   };
 
@@ -391,6 +397,17 @@ function Liste_Employes() {
       ajour ? setAjour(false) : setAjour(true);
     }
   };
+
+ /*  SELECT MULTIPLE */
+ function handleFirstNameClick(index:any, id:any) {
+  const updatedUsers = [...users];
+  updatedUsers[index].isClicked = !updatedUsers[index].isClicked; // Inverser l'état de la classe
+  updatedUsers[index].isPending = !updatedUsers[index].isPending; // Inverser l'état de l'affichage
+  setUsers(updatedUsers);
+  selection(id)
+}
+
+
 
   return (
     <div>
@@ -637,10 +654,10 @@ function Liste_Employes() {
                     (currentPage - 1) * itemsPerPage,
                     currentPage * itemsPerPage
                   )
-                  .map((user: any) => (
+                  .map((user: any, position:any) => (
                     <tr>
                       <td className="border-2 border-gray-300 px-4 py-2 ">
-                        <div className="flex justify-center items-center gap-2">
+                    {/*     <div className="flex justify-center items-center gap-2">
                           <input
                             type="checkbox"
                             defaultChecked={initchecked}
@@ -651,12 +668,25 @@ function Liste_Employes() {
                             value={user.id}
                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                           ></input>{" "}
-                          {/* selection multiple */}
-                        </div>
+                      
+                        </div> */}
+
+                       
+                        {user.isPending ? (
+      <img  src={checked_on}  onClick={() => handleFirstNameClick(position, user.id)}  />
+    ) : (
+      <p
+        className={user.isClicked ? "clicked" : ""}
+        onClick={() => handleFirstNameClick(position, user.id)}
+      >
+        {!user.isClicked &&  <img src={checked_off} alt="" />  }
+      </p>
+    )}
+
                       </td>
                       <td className="border-2 border-gray-300 px-4 py-2">
                         <div className="flex justify-center items-center gap-2">
-                          <span
+                          <span 
                             className={`${
                               localStorage.getItem("night")
                                 ? "text-color-moon"
