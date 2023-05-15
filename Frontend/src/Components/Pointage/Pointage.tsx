@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://localhost:3000";
 
+
 const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."

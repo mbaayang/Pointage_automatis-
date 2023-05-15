@@ -18,7 +18,7 @@ function Header() {
   const [users, setUsers] = useState<any>();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const {
     register,
     watch,
@@ -41,27 +41,15 @@ function Header() {
   /*****************************************************************************************
    ******************************MODE NUIT GRAPHICS*********************************************
    ****************************************************************************************/
-  const NiGHMARE = (e:any) =>{
+  const NiGHMARE = (e: any) => {
     if (e == false) {
-      localStorage.setItem("night", "true")
-      /* window.location.reload(); */
-    /*   console.log(); */
-      
- 
-    
+      localStorage.setItem("night", "true");
     }
     if (e == true) {
-      localStorage.removeItem("night")
-      /* window.location.reload(); */
-
+      localStorage.removeItem("night");
     }
     window.location.reload();
-
-    }
- /*  const a = window.location.reload() */
-
-  
-
+  };
 
   /*****************************************************************************************
    ******************************LOGIN FUNCTION*********************************************
@@ -115,46 +103,108 @@ function Header() {
 
   return (
     <>
-    
       <div className="w-full h-20 fixed-top header">
-       
         <Link to={"/admin"}>
           <div className="mode">
-          { !localStorage.getItem("night") &&  (
+            {!localStorage.getItem("night") && (
+              <svg
+                onClick={() => {
+                  NiGHMARE(false);
+                }}
+                width="24"
+                height="24"
+                viewBox="0 0 154 152"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 72.0492C7 112.143 39.9742 144.644 80.6499 144.644C109.568 144.644 134.593 128.217 146.644 104.314C80.6499 104.314 47.9166 72.0492 47.9166 7C23.6658 18.879 7 43.5457 7 72.0492Z"
+                  stroke="white"
+                  stroke-width="12.8037"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            )}
+            {localStorage.getItem("night") && (
+              <span
+                onClick={() => {
+                  NiGHMARE(true);
+                }}
+              >
                 <svg
-                  onClick={()=>{NiGHMARE(false)}}
-                  width="24"
-                  height="24"
-                  viewBox="0 0 154 152"
+                  width="23"
+                  height="23"
+                  viewBox="0 0 165 165"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M7 72.0492C7 112.143 39.9742 144.644 80.6499 144.644C109.568 144.644 134.593 128.217 146.644 104.314C80.6499 104.314 47.9166 72.0492 47.9166 7C23.6658 18.879 7 43.5457 7 72.0492Z"
+                    d="M82.8219 124.725C105.964 124.725 124.725 105.964 124.725 82.8222C124.725 59.6798 105.964 40.9192 82.8219 40.9192C59.6795 40.9192 40.9189 59.6798 40.9189 82.8222C40.9189 105.964 59.6795 124.725 82.8219 124.725Z"
                     stroke="white"
-                    stroke-width="12.8037"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M152.66 82.8223H159.644"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M82.8223 12.9838V6"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M82.8223 159.644V152.66"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M138.693 138.693L131.709 131.709"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M138.693 26.9514L131.709 33.9352"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M26.9512 138.693L33.935 131.709"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M26.9512 26.9514L33.935 33.9352"
+                    stroke="white"
+                    stroke-width="10.4757"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6 82.8223H12.9838"
+                    stroke="white"
+                    stroke-width="10.4757"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
                 </svg>
-                )}
-              { localStorage.getItem("night") &&  (
-              
-               <span onClick={()=>{NiGHMARE(true)}} >
-               <svg width="23" height="23" viewBox="0 0 165 165" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M82.8219 124.725C105.964 124.725 124.725 105.964 124.725 82.8222C124.725 59.6798 105.964 40.9192 82.8219 40.9192C59.6795 40.9192 40.9189 59.6798 40.9189 82.8222C40.9189 105.964 59.6795 124.725 82.8219 124.725Z" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M152.66 82.8223H159.644" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M82.8223 12.9838V6" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M82.8223 159.644V152.66" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M138.693 138.693L131.709 131.709" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M138.693 26.9514L131.709 33.9352" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M26.9512 138.693L33.935 131.709" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M26.9512 26.9514L33.935 33.9352" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6 82.8223H12.9838" stroke="white" stroke-width="10.4757" stroke-linecap="round" stroke-linejoin="round"/>
-</svg></span>
-
-              
-                 )}
+              </span>
+            )}
           </div>
           <div
             className={` text-white absolute ml-8 mt-4 ${
@@ -190,15 +240,11 @@ function Header() {
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
           </p>
           <p>{localStorage.getItem("role")} </p>
-       
-               
-            
         </div>
 
         <div className="d-flex place-content-end">
           <div className="icone absolute">
             <div className="d-flex align-items-center place-content-end">
-             
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -286,7 +332,11 @@ function Header() {
       </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header  className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`}>
+        <Modal.Header
+          className={`${
+            localStorage.getItem("night") ? "modal-back-moon" : ""
+          }`}
+        >
           <Modal.Title>Modifier le mot de passe</Modal.Title>
           <svg
             onClick={handleClose}
@@ -305,7 +355,11 @@ function Header() {
             />
           </svg>
         </Modal.Header>
-        <Modal.Body className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`}>
+        <Modal.Body
+          className={`${
+            localStorage.getItem("night") ? "modal-back-moon" : ""
+          }`}
+        >
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div
               className={`alert alert-danger ${error == "" ? "cacher" : ""} `}
