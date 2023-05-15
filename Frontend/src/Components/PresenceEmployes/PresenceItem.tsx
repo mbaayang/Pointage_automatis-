@@ -1,8 +1,4 @@
 import './PresenceEmployes.css'
-import { useState } from "react";
-import { Button } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
 /* Définition des types des props du composant PresenceItem */
 type PresenceItemProps = {

@@ -23,7 +23,6 @@ export class Etudiant{
     @Column({type: 'longtext'})
     photo: string;
 
-
     @Column()
     date_inscription: string;
 

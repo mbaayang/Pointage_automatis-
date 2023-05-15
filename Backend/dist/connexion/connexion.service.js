@@ -42,14 +42,14 @@ let AuthService = class AuthService {
             else {
                 throw new common_1.UnauthorizedException({
                     correct: false,
-                    message: "mot de passe invalide",
+                    message: "Mot de passe invalide",
                 });
             }
         }
         else {
             throw new common_1.UnauthorizedException({
                 correct: false,
-                message: "mail invalide",
+                message: "Adresse email invalide",
             });
         }
     }

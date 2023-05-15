@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePresenceEmployeDto } from './dto/create-presence_employe.dto';
 import { UpdatePresenceEmployeDto } from './dto/update-presence_employe.dto';

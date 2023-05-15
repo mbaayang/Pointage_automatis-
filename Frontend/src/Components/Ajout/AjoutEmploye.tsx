@@ -163,7 +163,6 @@ function AjoutEmploye() {
                                 {...register("role", { required: true,})}>
                                 <option value="" > Choisir un rôle </option>
                                 <option value="administrateur" className=" text-black">Admin</option>
-                                <option value="surveillant" className=" text-black"> Surveillant</option>
                                 <option value="professeur" className=" text-black"> Professeur</option>
                                 <option value="vigil" className=" text-black"> Vigile</option>
                             </Form.Select>

@@ -10,6 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
@@ -28,7 +29,6 @@ export function HistoriqueEmploye() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ mode: "onChange" });
   
   /* Stockage des données de l'historique dans une variable d'état */
@@ -86,6 +86,15 @@ const search = (e: any) => {
       }
 }
 
+function showSuccessAlert() {
+  Swal.fire({
+    title: "Historique téléchargée!",
+    icon: "success",
+    timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+    showConfirmButton: false, // Supprime le bouton "OK"
+  });
+}
+
 useEffect(() => {
   /* Récupération des données de l'historique */
   fetch("http://localhost:3000/presence-employes", {
@@ -126,27 +135,25 @@ useEffect(() => {
           {
             table: {
               headerRows: 1,
-              widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+              widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
               body: [
                 [
                   {text: "Date", style: "headerTable"},
-                  {text: "Heure", style: "headerTable"},
                   {text: "Prénom", style: "headerTable"},
                   {text: "Nom", style: "headerTable"},
                   {text: "Email", style: "headerTable"},
                   {text: "Rôle", style: "headerTable"},
-                  {text: "Etat", style: "headerTable"},
-                  {text: "Retard", style: "headerTable"}
+                  {text: "Heure d'arrivée", style: "headerTable"},
+                  {text: "Heure de sortie", style: "headerTable"}
                 ],
                 ...filterDate.map((item: any) => [
                   item.date,
-                  item.heure,
                   item.employe.prenom,
                   item.employe.nom,
                   item.employe.email,
                   item.employe.role,
-                  item.etat_presence,
-                  item.etat_retard
+                  item.heure_arrivée,
+                  item.heure_sortie
                 ]),
               ],
             },
@@ -160,6 +167,11 @@ useEffect(() => {
         },
       };
       pdfMake.createPdf(docDefinition).download("historique_employes.pdf");
+      showSuccessAlert();
+      setTimeout(() => {
+        window.location.reload();
+      }
+      , 2000);
     }
 
   return (

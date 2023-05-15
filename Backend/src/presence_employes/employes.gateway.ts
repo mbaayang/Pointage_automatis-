@@ -1,4 +1,4 @@
-import {ConsoleLogger, Injectable } from "@nestjs/common";
+/* import {ConsoleLogger, Injectable } from "@nestjs/common";
 import {
   ConnectedSocket,
   OnGatewayConnection,
@@ -25,12 +25,6 @@ import { Client } from "socket.io/dist/client";
   stopBits: 1,
 });
 
-/* const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
-parser.on('data', console.log); 
-port.write('');
-parser.write(''); */
-
-
 
 @WebSocketGateway({ cors: true })
 @Injectable()
@@ -55,11 +49,6 @@ export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
       
     });
 
-    /* client.on("rfid", (data) => {
-      port.pipe(new ReadlineParser({ delimiter: '\r\n' })).emit("rfid", data);
-      console.log(data)  
-     }); */
-    
     var parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
         parser.on('data',(data) => { 
             console.log(data);
@@ -80,3 +69,4 @@ export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.leave();
   }
 }
+ */
