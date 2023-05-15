@@ -124,7 +124,7 @@ export function PresenceEtudiant() {
              <tr >
              <td>
                <p>
-                 <Skeleton height={30} />
+                 <Skeleton   style={{ color: 'grey' }} height={30} />
                </p>
              </td>
              <td>

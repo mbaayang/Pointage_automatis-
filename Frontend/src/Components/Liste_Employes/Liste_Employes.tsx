@@ -574,23 +574,23 @@ function Liste_Employes() {
                   </td>
                   <td className="border-2 border-gray-300 px-4 py-2">
                     <div className="flex justify-center items-center gap-2">
-                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.date_inscription || <Skeleton />}</span>
+                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{user.date_inscription }</span>
                     </div>
                   </td>
 
                   <td className="border-2 border-gray-300 px-4 py-2">
                     <div className="flex justify-center items-center gap-2">
-                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.prenom || <Skeleton />}</span>
+                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.prenom }</span>
                     </div>
                   </td>
                   <td className="border-2 border-gray-300 px-4 py-2">
                     <div className="flex justify-center items-center gap-2">
-                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.nom || <Skeleton />}</span>
+                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.nom }</span>
                     </div>
                   </td>
                   <td className="border-2 border-gray-300 px-4 py-2">
                     <div className="flex justify-center items-center gap-2">
-                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.email || <Skeleton />}</span>
+                      <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{user.email }</span>
                     </div>
                   </td>
                   <td
