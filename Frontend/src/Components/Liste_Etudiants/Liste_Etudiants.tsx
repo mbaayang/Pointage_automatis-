@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import "../Liste_Employes/Liste_Employes.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import checked_on from "../../assets/checked_on.svg";
+import checked_off from "../../assets/checked_off.svg";
 /* import NoResult from "../Historique/NoResult"; */
 
 function Liste_Etudiants() {
@@ -79,10 +81,12 @@ function Liste_Etudiants() {
   //************** */
   const getOnUser_ = (id: any) => {
     getOnUser(id);
+    setDisplay(true);
     setModalShow(true);
     //console.log(id);
   };
   const getFullUser = () => {
+    setDisplay(false);
     setDisplay(false);
     setModalShow(true);
   };
@@ -304,9 +308,7 @@ function Liste_Etudiants() {
     console.log(initchecked);
     setInitchecked(false);
     archivageReussie();
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+ 
   }  };
 
   /* *********************************************************************************************************
@@ -385,7 +387,14 @@ function Liste_Etudiants() {
     }
   };
 
-
+ /*  SELECT MULTIPLE */
+ function handleFirstNameClick(index:any, id:any) {
+  const updatedUsers = [...users];
+  updatedUsers[index].isClicked = !updatedUsers[index].isClicked; // Inverser l'état de la classe
+  updatedUsers[index].isPending = !updatedUsers[index].isPending; // Inverser l'état de l'affichage
+  setUsers(updatedUsers);
+  selection(id)
+}
 
   return (
     <div>
@@ -587,22 +596,20 @@ function Liste_Etudiants() {
 
           {!isLoading && users
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-            .map((user: any) => (
+            .map((user: any, position:any) => (
               <tr>
                 <td className="border-2 border-gray-300 px-4 py-2">
-                  <div className="flex justify-center items-center gap-2">
-                    <input
-                      type="checkbox"
-                      defaultChecked={initchecked}
-                      name="checkbox"
-                      onChange={(e) => {
-                        selection(e.target.value);
-                      }}
-                      value={user.id}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    ></input>{" "}
-                    {/* selection multiple */}
-                  </div>
+                                   
+                {user.isPending ? (
+      <img  src={checked_on}  onClick={() => handleFirstNameClick(position, user.id)}  />
+    ) : (
+      <p
+        className={user.isClicked ? "clicked" : ""}
+        onClick={() => handleFirstNameClick(position, user.id)}
+      >
+        {!user.isClicked &&  <img src={checked_off} alt="" />  }
+      </p>
+    )}
                 </td>
                 <td className="border-2 border-gray-300 px-4 py-2">
                   <div className="flex justify-center items-center gap-2">
