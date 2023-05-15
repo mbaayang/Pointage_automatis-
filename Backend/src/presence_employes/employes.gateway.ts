@@ -1,82 +1,121 @@
 import {ConsoleLogger, Injectable } from "@nestjs/common";
 import {
-  ConnectedSocket,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
   WebSocketGateway,
   WebSocketServer,
 } from "@nestjs/websockets";
-import { Socket } from "socket.io";
 import { Server } from "ws";
 import { SerialPort } from "serialport";
-import { ReadlineParser } from "@serialport/parser-readline";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Employes} from "../employes/entities/employe.entity";
+import { Etudiant } from "src/etudiant/entities/etudiant.entity";
 import { PresenceEmploye } from "./entities/presence_employe.entity";
-import { log } from "console";
-import { Client } from "socket.io/dist/client";
-
-  const port = new SerialPort({
-  path: "/dev/ttyUSB0",
-  baudRate: 9600,
-  dataBits: 8,
-  parity: "none",
-  stopBits: 1,
-});
-
-/* const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
-parser.on('data', console.log); 
-port.write('');
-parser.write(''); */
+import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudiant.entity";
 
 
 
 @WebSocketGateway({ cors: true })
 @Injectable()
-export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class UsersGateway  {
   logger = new ConsoleLogger();
-  fanOn = "0";
+  fanOn: any;
+  private readonly serialPort: SerialPort;
   @WebSocketServer()
   public server: Server;
   
 
   //public socket: Socket;
 
-  constructor(@InjectRepository(Employes) private employes: Repository<Employes>) {}
-
-  handleConnection(@ConnectedSocket() client: Socket) {
-    
-
-    client.on("porte",(onData) => {
-     port.write(this.fanOn);  
-      this.fanOn = onData;
-      console.log(onData); 
-      
-    });
-
-    /* client.on("rfid", (data) => {
-      port.pipe(new ReadlineParser({ delimiter: '\r\n' })).emit("rfid", data);
-      console.log(data)  
-     }); */
-    
-    var parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-        parser.on('data',(data) => { 
-            console.log(data);
-            client.emit("rfid", data);
-            //this.matricule = data;
-            
-        })
-
-
-      this.logger.log(this.fanOn);
-     
-      
-      
-      
+  constructor(@InjectRepository(Employes) private employes: Repository<Employes>,
+  @InjectRepository(Etudiant) private etudiant: Repository<Etudiant>,
+  @InjectRepository(PresenceEmploye) private presenceEmploye: Repository<PresenceEmploye>,
+  @InjectRepository(PresenceEtudiant) private presenceEtudiant: Repository<PresenceEtudiant>,
+  
+  ) 
+  {
+    this.serialPort = new SerialPort({
+      path: "/dev/ttyUSB0",
+      baudRate: 9600,
+      dataBits: 8,
+      parity: "none",
+      stopBits: 1,
+    });// Remplacez '/dev/ttyUSB0' par le port série de votre choix et la vitesse de bauds appropriée
+    this.initializeSerialPort();
   }
 
-  handleDisconnect(@ConnectedSocket() client: any) {
-    client.leave();
+  private initializeSerialPort() {
+    this.serialPort.on('data', (data: Buffer) => {
+      const receivedValue = data.toString().trim();
+      this.checkTables(receivedValue);
+    });
+  }
+  private async checkTables(matricule: string): Promise<void> {
+    const result1 = await this.employes.findOne({ where: { matricule } });
+    const result2 = await this.etudiant.findOne({ where: { matricule } });
+
+    // Effectuez des opérations supplémentaires en fonction des résultats obtenus
+    if (result1) {
+      console.log('La valeur existe dans la table employés');
+      console.log(result1);
+      this.server.emit('data', result1);
+      this.serialPort.write('1');
+      const h = new Date().getHours();
+      const m = new Date().getMinutes();
+      const s = new Date().getSeconds();
+      let message = "";
+        if( h >= 8 && m > 30){
+          message = "Oui";
+        }
+        else{
+          message = "Non"
+        }
+      const presenceEmp = {
+        date: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+        heure_arrivée: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds(),
+        heure_sortie: "- -",
+        etat_retard: message,
+        email: result1.email,
+        employe: result1.id 
+      }
+      const email = result1.email;
+      const date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+      const presenceEmployes = await this.presenceEmploye.findOne({ where: { email, date } });
+      if(!presenceEmployes){
+        await this.presenceEmploye.save(presenceEmp);
+      }
+    }
+    if(result2) {
+      console.log('La valeur existe dans la table etudiants');
+      console.log(result2);
+      this.server.emit('data', result2);
+      this.serialPort.write('1');
+      const h = new Date().getHours();
+      const m = new Date().getMinutes();
+      const s = new Date().getSeconds();
+      let message = "";
+        if( h >= 8 && m > 30){
+          message = "Oui";
+        }
+        else{
+          message = "Non"
+        }
+        const presenceEtu = {
+          date: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+          heure: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds(),
+          etat_presence: "En attente",
+          etat_retard: message,
+          email: result2.email,
+          etudiant: result2.id 
+        }
+        const email = result2.email;
+        const date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
+        const presenceEtudiant = await this.presenceEtudiant.findOne({ where: { email, date } });
+        if(!presenceEtudiant){
+          await this.presenceEtudiant.save(presenceEtu);
+        }
+    }
+    
   }
 }
+
+

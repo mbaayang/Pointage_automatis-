@@ -17,12 +17,31 @@ const Pointage = () => {
   const [matricule, setMatricule] = useState<string>("- -");
   const [role, setRole] = useState<string>("- -");
   const [bloquer, setBloquer] = useState<boolean>();
-  const [mat, setMat] = useState<Object>({matricule:""});
+  const [mat, setMat] = useState<any>([]);
   const [donnee, setDonnee] = useState<Object>();
   const [users, SetUsers] = useState<any>([])
   const [etat, setEtat] = useState<boolean>(true)
 
-  const ouvrir = () => {
+
+  /* useEffect(() => { */
+  const socket = socketIOClient(ENDPOINT);
+    socket.on("data", (data) => {
+      console.log(data);
+      if(data){
+        /* setBloquer(true);
+        setMat([]); */
+        setBloquer(false);
+        setMat(data);
+      }
+      /* else{
+        setBloquer(false);
+        setMat(data);
+      }    */
+    })/* ,
+    [mat];
+  }); */
+
+  /* const ouvrir = () => {
     const socket = socketIOClient(ENDPOINT);  
       socket.emit("porte", "1"); 
   }
@@ -39,9 +58,9 @@ const Pointage = () => {
     else if(etat == false){
       fermer();
     }
-  }
+  } */
 
-  useEffect(() => {
+ /*  useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
       console.log(data);
@@ -178,7 +197,7 @@ const Pointage = () => {
       
       }),
       [mat];
-  });
+  }); */
 
 
   return (
@@ -191,19 +210,19 @@ const Pointage = () => {
           >
             
             <div className="pt-4 profil">
-              <img src={`data:image/png;base64,${image}`} alt="" className="rounded-full w-32 h-32 shadow-md" />
+              <img src={`data:image/png;base64,${mat.image}`} alt="" className="rounded-full w-32 h-32 shadow-md" />
               <div className="pt-2 text" style={{ textAlign: "center" }}>
                 <p>
-                  matricule: <span className="pl-5 fw-bold"> {matricule}</span>
+                  matricule: <span className="pl-5 fw-bold"> {mat.matricule}</span>
                 </p>
                 <p>
-                  prénom: <span className="pl-5 fw-bold"> {prenom}</span>
+                  prénom: <span className="pl-5 fw-bold"> {mat.prenom}</span>
                 </p>
                 <p>
-                  nom: <span className="pl-5 fw-bold"> {nom}</span>
+                  nom: <span className="pl-5 fw-bold"> {mat.nom}</span>
                 </p>
                 <p>
-                  profil: <span className="pl-5 fw-bold"> {role}</span>
+                  profil: <span className="pl-5 fw-bold"> {mat.role}</span>
                 </p>
               </div>
             </div>
@@ -212,7 +231,7 @@ const Pointage = () => {
         <div className="col">
           <div className="d-flex justify-content-center align-items-center information">
             <div className="pt-4 profil">
-              <span className={`text ${matricule == "- -" ? "" : "cacher"}`}>
+              <span className={`text ${mat.matricule == "- -" ? "" : "cacher"}`}>
                 {" "}
                 <p>{defaultText}</p>
               </span>

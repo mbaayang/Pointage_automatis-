@@ -1,28 +1,20 @@
 import { ConsoleLogger } from "@nestjs/common";
-import { OnGatewayConnection, OnGatewayDisconnect } from "@nestjs/websockets";
-<<<<<<< HEAD
-import { Socket } from "socket.io";
 import { Server } from "ws";
 import { Repository } from "typeorm";
 import { Employes } from "../employes/entities/employe.entity";
-export declare class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
+import { Etudiant } from "src/etudiant/entities/etudiant.entity";
+import { PresenceEmploye } from "./entities/presence_employe.entity";
+import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudiant.entity";
+export declare class UsersGateway {
     private employes;
-    logger: ConsoleLogger;
-    fanOn: string;
-    server: Server;
-    constructor(employes: Repository<Employes>);
-    handleConnection(client: Socket): void;
-=======
-import * as socketio from 'socket.io';
-import { Repository } from "typeorm";
-import { Employes } from "../employes/entities/employe.entity";
-export declare class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
+    private etudiant;
     private presenceEmploye;
-    private port;
-    private parser;
-    matricule: string;
-    constructor(presenceEmploye: Repository<Employes>);
-    handleConnection(client: socketio.Socket, ...args: any[]): void;
->>>>>>> e9693c633b446b4ca757f22da9186212c43c0512
-    handleDisconnect(client: any): void;
+    private presenceEtudiant;
+    logger: ConsoleLogger;
+    fanOn: any;
+    private readonly serialPort;
+    server: Server;
+    constructor(employes: Repository<Employes>, etudiant: Repository<Etudiant>, presenceEmploye: Repository<PresenceEmploye>, presenceEtudiant: Repository<PresenceEtudiant>);
+    private initializeSerialPort;
+    private checkTables;
 }
