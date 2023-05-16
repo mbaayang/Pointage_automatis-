@@ -11,6 +11,7 @@ import { PresenceEmployesModule } from './presence_employes/presence_employes.mo
 import { PresenceEtudiantsModule } from './presence_etudiants/presence_etudiants.module';
 import { PresenceEmploye } from "./presence_employes/entities/presence_employe.entity";
 import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudiant.entity";
+import { ResetModule } from './reset/reset.module';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudian
     ConnexionModule,
     PresenceEmployesModule,
     PresenceEtudiantsModule,
+    ResetModule,
   ],
   controllers: [AppController],
   providers: [AppService],

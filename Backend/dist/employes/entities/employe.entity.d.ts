@@ -10,4 +10,5 @@ export declare class Employes {
     date_inscription: string;
     etat: boolean;
     pointage: boolean;
+    secretKey: string;
 }

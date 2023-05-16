@@ -57,6 +57,10 @@ __decorate([
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], Employes.prototype, "pointage", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: "" }),
+    __metadata("design:type", String)
+], Employes.prototype, "secretKey", void 0);
 Employes = __decorate([
     (0, typeorm_1.Entity)()
 ], Employes);
