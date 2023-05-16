@@ -11,6 +11,7 @@ function Password() {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const navigate = useNavigate();
   const [isLoading, setIsloading] = useState<boolean>(false);
 
@@ -38,11 +39,15 @@ function Password() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-       if (res.correct == false) {
+        if(res.status == 400){
           setError(res.message);
           setTimeout(() => {
             setError("");
+          }, 5000);
+        }else{
+          setSuccess(res.message);
+          setTimeout(() => {
+            setSuccess("");
           }, 5000);
         }
       });
@@ -69,6 +74,16 @@ function Password() {
             role="alert"
           >
             <strong> Erreur! </strong> {error}
+          </div>
+        )}
+        {success && (
+          <div
+            className={`alert alert-success text-center ${
+              isLoading ? "d-none" : ""
+            } `}
+            role="alert"
+          >
+            <strong> Succès! </strong> {success}
           </div>
         )}
         <Form onSubmit={handleSubmit(onSubmit1)} className="space-y-6 pt-3">
