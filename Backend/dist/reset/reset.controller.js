@@ -37,8 +37,8 @@ let ResetController = class ResetController {
             });
         }
     }
-    async exempleRoute(code, password, email) {
-        await this.resetService.sendResponse(code, password, email);
+    async sendResponse(code, newPassword, email) {
+        await this.resetService.sendResponse(code, newPassword, email);
     }
 };
 __decorate([
@@ -52,12 +52,12 @@ __decorate([
 __decorate([
     (0, common_1.Post)("code"),
     __param(0, (0, common_1.Body)("code")),
-    __param(1, (0, common_1.Body)("password")),
+    __param(1, (0, common_1.Body)("newPassword")),
     __param(2, (0, common_1.Body)("email")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
-], ResetController.prototype, "exempleRoute", null);
+], ResetController.prototype, "sendResponse", null);
 ResetController = __decorate([
     (0, common_1.Controller)("reset"),
     __metadata("design:paramtypes", [reset_service_1.ResetService])

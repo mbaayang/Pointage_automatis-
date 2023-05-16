@@ -87,7 +87,7 @@ export class ResetService {
       /*  console.log("incorrect"); */
       throw new UnauthorizedException({
         correct: false,
-        message: "code incorrect",
+        message: "Le code est incorrect",
       });
     } else {
       /* throw new UnauthorizedException({
