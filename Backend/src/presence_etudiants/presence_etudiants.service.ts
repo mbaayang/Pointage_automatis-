@@ -9,8 +9,7 @@ import { PresenceEtudiant } from './entities/presence_etudiant.entity';
 export class PresenceEtudiantsService {
 
   constructor(@InjectRepository(PresenceEtudiant)
-  private presenceEtuRepository: Repository<PresenceEtudiant>){}
-  
+  private presenceEtuRepository: Repository<PresenceEtudiant>){}  
 
   findAll() {
     return this.presenceEtuRepository.find({relations: ['etudiant']});

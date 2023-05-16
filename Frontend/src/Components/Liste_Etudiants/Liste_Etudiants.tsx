@@ -497,7 +497,7 @@ function Liste_Etudiants() {
         <input
           onChange={(e) => search(e)}
           type="text"
-          placeholder="Rechercher un nom"
+          placeholder="Rechercher un email"
           className="border-2 border-gray-300 rounded-r-md p-2 w-56"
         />
       </div>
