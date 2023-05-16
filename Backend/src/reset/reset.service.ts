@@ -69,10 +69,10 @@ export class ResetService {
       try {
         await this.transporter.sendMail(mailOptions);
         console.log("Email sent successfully");
-        throw new UnauthorizedException({
+      /*   throw new UnauthorizedException({
           correct: true,
           message: "un mail à ete envoyer",
-        });
+        }); */
       } catch (error) {
         console.error("Error sending email:", error);
       }
@@ -95,15 +95,11 @@ export class ResetService {
     if (!valid) {
       /*  console.log("incorrect"); */
       throw new UnauthorizedException({
-        correct: false,
+     
         message: "code incorrect",
       });
     } else {
-      /* throw new UnauthorizedException({
-        correct: false,
-        message: "valide",
-      }); */
-
+    
       const newPassword = await bcrypt.hash(password, 10);
       this.userRepository.update(user.id, {
         secretKey: "",
