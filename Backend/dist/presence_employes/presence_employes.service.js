@@ -32,7 +32,6 @@ let PresenceEmployesService = class PresenceEmployesService {
     async create(createPresenceEmployeDto) {
         const h = new Date().getHours();
         const m = new Date().getMinutes();
-        const s = new Date().getSeconds();
         let message = "";
         if (h >= 8 && m > 30) {
             message = "Oui";

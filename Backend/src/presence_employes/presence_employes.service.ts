@@ -24,7 +24,6 @@ async checkEmailExists(email: string): Promise<boolean> {
   async create(createPresenceEmployeDto: CreatePresenceEmployeDto) {
     const h = new Date().getHours();
     const m = new Date().getMinutes();
-    const s = new Date().getSeconds();
     let message = "";
     if( h >= 8 && m > 30){
       message = "Oui";
