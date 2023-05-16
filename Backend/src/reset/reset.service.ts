@@ -61,12 +61,18 @@ export class ResetService {
         from: "mouhamedlamine.ngom@unchk.edu.sn",
         to,
         subject: "Reinitialiser mot de passe",
-        text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber}`,
+        text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber} 
+
+        Ceci est un email automatique, merci de ne pas répondre`,
       };
 
       try {
         await this.transporter.sendMail(mailOptions);
         console.log("Email sent successfully");
+        throw new UnauthorizedException({
+          correct: true,
+          message: "un mail à ete envoyer",
+        });
       } catch (error) {
         console.error("Error sending email:", error);
       }
@@ -87,17 +93,31 @@ export class ResetService {
     const valid = await bcrypt.compare(code, user.secretKey);
 
     if (!valid) {
-     /*  console.log("incorrect"); */
-     throw new NotFoundException("User not found");
+      /*  console.log("incorrect"); */
+      throw new UnauthorizedException({
+        correct: false,
+        message: "code incorrect",
+      });
     } else {
       /* throw new UnauthorizedException({
         correct: false,
         message: "valide",
       }); */
-      console.log("exact tu peut modifier le mot de passe");
-      /*  const hashedNewPassword = await bcrypt.hash(password, 10);
+
+      const newPassword = await bcrypt.hash(password, 10);
+      this.userRepository.update(user.id, {
+        secretKey: "",
+        mot_de_passe: newPassword,
+      });
+
+      throw new UnauthorizedException({
+        correct: true,
+        message: "reussi",
+      });
+    }
+
+    /*  const hashedNewPassword = await bcrypt.hash(password, 10);
         user.mot_de_passe = hashedNewPassword;
         await this.employesRepository.save(user); */
-    }
   }
 }

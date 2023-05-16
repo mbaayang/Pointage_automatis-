@@ -23,7 +23,7 @@ let ResetController = class ResetController {
         await this.resetService.sendEmail(to);
     }
     async exempleRoute(code, password, email) {
-        this.resetService.sendResponse(code, password, email);
+        await this.resetService.sendResponse(code, password, email);
     }
 };
 __decorate([

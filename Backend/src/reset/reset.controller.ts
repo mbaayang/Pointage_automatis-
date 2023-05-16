@@ -17,6 +17,6 @@ export class ResetController {
     @Body("email") email: string
   ): Promise<any | null> {
     // Récupérez le texte à partir du corps de la requête
-    this.resetService.sendResponse(code, password, email);
+    await this.resetService.sendResponse(code, password, email);
   }
 }
