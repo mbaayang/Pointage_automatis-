@@ -20,6 +20,7 @@ const presence_employes_module_1 = require("./presence_employes/presence_employe
 const presence_etudiants_module_1 = require("./presence_etudiants/presence_etudiants.module");
 const presence_employe_entity_1 = require("./presence_employes/entities/presence_employe.entity");
 const presence_etudiant_entity_1 = require("./presence_etudiants/entities/presence_etudiant.entity");
+const reset_module_1 = require("./reset/reset.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -40,6 +41,7 @@ AppModule = __decorate([
             connexion_module_1.ConnexionModule,
             presence_employes_module_1.PresenceEmployesModule,
             presence_etudiants_module_1.PresenceEtudiantsModule,
+            reset_module_1.ResetModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

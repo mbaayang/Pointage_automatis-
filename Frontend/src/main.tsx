@@ -18,6 +18,8 @@ import Liste_Employes from "./Components/Liste_Employes/Liste_Employes";
 import Liste_Etudiants from "./Components/Liste_Etudiants/Liste_Etudiants";
 import { PresenceEmployes } from "./Components/PresenceEmployes/PresenceEmployes";
 import { PresenceEtudiant } from "./Components/PresenceEtudiant/PresenceEtudiant";
+import Password from "./Components/password/password";
+import Password_update from "./Components/password/password_update";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +40,8 @@ const router = createBrowserRouter(
       <Route path="/vigil" element={<PageVigil />}></Route>
       <Route index element={<Connexion />}></Route>
       <Route path="*" element={<div>Not found</div>} />
+      <Route path="password" element={<Password/>} />
+      <Route path="password_update" element={<Password_update/>} />
     </Route>
   )
 );

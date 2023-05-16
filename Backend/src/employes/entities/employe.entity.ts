@@ -35,6 +35,11 @@ export class Employes {
   @Column({ default: false })
   pointage: boolean;
 
+  @Column({ default: "" })
+  secretKey: string;
+
+  
+
   /* @OneToMany(() => PresenceEmploye, (presence) => presence.employe)
   employes: Employes[]; */
 }
