@@ -39,7 +39,7 @@ export class UsersGateway  {
       dataBits: 8,
       parity: "none",
       stopBits: 1,
-    });// Remplacez '/dev/ttyUSB0' par le port série de votre choix et la vitesse de bauds appropriée
+    });
     this.initializeSerialPort();
   }
 
@@ -82,6 +82,13 @@ export class UsersGateway  {
       const presenceEmployes = await this.presenceEmploye.findOne({ where: { email, date } });
       if(!presenceEmployes){
         await this.presenceEmploye.save(presenceEmp);
+      }
+      else{
+        const sortie = {
+          id:presenceEmployes.id,
+          heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
+        }
+        await this.presenceEmploye.update(sortie.id,sortie);
       }
     }
     if(result2) {

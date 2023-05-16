@@ -15,24 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PresenceEtudiantsController = void 0;
 const common_1 = require("@nestjs/common");
 const presence_etudiants_service_1 = require("./presence_etudiants.service");
-const create_presence_etudiant_dto_1 = require("./dto/create-presence_etudiant.dto");
 const update_presence_etudiant_dto_1 = require("./dto/update-presence_etudiant.dto");
 let PresenceEtudiantsController = class PresenceEtudiantsController {
     constructor(presenceEtudiantsService) {
         this.presenceEtudiantsService = presenceEtudiantsService;
-    }
-    async create(createPresenceEtudiantDto, res) {
-        const dateExists = await this.presenceEtudiantsService.checkDateExists(createPresenceEtudiantDto.date);
-        const idExists = await this.presenceEtudiantsService.checkEmailExists(createPresenceEtudiantDto.email);
-        if (dateExists && idExists) {
-            console.log(idExists);
-            console.log(dateExists);
-            return res.status(common_1.HttpStatus.BAD_REQUEST).json({ message: 'Vous avez déjà badgé' });
-        }
-        else {
-            const etudiant = this.presenceEtudiantsService.create(createPresenceEtudiantDto);
-            return res.status(common_1.HttpStatus.OK).json({ message: 'Succes', etudiant });
-        }
     }
     findAll() {
         return this.presenceEtudiantsService.findAll();
@@ -47,14 +33,6 @@ let PresenceEtudiantsController = class PresenceEtudiantsController {
         return this.presenceEtudiantsService.remove(+id);
     }
 };
-__decorate([
-    (0, common_1.Post)('presence'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_presence_etudiant_dto_1.CreatePresenceEtudiantDto, Object]),
-    __metadata("design:returntype", Promise)
-], PresenceEtudiantsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

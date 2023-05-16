@@ -9,20 +9,6 @@ import { PresenceEmploye } from './entities/presence_employe.entity';
 export class PresenceEmployesController {
   constructor(private readonly presenceEmployesService: PresenceEmployesService) {}
 
-  @Post('presence')
-  async create(@Body() createPresenceEmployeDto: CreatePresenceEmployeDto, @Res() res) {
-   const dateExists = await this.presenceEmployesService.checkDateExists(createPresenceEmployeDto.date);
-   const idExists = await this.presenceEmployesService.checkEmailExists(createPresenceEmployeDto.email);
-   if (dateExists && idExists) {
-    console.log(idExists);console.log(dateExists);
-    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Vous avez déjà badgé' });
-  }
-   else{
-  const employe = this.presenceEmployesService.create(createPresenceEmployeDto)
-  return res.status(HttpStatus.OK).json({message:'Succes', employe}) ;
-  }
-  }
-
   @Get()
   findAll() {
     return this.presenceEmployesService.findAll();
@@ -43,13 +29,4 @@ export class PresenceEmployesController {
     return this.presenceEmployesService.remove(+id);
   }
 
-  @Post('email')
-  async login(@Body() user: PresenceEmploye): Promise<{}> {
-    const validatedUser = await this.presenceEmployesService.validateUser(user.email);
-    if (!validatedUser) {
- 
-    throw new UnauthorizedException({ message: "Employé inéxistant" });
-    } 
-    return this.presenceEmployesService.login(validatedUser);
-  }
 }

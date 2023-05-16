@@ -109,7 +109,7 @@ export function PresenceEmployes() {
                 <thead>
                     <tr>
                         <th className="px-4 py-2 border-2 border-gray-300">Date</th>
-                        <th className="px-4 py-2 border-2 border-gray-300">Heure</th>
+                        {/* <th className="px-4 py-2 border-2 border-gray-300">Heure</th> */}
                         <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
                         <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
                         <th className="px-4 py-2 border-2 border-gray-300">Email</th>
