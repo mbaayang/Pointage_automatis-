@@ -82,7 +82,7 @@ export function HistoriqueEtudiant() {
     const dateSearch = new Date(e.target.value);
 
     const result = data.filter((item: any) => {
-      const date = new Date(item.date_inscription);
+      const date = new Date(item.date);
       return (
         date.getFullYear() === dateSearch.getFullYear() &&
         date.getMonth() + 1 === dateSearch.getMonth() + 1 &&

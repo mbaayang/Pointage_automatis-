@@ -11,6 +11,6 @@ import { UsersGateway } from './employes.gateway';
 @Module({
   imports: [TypeOrmModule.forFeature([Employes, PresenceEmploye, PresenceEtudiant, Etudiant]),],
   controllers: [PresenceEmployesController],
-  providers: [UsersGateway, PresenceEmployesService]
+  providers: [/* UsersGateway, */ PresenceEmployesService]
 })
 export class PresenceEmployesModule {}

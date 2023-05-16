@@ -55,7 +55,6 @@ let UsersGateway = class UsersGateway {
             this.serialPort.write('1');
             const h = new Date().getHours();
             const m = new Date().getMinutes();
-            const s = new Date().getSeconds();
             let message = "";
             if (h >= 8 && m > 30) {
                 message = "Oui";

@@ -47,7 +47,7 @@ export function PresenceEtudiant() {
       return;
     }
     const result = presence.filter((item: any) => {
-      return item.etudiant.nom.toLowerCase().includes(value.toLowerCase());
+      return item.etudiant.email.toLowerCase().includes(value.toLowerCase());
     });
     if (result.length > 0) {
       setHasResult(true);
@@ -188,7 +188,7 @@ export function PresenceEtudiant() {
           </div>
           <input
             type="text"
-            placeholder="Rechercher un nom"
+            placeholder="Rechercher un email"
             onChange={(e) => search(e)}
             className="border-2 border-gray-300 rounded-r-md p-2 w-56"
           />

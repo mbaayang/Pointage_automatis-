@@ -1,4 +1,4 @@
-import {ConsoleLogger, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -20,9 +20,6 @@ export class UsersGateway  {
   private readonly serialPort: SerialPort;
   @WebSocketServer()
   public server: Server;
-  
-
-  //public socket: Socket;
 
   constructor(@InjectRepository(Employes) private employes: Repository<Employes>,
   @InjectRepository(Etudiant) private etudiant: Repository<Etudiant>,
@@ -59,7 +56,6 @@ export class UsersGateway  {
       this.serialPort.write('1');
       const h = new Date().getHours();
       const m = new Date().getMinutes();
-      const s = new Date().getSeconds();
       let message = "";
         if( h >= 8 && m > 30){
           message = "Oui";
@@ -122,5 +118,3 @@ export class UsersGateway  {
     
   }
 }
-
-

@@ -11,8 +11,6 @@ export class PresenceEmployesService {
 constructor(@InjectRepository(PresenceEmploye)
 private presenceRepository: Repository<PresenceEmploye>){}
 
-
-
   findAll() {
     return this.presenceRepository.find({relations: ['employe']});
   }
