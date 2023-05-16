@@ -77,6 +77,7 @@ let ResetService = class ResetService {
         const valid = await bcrypt.compare(code, user.secretKey);
         if (!valid) {
             throw new common_1.UnauthorizedException({
+                correct: false,
                 message: "code incorrect",
             });
         }
