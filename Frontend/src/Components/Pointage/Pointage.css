@@ -8,11 +8,11 @@
     width: 50%;
 }
 
-.text p{
+ .text p{
     color: #306887;
     font-size: 1.5rem;
     margin-top: 10px;
-}
+} 
 img{
     margin: auto;
 }
@@ -22,4 +22,8 @@ img{
 .none{
     text-align: center;
     font-size: 1.5rem;
+}
+
+.left {
+    background-color: #81ccb7; 
 }

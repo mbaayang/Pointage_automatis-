@@ -10,6 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from "react-bootstrap/Form";
+import Swal from "sweetalert2";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
@@ -28,9 +29,8 @@ export function HistoriqueEmploye() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({ mode: "onChange" });
-  
+  const [chargement, setChargement] = useState(false);
   /* Stockage des données de l'historique dans une variable d'état */
   const [data, setData] = useState<any>();
 
@@ -60,6 +60,16 @@ const [searchMode, setSearchMode] = useState<boolean>(false);
 /* Variable d'état pour vérifier si la recherche a eu un résultat ou non */
 const [hasResult, setHasResult] = useState<boolean>(true);
 
+     /********************************************************************************
+  *************************PENDANT LE CHARGEMENT DE LA PAGE*************************
+  *******************************************************************************/
+  useEffect(() => {
+    setChargement(false);
+    setTimeout(() => {
+      setChargement(true);
+    }, 500);
+  }, []);
+
 /* Fonction de recherche par date */
 const search = (e: any) => {
     setSearchMode(true);
@@ -84,6 +94,15 @@ const search = (e: any) => {
       setHasResult(false);
       setCurrentItems([]);
       }
+}
+
+function showSuccessAlert() {
+  Swal.fire({
+    title: "Historique téléchargée!",
+    icon: "success",
+    timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+    showConfirmButton: false, // Supprime le bouton "OK"
+  });
 }
 
 useEffect(() => {
@@ -126,27 +145,25 @@ useEffect(() => {
           {
             table: {
               headerRows: 1,
-              widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+              widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
               body: [
                 [
                   {text: "Date", style: "headerTable"},
-                  {text: "Heure", style: "headerTable"},
                   {text: "Prénom", style: "headerTable"},
                   {text: "Nom", style: "headerTable"},
                   {text: "Email", style: "headerTable"},
                   {text: "Rôle", style: "headerTable"},
-                  {text: "Etat", style: "headerTable"},
-                  {text: "Retard", style: "headerTable"}
+                  {text: "Heure d'arrivée", style: "headerTable"},
+                  {text: "Heure de sortie", style: "headerTable"}
                 ],
                 ...filterDate.map((item: any) => [
                   item.date,
-                  item.heure,
                   item.employe.prenom,
                   item.employe.nom,
                   item.employe.email,
                   item.employe.role,
-                  item.etat_presence,
-                  item.etat_retard
+                  item.heure_arrivée,
+                  item.heure_sortie
                 ]),
               ],
             },
@@ -160,11 +177,46 @@ useEffect(() => {
         },
       };
       pdfMake.createPdf(docDefinition).download("historique_employes.pdf");
+      showSuccessAlert();
+      setTimeout(() => {
+        window.location.reload();
+      }
+      , 2000);
     }
 
   return (
+    <div>
+            <div className={`${!chargement ? "" : "d-none"} `}>
+        <div className="text-center" style={{ marginTop: "20%" }}>
+          <div role="status">
+            <svg
+              aria-hidden="true"
+              className="inline w-16 h-16 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="currentColor"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentFill"
+              />
+            </svg>
+            <span
+              className={`${
+                localStorage.getItem("night") ? "text-color-moon" : "text-color"
+              }`}
+            >
+              Loading...
+            </span>
+          </div>
+        </div>
+      </div>
     <div
-      className="flex w-4/5 px-5 py-1 flex-col bg-white drop-shadow-lg text-center border"
+      className={`flex w-4/5 px-5 py-1 flex-col  drop-shadow-lg text-center border ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}
       style={{ marginLeft: "10%", height:"600px" }}>
       <div className="flex justify-start text-xl font-medium mt-4 space-x-2"
         style={{ color: "#81CCB7" }}>
@@ -182,14 +234,14 @@ useEffect(() => {
       <Table striped className="mt-3">
         <thead>
           <tr>
-            <th className="px-4 py-2 border-2 border-gray-300">Date</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Heure</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Prenom</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Nom</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Email</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Rôle</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Etat</th>
-            <th className="px-4 py-2 border-2 border-gray-300">Retard</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Email</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Rôle</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Etat</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Retard</th>
           </tr>
         </thead>
         <tbody>
@@ -309,6 +361,7 @@ useEffect(() => {
           </Form>
         </Modal.Body>
       </Modal>
+    </div>
     </div>
   );
 }

@@ -87,7 +87,7 @@ function AjoutEmploye() {
 
     return (
         <>
-            <div>
+            <div className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`}  >
                 <div className="d-flex justify-content-between p-3">
                     <h1 className="h4 text-color">Inscrire un employé</h1>
                 </div>
@@ -163,7 +163,6 @@ function AjoutEmploye() {
                                 {...register("role", { required: true,})}>
                                 <option value="" > Choisir un rôle </option>
                                 <option value="administrateur" className=" text-black">Admin</option>
-                                <option value="surveillant" className=" text-black"> Surveillant</option>
                                 <option value="professeur" className=" text-black"> Professeur</option>
                                 <option value="vigil" className=" text-black"> Vigile</option>
                             </Form.Select>

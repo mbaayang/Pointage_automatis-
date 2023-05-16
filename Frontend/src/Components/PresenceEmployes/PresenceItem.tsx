@@ -1,8 +1,4 @@
 import './PresenceEmployes.css'
-import { useState } from "react";
-import { Button } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
 /* Définition des types des props du composant PresenceItem */
 type PresenceItemProps = {
@@ -15,35 +11,35 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
         <tr>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.date}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.date}</span>
                 </div>
             </td>
             {/* <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.heure}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.heure}</span>
                 </div>
             </td> */}
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.employe.prenom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.employe.prenom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.employe.nom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.employe.nom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.employe.email}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.employe.email}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <span>{presence.heure_arrivée}</span>
+                <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.heure_arrivée}</span>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.heure_sortie}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.heure_sortie}</span>
                 </div>
             </td>
         </tr>

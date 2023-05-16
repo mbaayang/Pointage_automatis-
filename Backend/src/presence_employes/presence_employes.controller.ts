@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, Res, UnauthorizedException } from '@nestjs/common';
 import { PresenceEmployesService } from './presence_employes.service';
 import { CreatePresenceEmployeDto } from './dto/create-presence_employe.dto';

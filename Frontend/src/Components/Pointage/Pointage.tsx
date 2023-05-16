@@ -6,21 +6,13 @@ import { useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://localhost:3000";
 
+
 const Pointage = () => {
   const [defaultText, setDefaulttext] = useState<string>(
     "En attente du pointage..."
   );
-  const [id, setId] = useState<Object>();
-  const [prenom, setPrenom] = useState<string>("- -");
-  const [nom, setNom] = useState<string>("- -");
-  const [image, setImage] = useState<string>("- -");
-  const [matricule, setMatricule] = useState<string>("- -");
-  const [role, setRole] = useState<string>("- -");
   const [bloquer, setBloquer] = useState<boolean>();
   const [mat, setMat] = useState<any>([]);
-  const [donnee, setDonnee] = useState<Object>();
-  const [users, SetUsers] = useState<any>([])
-  const [etat, setEtat] = useState<boolean>(true)
 
 
   /* useEffect(() => { */
@@ -48,8 +40,8 @@ const Pointage = () => {
       <div className="row gap-8">
         <div className="col">
           <div
-            style={{ backgroundColor: "#81ccb7" }}
-            className="d-flex justify-content-center  information"
+         
+            className={`d-flex justify-content-center ${localStorage.getItem("night") ? "information-moon left-moon" : "information left"}  `}
           >
             
             <div className="pt-4 profil">
@@ -72,7 +64,7 @@ const Pointage = () => {
           </div>
         </div>
         <div className="col">
-          <div className="d-flex justify-content-center align-items-center information">
+          <div className={`d-flex justify-content-center align-items-center ${localStorage.getItem("night") ? "information-moon" : "information"}`}>
             <div className="pt-4 profil">
               <span className={`text ${mat.matricule == "- -" ? "" : "cacher"}`}>
                 {" "}
