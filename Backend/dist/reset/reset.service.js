@@ -57,8 +57,8 @@ let ResetService = class ResetService {
     async sendEmail(to) {
         const email = to;
         const user = await this.userRepository.findOne({ where: { email } });
-        const min = 0;
-        const max = 99999;
+        const min = 100000;
+        const max = 999999;
         const randomNumber = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
         const code = await bcrypt.hash(randomNumber, 10);
         this.userRepository.update(user.id, { secretKey: code });

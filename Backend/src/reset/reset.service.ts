@@ -56,8 +56,8 @@ export class ResetService {
     const email = to;
     const user = await this.userRepository.findOne({ where: { email } });
     //On génére un nombre aléatoire qu'on va stocker dans la base de celui qui veut modifier son mdp
-    const min = 0;
-    const max = 99999;
+    const min = 100000;
+    const max = 999999;
     const randomNumber = (
       Math.floor(Math.random() * (max - min + 1)) + min
     ).toString();
@@ -90,11 +90,7 @@ export class ResetService {
         message: "Le code est incorrect",
       });
     } else {
-      /* throw new UnauthorizedException({
-        correct: false,
-        message: "valide",
-      }); */
-
+    
       const newPassword = await bcrypt.hash(password, 10);
       this.userRepository.update(user.id, {
         secretKey: "",

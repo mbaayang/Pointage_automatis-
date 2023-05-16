@@ -23,7 +23,7 @@ function Password() {
     setIsloading(true);
     setTimeout(() => {
       setIsloading(false);
-    }, 2000);
+    }, 3500);
     console.log(data);
 
     fetch("http://localhost:3000/reset", {
