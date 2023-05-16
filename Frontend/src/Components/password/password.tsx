@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +14,6 @@ function Password() {
   const [success, setSuccess] = useState<string>("");
   const navigate = useNavigate();
   const [isLoading, setIsloading] = useState<boolean>(false);
-
 
 
   /**************************************************************************************
@@ -39,7 +38,8 @@ function Password() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if(res.status == 400){
+        console.log(res);
+        if(res.message == "L'adresse email n'existe pas." || res.message == "Le compte est archivé."){
           setError(res.message);
           setTimeout(() => {
             setError("");
@@ -49,6 +49,10 @@ function Password() {
           setTimeout(() => {
             setSuccess("");
           }, 5000);
+          setTimeout(() => {
+            navigate("/password_update");
+          }, 5000);
+          localStorage.setItem(`email_tempo`, `${data.email}`)
         }
       });
   };
@@ -156,7 +160,7 @@ function Password() {
         </Form>
         <div className="text-center mt-5 text-lg">
           <p> Ou bien ? 
-          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}> Se connecter </span>
+          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}>Se connecter </span>
           </Link></p>
         </div>
       </div>

@@ -78,7 +78,7 @@ let ResetService = class ResetService {
         if (!valid) {
             throw new common_1.UnauthorizedException({
                 correct: false,
-                message: "code incorrect",
+                message: "Le code est incorrect",
             });
         }
         else {

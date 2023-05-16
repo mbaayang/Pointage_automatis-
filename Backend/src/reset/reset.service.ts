@@ -87,7 +87,7 @@ export class ResetService {
       /*  console.log("incorrect"); */
       throw new UnauthorizedException({
         correct: false,
-        message: "code incorrect",
+        message: "Le code est incorrect",
       });
     } else {
     
@@ -96,11 +96,11 @@ export class ResetService {
         secretKey: "",
         mot_de_passe: newPassword,
       });
-
+/* 
       throw new UnauthorizedException({
         correct: true,
         message: "reussi",
-      });
+      }); */
     }
 
     /*  const hashedNewPassword = await bcrypt.hash(password, 10);
