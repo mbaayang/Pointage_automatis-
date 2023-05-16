@@ -7,20 +7,6 @@ import { UpdatePresenceEtudiantDto } from './dto/update-presence_etudiant.dto';
 export class PresenceEtudiantsController {
   constructor(private readonly presenceEtudiantsService: PresenceEtudiantsService) {}
 
-  @Post('presence')
-  async create(@Body() createPresenceEtudiantDto: CreatePresenceEtudiantDto, @Res() res) {
-    const dateExists = await this.presenceEtudiantsService.checkDateExists(createPresenceEtudiantDto.date);
-   const idExists = await this.presenceEtudiantsService.checkEmailExists(createPresenceEtudiantDto.email);
-   if (dateExists && idExists) {
-    console.log(idExists);console.log(dateExists);
-    return res.status(HttpStatus.BAD_REQUEST).json({ message: 'Vous avez déjà badgé' });
-  }
-   else{
-  const etudiant = this.presenceEtudiantsService.create(createPresenceEtudiantDto)
-  return res.status(HttpStatus.OK).json({message:'Succes', etudiant}) ;
-  }
-  }
-
   @Get()
   findAll() {
     return this.presenceEtudiantsService.findAll();

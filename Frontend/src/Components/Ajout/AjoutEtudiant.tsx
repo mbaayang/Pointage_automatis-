@@ -57,7 +57,7 @@ function AjoutEtudiant() {
   };
   return (
     <>
-      <div>
+      <div className={`${localStorage.getItem("night") ? "modal-back-moon" : ""}`} >
         <div className="d-flex justify-content-between p-3">
           <h1 className="h4 text-color">Inscire un étudiant</h1>
         </div>

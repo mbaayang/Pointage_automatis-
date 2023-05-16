@@ -29,8 +29,4 @@ export class PresenceEtudiant {
     @JoinColumn()
     @ManyToOne(type => Etudiant)
     etudiant: number;
-
-    /* @ManyToOne(() => Etudiant, (etudiant) => etudiant.etudiants)
-    etudiant: Etudiant; */
-
 }
