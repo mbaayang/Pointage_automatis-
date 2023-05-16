@@ -21,6 +21,8 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
     constructor(presenceEtuRepository) {
         this.presenceEtuRepository = presenceEtuRepository;
     }
+<<<<<<< HEAD
+=======
     async checkDateExists(date) {
         const presence = await this.presenceEtuRepository.findOneBy({ date });
         return !!presence;
@@ -50,6 +52,7 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
         });
         return await this.presenceEtuRepository.save(newPresence);
     }
+>>>>>>> ed1cd8e716050db4e8fd5782b2fd73640cf3b4f2
     findAll() {
         return this.presenceEtuRepository.find({ relations: ['etudiant'] });
     }
