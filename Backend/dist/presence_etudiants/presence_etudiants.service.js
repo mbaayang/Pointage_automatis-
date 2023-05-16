@@ -21,38 +21,6 @@ let PresenceEtudiantsService = class PresenceEtudiantsService {
     constructor(presenceEtuRepository) {
         this.presenceEtuRepository = presenceEtuRepository;
     }
-<<<<<<< HEAD
-=======
-    async checkDateExists(date) {
-        const presence = await this.presenceEtuRepository.findOneBy({ date });
-        return !!presence;
-    }
-    async checkEmailExists(email) {
-        const presence = await this.presenceEtuRepository.findOneBy({ email });
-        return !!presence;
-    }
-    async create(createPresenceEtudiantDto) {
-        const h = new Date().getHours();
-        const m = new Date().getMinutes();
-        const s = new Date().getSeconds();
-        let message = "";
-        if (h >= 8 && m > 30) {
-            message = "Oui";
-        }
-        else {
-            message = "Non";
-        }
-        const newPresence = this.presenceEtuRepository.create({
-            date: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
-            heure: new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds(),
-            etat_presence: "En attente",
-            etat_retard: message,
-            email: createPresenceEtudiantDto.email,
-            etudiant: createPresenceEtudiantDto.etudiant
-        });
-        return await this.presenceEtuRepository.save(newPresence);
-    }
->>>>>>> ed1cd8e716050db4e8fd5782b2fd73640cf3b4f2
     findAll() {
         return this.presenceEtuRepository.find({ relations: ['etudiant'] });
     }

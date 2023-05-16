@@ -17,8 +17,6 @@ import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudi
 @WebSocketGateway({ cors: true })
 @Injectable()
 export class UsersGateway  {
-  logger = new ConsoleLogger();
-  fanOn: any;
   private readonly serialPort: SerialPort;
   @WebSocketServer()
   public server: Server;
