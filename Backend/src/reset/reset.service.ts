@@ -1,11 +1,8 @@
 import {
-  BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { log } from "console";
 import * as nodemailer from "nodemailer";
 import { Employes } from "src/employes/entities/employe.entity";
 import { Repository } from "typeorm";
@@ -42,46 +39,40 @@ export class ResetService {
     });
   }
 
+  async emeilExists(email: string): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return !!user;
+  }
+  async isEmailStateTrue(email: string): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (user) {
+      // Vérifier si l'état de l'utilisateur est égal à true
+      return user.etat === true;
+    }
+    return false; // L'utilisateur n'existe pas
+  }
+
   async sendEmail(to: string): Promise<void> {
-    //Dabord on vérifie si le mail existe dans la base de donnée et n'est pas archiver
     const email = to;
     const user = await this.userRepository.findOne({ where: { email } });
-    if (user && user.etat) {
-      //On génére un nombre aléatoire qu'on va stocker dans la base de celui qui veut modifier son mdp
-      const min = 0;
-      const max = 99999;
-      const randomNumber = (
-        Math.floor(Math.random() * (max - min + 1)) + min
-      ).toString();
-      //on crypte ça
-      const code = await bcrypt.hash(randomNumber, 10);
-      this.userRepository.update(user.id, { secretKey: code });
+    //On génére un nombre aléatoire qu'on va stocker dans la base de celui qui veut modifier son mdp
+    const min = 100000;
+    const max = 999999;
+    const randomNumber = (
+      Math.floor(Math.random() * (max - min + 1)) + min
+    ).toString();
+    //on crypte ça
+    const code = await bcrypt.hash(randomNumber, 10);
+    this.userRepository.update(user.id, { secretKey: code });
+    const mailOptions: nodemailer.SendMailOptions = {
+      from: "mouhamedlamine.ngom@unchk.edu.sn",
+      to,
+      subject: "Reinitialiser mot de passe",
+      text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber} 
 
-      const mailOptions: nodemailer.SendMailOptions = {
-        from: "mouhamedlamine.ngom@unchk.edu.sn",
-        to,
-        subject: "Reinitialiser mot de passe",
-        text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber} 
-
-        Ceci est un email automatique, merci de ne pas répondre`,
-      };
-
-      try {
-        await this.transporter.sendMail(mailOptions);
-        console.log("Email sent successfully");
-      /*   throw new UnauthorizedException({
-          correct: true,
-          message: "un mail à ete envoyer",
-        }); */
-      } catch (error) {
-        console.error("Error sending email:", error);
-      }
-    } else {
-      throw new UnauthorizedException({
-        correct: false,
-        message: "Le compte n'existe plus dans la base de donnée",
-      });
-    }
+      Ceci est un email automatique, merci de ne pas répondre`,
+    };
+    await this.transporter.sendMail(mailOptions);
   }
 
   async sendResponse(

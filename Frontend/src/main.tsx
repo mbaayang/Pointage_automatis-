@@ -26,10 +26,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/admin" element={<PageAdmin />}>
         <Route index element={<Dashboard />}></Route>
-        <Route
-          path="historiqueEtudiant"
-          element={<HistoriqueEtudiant />}
-        ></Route>
+        <Route path="historiqueEtudiant" element={<HistoriqueEtudiant />}></Route>
         <Route path="historiqueEmploye" element={<HistoriqueEmploye />}></Route>
         <Route path="presenceEtudiant" element={<PresenceEtudiant />}></Route>
         <Route path="presenceEmploye" element={<PresenceEmployes />}></Route>
