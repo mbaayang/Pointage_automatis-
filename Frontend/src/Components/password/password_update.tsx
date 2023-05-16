@@ -1,8 +1,9 @@
 import Form from "react-bootstrap/Form";
-import { set, useForm } from "react-hook-form";
-import { Button, InputGroup } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import { Button, } from "react-bootstrap";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Password_update() {
   const {
@@ -12,7 +13,6 @@ function Password_update() {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const password = useRef({});
   password.current = watch("newPassword", "");
 
@@ -20,38 +20,49 @@ function Password_update() {
   const navigate = useNavigate();
   const [isLoading, setIsloading] = useState<boolean>(false);
 
+  function showSuccessAlert() {
+    Swal.fire({
+      title: "Modification réussie!",
+      icon: "success",
+      timer: 2000, // Affiche la boîte de dialogue pendant 2 secondes
+      showConfirmButton: false, // Supprime le bouton "OK"
+    });
+  }
+
   const onSubmit = (data: any) => {
     console.log(data);
-    /*   fetch(
-      
-        
-      `http://localhost:3000/employes/password/${localStorage.getItem(
-        "email"
-      )}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          mot_de_passe: data.actuelPassword,
-          NewPassword: data.newPassword,
-        }),
-      }
-    )
+    setIsloading(true);
+    setTimeout(() => {
+      setIsloading(false);
+    }, 2000);
+
+    fetch("http://localhost:3000/reset/code", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email: localStorage.getItem("email_tempo"),
+        code: data.code,
+        newPassword: data.newPassword,
+      }),
+    })
       .then((res) => res.json())
       .then((res) => {
-        if (res.message == "Le mot de passe est incorrect") {
-          setError("actuel mot de passe incorrect");
-        }
-        if (res.message == "reussi") {
+        console.log(res);
+        setError(res.message)
+        setTimeout(() => {
           setError("");
+        }, 5000);
+        if (res.message == "reussi"){
           showSuccessAlert();
-          reset();
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
         }
-      }); */
+      });
   };
 
   return (
@@ -59,7 +70,7 @@ function Password_update() {
       className="w-full h-screen d-flex justify-center align-items-center"
       style={{ backgroundColor: "#306887" }}
     >
-      <div className="bg-white w-1/3 h-3/5 p-5  rounded-lg">
+      <div className="bg-white w-1/3 h-3/5 p-5 rounded-lg">
         <h2
           className="text-center text-3xl font-medium mb-3"
           style={{ color: "#306887" }}
@@ -82,19 +93,21 @@ function Password_update() {
             {error}
           </div>
           <Form.Group className="mb-3">
-            <Form.Label className="text-lg">code à 6 chiffres</Form.Label>
+            <Form.Label className="text-lg">Code à 6 chiffres</Form.Label>
             <Form.Control
               type="number"
               id="code"
               {...register("code", {
                 required: true,
-            
+                minLength: 6
               })}
             />
             {errors.code?.type === "required" && (
               <p className="text-red-500">Ce champ est obligatoire</p>
             )}
-       
+            {errors.code?.type === "minLength" && (
+              <p className="text-red-500">Minimum 6 caractères</p>
+            )}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label className="text-lg">Nouveau mot de passe</Form.Label>
@@ -140,9 +153,18 @@ function Password_update() {
               </p>
             )}
           </Form.Group>
-          <Button type="submit" variant="outline-success">
-            Modifier
-          </Button>
+          <div className=" flex justify-end mb-3">
+            <Button type="submit" variant="outline-success">
+              Modifier
+            </Button>
+          </div>
+          <div className="text-center">
+            <p>Vous n'avez pas reçu de mail ?  
+            <Link to="/password">
+              <span className=" text-lg underline" style={{ color: "#306887" }}>Renvoyer !</span>
+            </Link>
+            </p>
+          </div>
         </Form>
       </div>
     </div>

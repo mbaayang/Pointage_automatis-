@@ -25,12 +25,12 @@ export class ResetController {
   }
 
   @Post("code")
-  async exempleRoute(
+  async sendResponse(
     @Body("code") code: string,
-    @Body("password") password: string,
+    @Body("newPassword") newPassword: string,
     @Body("email") email: string
   ): Promise<any | null> {
     // Récupérez le texte à partir du corps de la requête
-    await this.resetService.sendResponse(code, password, email);
+    await this.resetService.sendResponse(code, newPassword, email);
   }
 }
