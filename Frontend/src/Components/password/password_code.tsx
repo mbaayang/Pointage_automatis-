@@ -2,55 +2,43 @@ import Form from "react-bootstrap/Form";
 import { set, useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Password() {
+function Password_code() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
   const navigate = useNavigate();
   const [isLoading, setIsloading] = useState<boolean>(false);
-
-
 
   /**************************************************************************************
    ****************************RECUPERATION DONNEE API **********************************
    **************************************************************************************/
-  const onSubmit1 = (data: any) => {
+  const onSubmit = (data: any) => {
     setIsloading(true);
     setTimeout(() => {
       setIsloading(false);
     }, 2000);
     console.log(data);
 
-    fetch("http://localhost:3000/reset", {
+ /*    fetch("http://localhost:3000/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        to: data.email,
+        email: data.email,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        if(res.status == 400){
-          setError(res.message);
-          setTimeout(() => {
-            setError("");
-          }, 5000);
-        }else{
-          setSuccess(res.message);
-          setTimeout(() => {
-            setSuccess("");
-          }, 5000);
-        }
-      });
+        console.log(res);
+      }); */
   };
 
   return (
@@ -63,7 +51,7 @@ function Password() {
           className="text-center text-3xl font-medium mb-3"
           style={{ color: "#306887" }}
         >
-          Vous avez oublié votre mot de passe ?
+          Mot de passe oublié
         </h2>
 
         {error && (
@@ -76,48 +64,21 @@ function Password() {
             <strong> Erreur! </strong> {error}
           </div>
         )}
-        {success && (
-          <div
-            className={`alert alert-success text-center ${
-              isLoading ? "d-none" : ""
-            } `}
-            role="alert"
-          >
-            <strong> Succès! </strong> {success}
-          </div>
-        )}
-        <Form onSubmit={handleSubmit(onSubmit1)} className="space-y-6 pt-3">
+        <Form onSubmit={handleSubmit(onSubmit)} className="space-y-6 pt-3">
           <Form.Group>
-            <Form.Label htmlFor="email" className="text-xl">
-              Adresse email
+            <Form.Label htmlFor="passe" className="text-xl">
+              Code reçu par mail
             </Form.Label>
-            <InputGroup>
-              <InputGroup.Text>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="currentColor"
-                  className="bi bi-envelope"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-                </svg>
-              </InputGroup.Text>
-              <Form.Control
-                type="email"
-                placeholder="Entrer email"
-                {...register("email", {
-                  required: true,
-                  pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                })}
-              />
-            </InputGroup>
-            {errors.email?.type === "required" && (
+
+            <Form.Control
+              type="number"
+              placeholder="code à quatre chiffre"
+              style={{ borderRight: "none" }}
+              {...register("code", { required: true })}
+            />
+
+            {errors.code?.type === "required" && (
               <p className="text-red-500">Ce champs est requis</p>
-            )}
-            {errors.email?.type === "pattern" && (
-              <p className="text-red-500">Entrer un email correct</p>
             )}
           </Form.Group>
 
@@ -150,18 +111,13 @@ function Password() {
               <span className="sr-only">Loading...</span>
             </span>
             <span className={`status ${isLoading ? "d-none" : ""}`}>
-              Réinitialiser
+              Se connecter
             </span>
           </Button>
         </Form>
-        <div className="text-center mt-5 text-lg">
-          <p> Ou bien ? 
-          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}> Se connecter </span>
-          </Link></p>
-        </div>
       </div>
     </div>
   );
 }
 
-export default Password;
+export default Password_code;

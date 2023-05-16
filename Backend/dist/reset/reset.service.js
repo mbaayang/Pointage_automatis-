@@ -43,44 +43,54 @@ let ResetService = class ResetService {
             },
         });
     }
+    async emeilExists(email) {
+        const user = await this.userRepository.findOne({ where: { email } });
+        return !!user;
+    }
+    async isEmailStateTrue(email) {
+        const user = await this.userRepository.findOne({ where: { email } });
+        if (user) {
+            return user.etat === true;
+        }
+        return false;
+    }
     async sendEmail(to) {
         const email = to;
         const user = await this.userRepository.findOne({ where: { email } });
-        if (user && user.etat) {
-            const min = 0;
-            const max = 99999;
-            const randomNumber = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
-            const code = await bcrypt.hash(randomNumber, 10);
-            this.userRepository.update(user.id, { secretKey: code });
-            const mailOptions = {
-                from: "mouhamedlamine.ngom@unchk.edu.sn",
-                to,
-                subject: "Reinitialiser mot de passe",
-                text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber}`,
-            };
-            try {
-                await this.transporter.sendMail(mailOptions);
-                console.log("Email sent successfully");
-            }
-            catch (error) {
-                console.error("Error sending email:", error);
-            }
-        }
-        else {
-            throw new common_1.UnauthorizedException({
-                correct: false,
-                message: "Le compte n'existe plus dans la base de donnée",
-            });
-        }
+        const min = 0;
+        const max = 99999;
+        const randomNumber = (Math.floor(Math.random() * (max - min + 1)) + min).toString();
+        const code = await bcrypt.hash(randomNumber, 10);
+        this.userRepository.update(user.id, { secretKey: code });
+        const mailOptions = {
+            from: "mouhamedlamine.ngom@unchk.edu.sn",
+            to,
+            subject: "Reinitialiser mot de passe",
+            text: ` Reinitialiser votre mot de passe avec le code : ${randomNumber} 
+
+      Ceci est un email automatique, merci de ne pas répondre`,
+        };
+        await this.transporter.sendMail(mailOptions);
     }
     async sendResponse(code, password, email) {
         const user = await this.userRepository.findOne({ where: { email } });
         const valid = await bcrypt.compare(code, user.secretKey);
         if (!valid) {
-            throw new common_1.NotFoundException("User not found");
+            throw new common_1.UnauthorizedException({
+                correct: false,
+                message: "code incorrect",
+            });
         }
         else {
-            console.log("exact tu peut modifier le mot de passe");
+            const newPassword = await bcrypt.hash(password, 10);
+            this.userRepository.update(user.id, {
+                secretKey: "",
+                mot_de_passe: newPassword,
+            });
+            throw new common_1.UnauthorizedException({
+                correct: true,
+                message: "reussi",
+            });
         }
     }
 };
