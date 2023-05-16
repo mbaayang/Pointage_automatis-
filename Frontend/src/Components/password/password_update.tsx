@@ -61,6 +61,7 @@ function Password_update() {
           setTimeout(() => {
             navigate("/");
           }, 2000);
+          localStorage.removeItem("email_tempo");
         }
       });
   };
