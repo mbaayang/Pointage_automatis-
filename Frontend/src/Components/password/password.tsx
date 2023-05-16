@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import { set, useForm } from "react-hook-form";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Password() {
   const {
@@ -26,21 +26,25 @@ function Password() {
     }, 2000);
     console.log(data);
 
- /*    fetch("http://localhost:3000/auth", {
+    fetch("http://localhost:3000/reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        email: data.email,
+        to: data.email,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-      }); */
+       if (res.correct == false) {
+          setError(res.message);
+          setTimeout(() => {
+            setError("");
+          }, 5000);
+        }
+      });
   };
 
   return (
@@ -53,7 +57,7 @@ function Password() {
           className="text-center text-3xl font-medium mb-3"
           style={{ color: "#306887" }}
         >
-          Mot de passe oublié
+          Vous avez oublié votre mot de passe ?
         </h2>
 
         {error && (
@@ -130,10 +134,15 @@ function Password() {
               <span className="sr-only">Loading...</span>
             </span>
             <span className={`status ${isLoading ? "d-none" : ""}`}>
-              Se connecter
+              Réinitialiser
             </span>
           </Button>
         </Form>
+        <div className="text-center mt-5 text-lg">
+          <p> Ou bien ? 
+          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}> Se connecter </span>
+          </Link></p>
+        </div>
       </div>
     </div>
   );
