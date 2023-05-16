@@ -19,18 +19,34 @@ let ResetController = class ResetController {
     constructor(resetService) {
         this.resetService = resetService;
     }
-    async sendEmail(to) {
-        await this.resetService.sendEmail(to);
+    async sendEmail(to, res) {
+        if (!(await this.resetService.emeilExists(to))) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({
+                message: "L'adresse email n'existe pas.",
+            });
+        }
+        else if (!(await this.resetService.isEmailStateTrue(to))) {
+            return res.status(common_1.HttpStatus.BAD_REQUEST).json({
+                message: "Le compte est archivé.",
+            });
+        }
+        else {
+            await this.resetService.sendEmail(to);
+            return res.status(common_1.HttpStatus.OK).json({
+                message: "Un code de vérification vous a été envoyé par email.",
+            });
+        }
     }
     async exempleRoute(code, password, email) {
-        this.resetService.sendResponse(code, password, email);
+        await this.resetService.sendResponse(code, password, email);
     }
 };
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)("to")),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ResetController.prototype, "sendEmail", null);
 __decorate([
