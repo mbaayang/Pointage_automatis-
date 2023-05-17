@@ -290,7 +290,7 @@ export function PresenceEtudiant() {
                   
                 </tr>
               ))}
-            {/* !isLoading && */
+            {/* !skeleton && */
               hasResult &&
               currentItems.map((item, index) => (
                 <PresenceItem presence={item} key={index} />
