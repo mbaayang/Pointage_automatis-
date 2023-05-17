@@ -45,7 +45,7 @@ const Pointage = () => {
           >
             
             <div className="pt-4 profil">
-              <img src={`data:image/png;base64,${mat.image || mat.photo}`} alt="" className="rounded-full w-32 h-32 shadow-md" />
+              <img src={`data:image/png;base64,${mat.image || mat.photo}`} alt="" className="rounded-full w-40 h-40 shadow-md" />
               <div className="pt-2 text" style={{ textAlign: "center" }}>
                 <p>
                   matricule: <span className="pl-5 fw-bold"> {mat.matricule}</span>

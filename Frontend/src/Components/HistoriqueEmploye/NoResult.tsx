@@ -2,7 +2,7 @@
 const NoResult = () => {
   return (
       <tr>
-        <td colSpan={7} className="text-center border-2 border-gray-300">
+        <td colSpan={8} className="text-center border-2 border-gray-300">
         <div className="px-4 py-2 flex flex-col items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                 width="100" height="100"
