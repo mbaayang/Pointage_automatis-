@@ -1,4 +1,4 @@
-import {ConsoleLogger, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from "ws";
 import { SerialPort } from "serialport";
