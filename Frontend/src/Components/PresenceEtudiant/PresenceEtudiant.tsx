@@ -288,7 +288,7 @@ export function PresenceEtudiant() {
                   </td>
                 </tr>
               ))}
-            {!skeleton &&
+            {/* !skeleton && */
               hasResult &&
               currentItems.map((item, index) => (
                 <PresenceItem presence={item} key={index} />

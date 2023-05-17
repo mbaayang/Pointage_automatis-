@@ -34,7 +34,7 @@ function DashboardProf() {
     }, []);
 
     return (
-        <div className="container contenue">
+        <div className="container">
             <div className="row">
                 <Link to="presenceEtudiant" className="col"
                     onClick={() => {
