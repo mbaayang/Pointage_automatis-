@@ -1,8 +1,5 @@
 import {ConsoleLogger, Injectable } from "@nestjs/common";
-import {
-  WebSocketGateway,
-  WebSocketServer,
-} from "@nestjs/websockets";
+import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from "ws";
 import { SerialPort } from "serialport";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -24,11 +21,11 @@ export class UsersGateway  {
 
   //public socket: Socket;
 
-  constructor(@InjectRepository(Employes) private employes: Repository<Employes>,
+  constructor(
+  @InjectRepository(Employes) private employes: Repository<Employes>,
   @InjectRepository(Etudiant) private etudiant: Repository<Etudiant>,
   @InjectRepository(PresenceEmploye) private presenceEmploye: Repository<PresenceEmploye>,
   @InjectRepository(PresenceEtudiant) private presenceEtudiant: Repository<PresenceEtudiant>,
-  
   ) 
   {
     this.serialPort = new SerialPort({
@@ -52,7 +49,10 @@ export class UsersGateway  {
     const result2 = await this.etudiant.findOne({ where: { matricule } });
 
     // Effectuez des opérations supplémentaires en fonction des résultats obtenus
-    if (result1) {
+    if (result1 && result1.etat == false){
+      this.server.emit('data', "Compte archivé");
+    }
+    else if (result1 && result1.etat == true) {
       console.log('La valeur existe dans la table employés');
       console.log(result1);
       this.server.emit('data', result1);
@@ -61,7 +61,7 @@ export class UsersGateway  {
       const m = new Date().getMinutes();
       const s = new Date().getSeconds();
       let message = "";
-        if( h >= 8 && m > 30){
+        if( h >= 8 && m >= 30){
           message = "Oui";
         }
         else{
@@ -78,18 +78,22 @@ export class UsersGateway  {
       const email = result1.email;
       const date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
       const presenceEmployes = await this.presenceEmploye.findOne({ where: { email, date } });
-      if(!presenceEmployes){
-        await this.presenceEmploye.save(presenceEmp);
-      }
-      else{
-        const sortie = {
-          id:presenceEmployes.id,
-          heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
+        if(!presenceEmployes){
+          await this.presenceEmploye.save(presenceEmp);
         }
-        await this.presenceEmploye.update(sortie.id,sortie);
-      }
+        else{
+          const sortie = {
+            id:presenceEmployes.id,
+            heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
+          }
+          await this.presenceEmploye.update(sortie.id,sortie);
+        }
+      
     }
-    if(result2) {
+    else if(result2 && result2.etat == false){
+      this.server.emit('data', "Compte archivé");
+    }
+    else if(result2 && result2.etat == true) {
       console.log('La valeur existe dans la table etudiants');
       console.log(result2);
       this.server.emit('data', result2);
@@ -98,7 +102,7 @@ export class UsersGateway  {
       const m = new Date().getMinutes();
       const s = new Date().getSeconds();
       let message = "";
-        if( h >= 8 && m > 30){
+        if( h >= 8 && m >= 30){
           message = "Oui";
         }
         else{
@@ -118,8 +122,11 @@ export class UsersGateway  {
         if(!presenceEtudiant){
           await this.presenceEtudiant.save(presenceEtu);
         }
+        return;
     }
-    
+    /* else if(!result1 && !result2){
+      this.server.emit('data', "inexistant");
+    } */
   }
 }
 
