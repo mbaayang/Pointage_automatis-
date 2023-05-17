@@ -48,7 +48,10 @@ let UsersGateway = class UsersGateway {
     async checkTables(matricule) {
         const result1 = await this.employes.findOne({ where: { matricule } });
         const result2 = await this.etudiant.findOne({ where: { matricule } });
-        if (result1) {
+        if (result1 && result1.etat == false) {
+            this.server.emit('data', "Compte archivé");
+        }
+        else if (result1 && result1.etat == true) {
             console.log('La valeur existe dans la table employés');
             console.log(result1);
             this.server.emit('data', result1);
@@ -56,7 +59,7 @@ let UsersGateway = class UsersGateway {
             const h = new Date().getHours();
             const m = new Date().getMinutes();
             let message = "";
-            if (h >= 8 && m > 30) {
+            if (h >= 8 && m >= 30) {
                 message = "Oui";
             }
             else {
@@ -84,7 +87,10 @@ let UsersGateway = class UsersGateway {
                 await this.presenceEmploye.update(sortie.id, sortie);
             }
         }
-        if (result2) {
+        else if (result2 && result2.etat == false) {
+            this.server.emit('data', "Compte archivé");
+        }
+        else if (result2 && result2.etat == true) {
             console.log('La valeur existe dans la table etudiants');
             console.log(result2);
             this.server.emit('data', result2);
@@ -93,7 +99,7 @@ let UsersGateway = class UsersGateway {
             const m = new Date().getMinutes();
             const s = new Date().getSeconds();
             let message = "";
-            if (h >= 8 && m > 30) {
+            if (h >= 8 && m >= 30) {
                 message = "Oui";
             }
             else {
@@ -113,6 +119,7 @@ let UsersGateway = class UsersGateway {
             if (!presenceEtudiant) {
                 await this.presenceEtudiant.save(presenceEtu);
             }
+            return;
         }
     }
 };

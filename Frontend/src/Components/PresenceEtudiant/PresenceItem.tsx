@@ -91,7 +91,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span>{presence.etudiant.nom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.etudiant.nom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
@@ -101,7 +101,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className='flex justify-center items-center space-x-2'>
-                    <DropdownButton variant='outline-dark' className='w-8' id="" title="">
+                    <DropdownButton variant={`${localStorage.getItem("night") ? "outline-light" : "outline-dark"}`} className='w-8' id="" title="">
                     <Dropdown.Item onClick={enAttente} as="button" className= {`${yellow} text-center`}> En attente </Dropdown.Item>
                     <Dropdown.Item onClick={present} as="button" className= {`${green} text-center`}> Présent(e) </Dropdown.Item>
                     <Dropdown.Item onClick={absent} as="button" className={`${red} text-center`}> Absent(e) </Dropdown.Item>

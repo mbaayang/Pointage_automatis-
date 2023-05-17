@@ -52,7 +52,10 @@ function Password_update() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
-        setError(res.message)
+        if (res.correct == false) {
+          setError(res.message)
+        }
+        
         setTimeout(() => {
           setError("");
         }, 5000);
@@ -90,9 +93,6 @@ function Password_update() {
           </div>
         )}
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <div className={`alert alert-danger ${error == "" ? "cacher" : ""} `}>
-            {error}
-          </div>
           <Form.Group className="mb-3">
             <Form.Label className="text-lg">Code à 6 chiffres</Form.Label>
             <Form.Control
