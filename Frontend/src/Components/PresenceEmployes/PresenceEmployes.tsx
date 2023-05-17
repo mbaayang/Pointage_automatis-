@@ -58,7 +58,7 @@ export function PresenceEmployes() {
       return;
     }
     const result = presence.filter((item: any) => {
-      return item.employes.email.toLowerCase().includes(value.toLowerCase());
+      return item.employe.email.toLowerCase().includes(value.toLowerCase());
     });
     if (result.length > 0) {
       setHasResult(true);
@@ -201,7 +201,7 @@ export function PresenceEmployes() {
             {!isLoading && hasResult && currentItems.map((item, index) => (
               <PresenceItem presence={item} key={index} />
             ))}
-            {!hasResult &&
+            {!hasResult && !isLoading &&
               <NoResult />
             }
           </tbody>

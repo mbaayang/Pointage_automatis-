@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
-import { Button, } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -53,13 +53,13 @@ function Password_update() {
       .then((res) => {
         console.log(res);
         if (res.correct == false) {
-          setError(res.message)
+          setError(res.message);
         }
-        
+
         setTimeout(() => {
           setError("");
         }, 5000);
-        if (res.message == "reussi"){
+        if (res.message == "reussi") {
           showSuccessAlert();
           setTimeout(() => {
             navigate("/");
@@ -93,9 +93,6 @@ function Password_update() {
           </div>
         )}
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <div className={`alert alert-danger ${error == "" ? "cacher" : ""} `}>
-            {error}
-          </div>
           <Form.Group className="mb-3">
             <Form.Label className="text-lg">Code à 6 chiffres</Form.Label>
             <Form.Control
@@ -103,7 +100,7 @@ function Password_update() {
               id="code"
               {...register("code", {
                 required: true,
-                minLength: 6
+                minLength: 6,
               })}
             />
             {errors.code?.type === "required" && (
@@ -163,10 +160,16 @@ function Password_update() {
             </Button>
           </div>
           <div className="text-center">
-            <p>Vous n'avez pas reçu de mail ?  
-            <Link to="/password">
-              <span className=" text-lg underline" style={{ color: "#306887" }}>Renvoyer !</span>
-            </Link>
+            <p>
+              Vous n'avez pas reçu de mail ?
+              <Link to="/password">
+                <span
+                  className=" text-lg underline"
+                  style={{ color: "#306887" }}
+                >
+                  Renvoyer !
+                </span>
+              </Link>
             </p>
           </div>
         </Form>

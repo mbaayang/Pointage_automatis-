@@ -284,13 +284,18 @@ useEffect(() => {
                  <Skeleton height={30} />
                </p>
              </td>
+             <td>
+               <p>
+                 <Skeleton height={30} />
+               </p>
+             </td>
              
            </tr>
           ))}
         {!isLoading && hasResult && currentItems.map((item, index) => (
             <HistoryItem data={item} key={index} />
         ))}
-        {!hasResult && 
+        {!isLoading && !hasResult && 
             <NoResult />
         }
         </tbody>

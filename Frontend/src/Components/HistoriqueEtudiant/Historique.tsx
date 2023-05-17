@@ -363,12 +363,14 @@ export function HistoriqueEtudiant() {
                   </td>
                 </tr>
               ))}
-            {!isLoading &&
+            {
+              /* !isLoading && */
               hasResult &&
-              currentItems.map((item, index) => (
-                <HistoryItem data={item} key={index} />
-              ))}
-            {!hasResult && <NoResult />}
+                currentItems.map((item, index) => (
+                  <HistoryItem data={item} key={index} />
+                ))
+            }
+            {!isLoading && !hasResult && <NoResult />}
           </tbody>
         </Table>
         {!searchMode && hasResult && (
