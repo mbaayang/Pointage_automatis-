@@ -154,7 +154,7 @@ useEffect(() => {
                   {text: "Email", style: "headerTable"},
                   {text: "Rôle", style: "headerTable"},
                   {text: "Heure d'arrivée", style: "headerTable"},
-                  {text: "Heure de sortie", style: "headerTable"}
+                  {text: "Heure de sortie", style: "headerTable"},
                 ],
                 ...filterDate.map((item: any) => [
                   item.date,
@@ -163,7 +163,7 @@ useEffect(() => {
                   item.employe.email,
                   item.employe.role,
                   item.heure_arrivée,
-                  item.heure_sortie
+                  item.heure_sortie,
                 ]),
               ],
             },
@@ -235,12 +235,12 @@ useEffect(() => {
         <thead>
           <tr>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
-            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure</th>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Email</th>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Rôle</th>
-            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Etat</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure d'arrivée</th>
+            <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Heure de sortie</th>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Retard</th>
           </tr>
         </thead>
