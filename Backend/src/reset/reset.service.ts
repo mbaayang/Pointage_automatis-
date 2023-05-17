@@ -100,7 +100,7 @@ export class ResetService {
       throw new UnauthorizedException({
         correct: true,
         message: "reussi",
-      });
+      }); 
     }
 
     /*  const hashedNewPassword = await bcrypt.hash(password, 10);
