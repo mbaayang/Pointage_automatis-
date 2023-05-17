@@ -96,11 +96,11 @@ export class ResetService {
         secretKey: "",
         mot_de_passe: newPassword,
       });
-/* 
+
       throw new UnauthorizedException({
         correct: true,
         message: "reussi",
-      }); */
+      }); 
     }
 
     /*  const hashedNewPassword = await bcrypt.hash(password, 10);
