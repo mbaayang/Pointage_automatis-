@@ -52,8 +52,8 @@ let UsersGateway = class UsersGateway {
             this.server.emit('data', "Compte archivé");
         }
         else if (result1 && result1.etat == true) {
-            console.log(...oo_oo(`67e53fbb_0`, 'La valeur existe dans la table employés'));
-            console.log(...oo_oo(`67e53fbb_1`, result1));
+            console.log(...oo_oo(`3cf5ff87_0`, 'La valeur existe dans la table employés'));
+            console.log(...oo_oo(`3cf5ff87_1`, result1));
             this.server.emit('data', result1);
             this.serialPort.write('1');
             const h = new Date().getHours();
@@ -91,8 +91,8 @@ let UsersGateway = class UsersGateway {
             this.server.emit('data', "Compte archivé");
         }
         else if (result2 && result2.etat == true) {
-            console.log(...oo_oo(`67e53fbb_2`, 'La valeur existe dans la table etudiants'));
-            console.log(...oo_oo(`67e53fbb_3`, result2));
+            console.log(...oo_oo(`3cf5ff87_2`, 'La valeur existe dans la table etudiants'));
+            console.log(...oo_oo(`3cf5ff87_3`, result2));
             this.server.emit('data', result2);
             this.serialPort.write('1');
             const h = new Date().getHours();
