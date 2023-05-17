@@ -87,6 +87,10 @@ let ResetService = class ResetService {
                 secretKey: "",
                 mot_de_passe: newPassword,
             });
+            throw new common_1.UnauthorizedException({
+                correct: true,
+                message: "reussi",
+            });
         }
     }
 };

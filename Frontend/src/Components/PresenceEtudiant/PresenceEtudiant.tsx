@@ -99,9 +99,10 @@ export function PresenceEtudiant() {
         setCurrentItems(etudiant.slice(0, itemsPerPage));
         if (etudiant.length != 0) {
           setIsLoading(false);
+          console.log(etudiant.length);
         }
       });
-  }, []);
+  }, [itemsPerPage]);
 
   return (
     <div>
@@ -286,6 +287,7 @@ export function PresenceEtudiant() {
                       <Skeleton height={30} />
                     </p>
                   </td>
+                  
                 </tr>
               ))}
             {/* !skeleton && */

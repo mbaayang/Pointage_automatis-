@@ -35,7 +35,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({data}: HistoryItemProps) => {
         </td>
         <td className="border-2 border-gray-300 px-4 py-2">
             <div className="flex justify-center items-center gap-2">
-                <span className=" py-1">{data.heure_arrivée}</span>
+                <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.heure_arrivée}</span>
             </div>
         </td>
         <td className="border-2 border-gray-300 px-4 py-2">

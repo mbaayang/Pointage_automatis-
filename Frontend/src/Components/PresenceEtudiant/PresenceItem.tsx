@@ -91,7 +91,7 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
                 <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{presence.etudiant.nom}</span>
+                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}  >{presence.etudiant.nom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
