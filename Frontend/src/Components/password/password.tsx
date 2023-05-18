@@ -21,9 +21,9 @@ function Password() {
    **************************************************************************************/
   const onSubmit1 = (data: any) => {
     setIsloading(true);
-    setTimeout(() => {
+   /*  setTimeout(() => {
       setIsloading(false);
-    }, 3500);
+    }, 3500); */
     console.log(data);
 
     fetch("http://localhost:3000/reset", {
@@ -39,6 +39,7 @@ function Password() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
+        setIsloading(false);
         if(res.message == "L'adresse email n'existe pas." || res.message == "Le compte est archivé."){
           setError(res.message);
           setTimeout(() => {
