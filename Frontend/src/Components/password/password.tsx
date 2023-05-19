@@ -56,6 +56,7 @@ function Password() {
           localStorage.setItem(`email_tempo`, `${data.email}`)
         }
       });
+      
   };
 
   return (
