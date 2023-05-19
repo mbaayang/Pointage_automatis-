@@ -82,7 +82,7 @@ function Connexion() {
           className="w-full h-screen d-flex justify-center align-items-center"
           style={{ backgroundColor: "#306887" }}
         >
-          <div className="bg-white w-1/3 h-3/5 p-5 rounded-lg">
+          <div className="bg-white p-5 rounded-lg">
             <h2
               className="text-center text-3xl font-medium mb-5"
               style={{ color: "#306887" }}

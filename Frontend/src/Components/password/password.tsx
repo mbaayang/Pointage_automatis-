@@ -21,9 +21,9 @@ function Password() {
    **************************************************************************************/
   const onSubmit1 = (data: any) => {
     setIsloading(true);
-    setTimeout(() => {
+   /*  setTimeout(() => {
       setIsloading(false);
-    }, 3500);
+    }, 3500); */
     console.log(data);
 
     fetch("http://localhost:3000/reset", {
@@ -39,6 +39,7 @@ function Password() {
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
+        setIsloading(false);
         if(res.message == "L'adresse email n'existe pas." || res.message == "Le compte est archivé."){
           setError(res.message);
           setTimeout(() => {
@@ -55,6 +56,13 @@ function Password() {
           localStorage.setItem(`email_tempo`, `${data.email}`)
         }
       });
+      setTimeout(() => {
+        if (error == "") {
+          setError("Le serveur ne repond pas, veillez réessayer plus tard")
+        }
+        setIsloading(false);
+      }, 8000);
+      setError("")
   };
 
   return (
@@ -62,12 +70,10 @@ function Password() {
       className="w-full h-screen d-flex justify-center align-items-center"
       style={{ backgroundColor: "#306887" }}
     >
-      <div className="bg-white w-1/3 h-3/5 p-5  rounded-lg">
-        <h2
-          className="text-center text-3xl font-medium mb-3"
-          style={{ color: "#306887" }}
-        >
-          Vous avez oublié votre mot de passe ?
+      <div className="bg-white p-5 rounded-lg">
+        <h2 className="text-center text-3xl font-medium mb-3"
+          style={{ color: "#306887" }}>
+          Vous avez oublié votre mot <br/> de passe ?
         </h2>
 
         {error && (

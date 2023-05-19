@@ -206,7 +206,7 @@ function Header() {
         </div>
         <Link to={"/admin"}>
           <div
-            className={` text-white absolute ml-12 mt-4 ${localStorage.getItem("role") == "vigil" ? "cacher" : ""
+            className={` text-white absolute home ml-12 mt-4 ${localStorage.getItem("role") == "vigil" ? "cacher" : ""
               }`}
             data-toggle="tooltip"
             data-placement="top"
@@ -231,9 +231,9 @@ function Header() {
         <img
           src={`data:image/png;base64,${localStorage.getItem("image")}`}
           alt=""
-          className="rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3"
+          className="rounded-full w-32 h-32 absolute shadow-md ml-24 mt-3 img_header"
         />
-        <div className="text-white text-lg absolute ml-60 mt-4">
+        <div className="text-white text-lg absolute ml-60 mt-4 nom">
           <p>
             {localStorage.getItem("prenom")} {localStorage.getItem("nom")}{" "}
           </p>
