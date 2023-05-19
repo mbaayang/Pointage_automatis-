@@ -56,6 +56,13 @@ function Password() {
           localStorage.setItem(`email_tempo`, `${data.email}`)
         }
       });
+      setTimeout(() => {
+        if (error == "") {
+          setError("Le serveur ne repond pas, veillez réessayer plus tard")
+        }
+        setIsloading(false);
+      }, 8000);
+      setError("")
   };
 
   return (
