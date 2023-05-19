@@ -99,14 +99,14 @@ const Pointage = () => {
                   bloquer == true ? "" : "cacher"
                 }`}
               >
-                accès refusé
+                Accès refusé
               </p>
               <p
                 className={`text-success none pt-3 ${
                   bloquer == false ? "" : "cacher"
                 }`}
               >
-                accès autorisé
+                Accès autorisé
               </p>
             </div>
           </div>
