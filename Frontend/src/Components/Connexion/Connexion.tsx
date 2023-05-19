@@ -82,12 +82,12 @@ function Connexion() {
           className="w-full h-screen d-flex justify-center align-items-center"
           style={{ backgroundColor: "#306887" }}
         >
-          <div className="bg-white w-1/3 h-3/5 p-5 rounded-lg">
+          <div className="bg-white p-5 rounded-lg">
             <h2
-              className="text-center text-3xl font-medium mb-5"
+              className="text-center text-3xl font-medium ml-16 mr-16 mb-5"
               style={{ color: "#306887" }}
             >
-              CONNEXION
+             PAGE DE CONNEXION
             </h2>
             {error && (
               <div className={`alert alert-danger text-center ${isLoading ? "d-none" : ""} `} role="alert">
@@ -100,19 +100,11 @@ function Connexion() {
                   Adresse email
                 </Form.Label>
                 <InputGroup>
-                  <InputGroup.Text>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25"
-                      height="25"
-                      fill="currentColor"
-                      className="bi bi-envelope"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-                    </svg>
+                  <InputGroup.Text className="bg-white">
+                  <svg fill="#306887" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="30px" height="30px"><path d="M 30.933594 32.527344 C 30.785156 30.914063 30.84375 29.789063 30.84375 28.316406 C 31.574219 27.933594 32.882813 25.492188 33.101563 23.429688 C 33.675781 23.382813 34.582031 22.824219 34.847656 20.613281 C 34.988281 19.425781 34.421875 18.757813 34.074219 18.546875 C 35.007813 15.738281 36.949219 7.046875 30.488281 6.148438 C 29.820313 4.980469 28.117188 4.390625 25.90625 4.390625 C 17.050781 4.554688 15.984375 11.078125 17.925781 18.546875 C 17.578125 18.757813 17.011719 19.425781 17.152344 20.613281 C 17.421875 22.824219 18.324219 23.382813 18.898438 23.429688 C 19.117188 25.492188 20.476563 27.933594 21.210938 28.316406 C 21.210938 29.789063 21.265625 30.914063 21.117188 32.527344 C 19.367188 37.238281 7.546875 35.914063 7 45 L 45 45 C 44.453125 35.914063 32.683594 37.238281 30.933594 32.527344 Z"/></svg>
                   </InputGroup.Text>
                   <Form.Control
+                  style={{ borderLeft: 'none' }}
                     type="email"
                     placeholder="Entrer email"
                     {...register("email", {
@@ -133,22 +125,13 @@ function Connexion() {
                   Mot de passe
                 </Form.Label>
                 <InputGroup>
-                  <InputGroup.Text>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25"
-                      height="25"
-                      fill="currentColor"
-                      className="bi bi-lock"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z" />
-                    </svg>
+                  <InputGroup.Text className="bg-white">
+                  <svg fill="#306887" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="25px" height="30px"><path d="M 25 3 C 18.363281 3 13 8.363281 13 15 L 13 20 L 9 20 C 7.300781 20 6 21.300781 6 23 L 6 47 C 6 48.699219 7.300781 50 9 50 L 41 50 C 42.699219 50 44 48.699219 44 47 L 44 23 C 44 21.300781 42.699219 20 41 20 L 37 20 L 37 15 C 37 8.363281 31.636719 3 25 3 Z M 25 5 C 30.566406 5 35 9.433594 35 15 L 35 20 L 15 20 L 15 15 C 15 9.433594 19.433594 5 25 5 Z M 25 30 C 26.699219 30 28 31.300781 28 33 C 28 33.898438 27.601563 34.6875 27 35.1875 L 27 38 C 27 39.101563 26.101563 40 25 40 C 23.898438 40 23 39.101563 23 38 L 23 35.1875 C 22.398438 34.6875 22 33.898438 22 33 C 22 31.300781 23.300781 30 25 30 Z"/></svg>
                   </InputGroup.Text>
                   <Form.Control
+                  style={{ borderLeft: "none" }}
                     type={password}
                     placeholder="Entrer mot de passe"
-                    style={{ borderRight: "none" }}
                     {...register("passe", { required: true, minLength: 6 })}
                   />
                   <InputGroup.Text className="bg-white">

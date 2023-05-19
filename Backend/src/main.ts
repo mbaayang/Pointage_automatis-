@@ -9,7 +9,6 @@ async function bootstrap() {
     allowedHeaders:"*",
     origin: "*",
   },);
-  app.use(bodyParser.json({limit: '50mb'}));
   await app.listen(3000);
 }
 bootstrap();

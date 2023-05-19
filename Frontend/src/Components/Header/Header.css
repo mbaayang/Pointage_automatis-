@@ -14,10 +14,30 @@
 .cacher{
     display: none;
 }
-
+.img_header{
+    width: 8rem;
+    height: 8rem;
+}
 
 .mode{
     position: absolute;
     margin-top: 10px;
     margin-left: 10px;
 }
+
+@media screen and (max-width: 768px) {
+    .img_header{
+        width: 4rem;
+        height: 4rem;
+        margin-left: 4.5rem;
+    }
+    .nom{
+        margin-left: 9rem;
+        font-size: 1rem;
+        line-height: 1.125rem
+    }
+    .home{
+        margin-left: 1.75rem;
+    }
+}
+    
