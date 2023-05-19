@@ -76,7 +76,7 @@ function Password_update() {
     >
       <div className="bg-white px-5 py-5 rounded-lg">
         <h2
-          className="text-center text-3xl font-medium mb-3"
+          className="text-center text-3xl font-medium ml-16 mr-16 mb-3"
           style={{ color: "#306887" }}
         >
           Mot de passe oublié
