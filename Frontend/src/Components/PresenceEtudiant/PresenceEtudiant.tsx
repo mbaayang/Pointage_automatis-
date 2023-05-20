@@ -136,13 +136,12 @@ export function PresenceEtudiant() {
         </div>
       </div>
       <div
-        className={`flex w-4/5 px-5 py-1 flex-col  drop-shadow-lg text-center border ${
+        className={`xs:w-100 ls:flex lg:w-4/5 lg:px-5 lg:flex-col lg:drop-shadow-lg  lg:text-center lg:border lg:drop-border sm:px-0 box  ${
           chargement ? "" : "d-none"
         } ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}
-        style={{ marginLeft: "10%", height: "600px" }}
       >
         <div
-          className="flex justify-start text-xl font-medium mt-4 space-x-2"
+          className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2 "
           style={{ color: "#81CCB7" }}
         >
           <svg
@@ -159,15 +158,15 @@ export function PresenceEtudiant() {
               d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
             />
           </svg>
-          <span>{localStorage.getItem("annee")}:</span>
+          <span className="nomClasse" >{localStorage.getItem("annee")}:</span>
           <Link to={"../presenceEtudiant"}>
-            <span className="underline"> Liste présence </span>
+            <span className="lg:underline"> Liste présence </span>
           </Link>
           <Link to={"../historiqueEtudiant"}>
             <span> Historiques</span>
           </Link>
         </div>
-        <div className="flex justify-end">
+        <div className="flex lg:justify-end justify-center forSearch">
           <div
             className="border py-2 px-1 text-white rounded-l-md"
             style={{ backgroundColor: "#81CCB7" }}
@@ -196,7 +195,7 @@ export function PresenceEtudiant() {
         </div>
         <Table striped className="mt-3">
           <thead>
-            <tr>
+            <tr className='desk'>
               <th
                 className={`px-4 py-2 border-2 border-gray-300 ${
                   localStorage.getItem("night") ? "text-color-moon" : ""
@@ -251,7 +250,7 @@ export function PresenceEtudiant() {
           <tbody>
             {isLoading &&
               skeleton.map(() => (
-                <tr>
+                <tr className='flex flex-col flex-no wrap sm:table-row'>
                   <td>
                     <p>
                       <Skeleton style={{ color: "grey" }} height={30} />
@@ -287,14 +286,15 @@ export function PresenceEtudiant() {
                       <Skeleton height={30} />
                     </p>
                   </td>
-                  
                 </tr>
               ))}
-            {/* !skeleton && */
+            {
+              /* !skeleton && */
               hasResult &&
-              currentItems.map((item, index) => (
-                <PresenceItem presence={item} key={index} />
-              ))}
+                currentItems.map((item, index) => (
+                  <PresenceItem presence={item} key={index} />
+                ))
+            }
             {!hasResult && <NoResult />}
           </tbody>
         </Table>

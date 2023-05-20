@@ -73,33 +73,35 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
     }
 
     return (
-        <tr>
+        <tr className='flex flex-col flex-no wrap sm:table-row'>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.date}</span>
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Date :</span><span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.date}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.heure}</span>
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Heure :</span><span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.heure}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.prenom}</span>
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Prénom :</span> <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.prenom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}  >{presence.etudiant.nom}</span>
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Nom :</span><span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}  >{presence.etudiant.nom}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.email}</span>
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Email :</span><span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etudiant.email}</span>
                 </div>
             </td>
             <td className="border-2 border-gray-300 px-4 py-2">
+            <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+            <div className="lg:d-none font-bold attribut">Etat :</div>
                 <div className='flex justify-center items-center space-x-2'>
                     <DropdownButton variant={`${localStorage.getItem("night") ? "outline-light" : "outline-dark"}`} className='w-8' id="" title="">
                     <Dropdown.Item onClick={enAttente} as="button" className= {`${yellow} text-center`}> En attente </Dropdown.Item>
@@ -111,12 +113,15 @@ const PresenceItem: React.FC<PresenceItemProps> = ({ presence }: PresenceItemPro
                     {statutPresence == 2 && <span className={`${green} border-none px-3 py-2`}>Présent(e)</span>}
                     {statutPresence == 0 && <span className={`${red} border-none px-3 py-2`}>Absent(e)</span>}
                 </div>
-            </td>
-            <td className="border-2 border-gray-300 px-4 py-2">
-                <div className="flex justify-center items-center gap-2">
-                    <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etat_retard}</span>
                 </div>
             </td>
+            <td className="border-2 border-gray-300 px-4 py-2">
+                <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
+                <span className="lg:d-none font-bold attribut">Retard :</span><span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`} >{presence.etat_retard}</span>
+                </div>
+            </td>
+            <br className='forMediaGap' />
+            
         </tr>
         
     )
