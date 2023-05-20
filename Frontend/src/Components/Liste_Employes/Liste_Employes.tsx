@@ -513,7 +513,7 @@ function Liste_Employes() {
             className="border-2 border-gray-300 rounded-r-md p-2 w-56 forSearch"
           />
         </div>
-        <Table striped className="mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw ">
+        <Table striped className="mt-3">
           <thead>
             <tr className='desk'>
               <th
