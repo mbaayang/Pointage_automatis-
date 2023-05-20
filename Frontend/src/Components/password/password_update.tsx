@@ -74,9 +74,9 @@ function Password_update() {
       className="w-full h-screen d-flex justify-center align-items-center"
       style={{ backgroundColor: "#306887" }}
     >
-      <div className="bg-white w-1/3 h-3/5 p-5 rounded-lg">
+      <div className="bg-white px-5 py-5 rounded-lg">
         <h2
-          className="text-center text-3xl font-medium mb-3"
+          className="text-center text-3xl font-medium ml-16 mr-16 mb-3"
           style={{ color: "#306887" }}
         >
           Mot de passe oublié
@@ -155,7 +155,14 @@ function Password_update() {
             )}
           </Form.Group>
           <div className=" flex justify-end mb-3">
-            <Button type="submit" variant="outline-success" style={{minWidth:"100px"}}>
+            <Button 
+            className="w-full font-medium text-2xl"
+            type="submit"
+            style={{
+              backgroundColor: "#81CCB7",
+              border: "none",
+              color: "#306887",
+            }}>
             <span role="status" className={`${!isLoading ? "d-none" : ""} `}>
               <svg
                 aria-hidden="true"
@@ -188,7 +195,7 @@ function Password_update() {
                   className=" text-lg underline"
                   style={{ color: "#306887" }}
                 >
-                  Renvoyer !
+                  Renvoyer
                 </span>
               </Link>
             </p>
