@@ -74,12 +74,12 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
           <div className="lg:d-none font-bold attribut">Etat :</div>
           {data.etat_presence === "Absent(e)" && (
             <div className="flex justify-center gap-2 items-center bg-red-500 text-white">
-              <span className=" py-1">{data.etat_presence}</span>
+              <span className=" py-1 px-3">{data.etat_presence}</span>
             </div>
           )}
           {data.etat_presence === "Présent(e)" && (
             <div className="flex justify-center gap-2 items-center text-white bg-emerald-500">
-              <span className=" py-1">{data.etat_presence}</span>
+              <span className=" py-1 px-3">{data.etat_presence}</span>
             </div>
           )}
         </div>
