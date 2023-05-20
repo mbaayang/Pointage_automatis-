@@ -146,7 +146,7 @@ export function PresenceEmployes() {
         <Table striped className='mt-3'>
           <thead>
             <tr className='desk'>
-              <th className={`px-4 py-2 border-2 lg:border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
+              <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Email</th>

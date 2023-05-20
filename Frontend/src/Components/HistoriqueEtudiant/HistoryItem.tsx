@@ -35,7 +35,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
-          <span className="lg:d-none font-bold attribut">Prénom :</span>{" "}
+          <span className="lg:d-none font-bold attribut">Prénom :</span>
           <span
             className={`${
               localStorage.getItem("night") ? "text-color-moon" : ""

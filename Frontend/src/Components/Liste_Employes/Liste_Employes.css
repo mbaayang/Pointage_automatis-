@@ -53,10 +53,11 @@
       
     }
  
-    .tbw{
-        width: 100px;
-        margin: auto;
-    }
+ /*    .tbw{
+        width: inherit;
+        margin: 0;
+       
+    } */
     .forSearch{
         padding: 10px 0px;
     }
@@ -82,4 +83,7 @@
   
     
     } 
+    .marginMedia{
+        margin: 10px 0px;
+    }
 }
