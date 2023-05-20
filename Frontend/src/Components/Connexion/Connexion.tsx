@@ -4,7 +4,6 @@ import "./Connexion.css";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Password from "../password/password";
 
 function Connexion() {
   const {
