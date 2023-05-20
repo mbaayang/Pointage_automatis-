@@ -508,7 +508,7 @@ function Liste_Etudiants() {
         </div>
         <Table
           striped
-          className=" mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw "
+          className=" mt-3"
         >
           <thead>
             <tr className="desk">

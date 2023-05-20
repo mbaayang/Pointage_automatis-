@@ -232,7 +232,7 @@ useEffect(() => {
       <div className="flex lg:justify-end justify-center forSearch">
         <input type="date" onChange={(e) => search(e)} className="border-2 border-gray-300 rounded-md p-2 w-60"/>
       </div>
-      <Table striped className='mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw '>
+      <Table striped className='mt-3'>
         <thead>
           <tr className='desk'>
             <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
