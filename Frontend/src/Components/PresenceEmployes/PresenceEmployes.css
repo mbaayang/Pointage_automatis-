@@ -33,7 +33,7 @@
     }
  
     .tbw{
-        width: 100px;
+        width: inherit;
         margin: auto;
     }
     .forSearch{

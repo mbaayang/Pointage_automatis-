@@ -437,7 +437,7 @@ function Liste_Employes() {
       </div>
 
       <div
-        className={`flex w-4/5 mt-48 px-5 py-1 flex-col lg:drop-shadow-lg text-center lg:border relative box ${
+        className={`flex w-4/5 mt-48 lg:px-5 py-1 flex-col lg:drop-shadow-lg text-center lg:border relative box ${
           chargement ? "" : "d-none"
         } ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"} `}
        
