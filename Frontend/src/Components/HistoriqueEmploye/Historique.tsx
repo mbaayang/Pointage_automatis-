@@ -217,7 +217,7 @@ useEffect(() => {
         </div>
       </div>
     <div
-      className={`ls:flex ls:w-4/5 lg:px-5 py-1 lg:flex-col  lg:drop-shadow-lg lg:text-center lg:border box ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}
+      className={`ls:flex lg:w-4/5 lg:px-5 py-1 lg:flex-col  lg:drop-shadow-lg lg:text-center lg:border box ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}
    >
       <div className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2"
         style={{ color: "#81CCB7" }}>

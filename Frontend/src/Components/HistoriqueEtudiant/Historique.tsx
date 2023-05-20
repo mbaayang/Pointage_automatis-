@@ -235,7 +235,7 @@ export function HistoriqueEtudiant() {
         </div>
       </div>
       <div
-        className={`ls:flex ls:w-4/5 lg:px-5 py-1 lg:flex-col  lg:drop-shadow-lg lg:text-center lg:border box ${
+        className={`ls:flex lg:w-4/5 lg:px-5 py-1 lg:flex-col  lg:drop-shadow-lg lg:text-center lg:border box ${
           chargement ? "" : "d-none"
         } ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}
        
