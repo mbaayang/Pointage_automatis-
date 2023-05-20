@@ -443,7 +443,7 @@ function Liste_Employes() {
        
       >
         <div
-          className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2"
+          className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2 marginMedia"
           style={{ color: "#81CCB7" }}
         >
           <svg
@@ -513,7 +513,7 @@ function Liste_Employes() {
             className="border-2 border-gray-300 rounded-r-md p-2 w-56 forSearch"
           />
         </div>
-        <Table striped className="mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw ">
+        <Table striped className="mt-3 md:mt-1 overflow-hidden flex-no-wrap">
           <thead>
             <tr className='desk'>
               <th
@@ -653,7 +653,7 @@ function Liste_Employes() {
                 .map((user: any, position: any) => (
                   <tr className="flex flex-col flex-no wrap sm:table-row">
                     <td className="border-2 border-gray-300 px-4 py-2 desk">
-                      {/*     <div className="flex justify-center items-center gap-2">
+                      {/*     <div className="flex lg:justify-center justify-between items-center gap-2">
                           <input
                             type="checkbox"
                             defaultChecked={initchecked}
@@ -686,7 +686,8 @@ function Liste_Employes() {
                       )}
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Date :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -700,7 +701,8 @@ function Liste_Employes() {
                     </td>
 
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Prénom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -713,7 +715,8 @@ function Liste_Employes() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Nom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -726,7 +729,8 @@ function Liste_Employes() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Email :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -739,11 +743,12 @@ function Liste_Employes() {
                       </div>
                     </td>
                     <td
-                      className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
+                      className={`border-1  border-gray-300 px-4 py-2 justify-between  d-flex lg:justify-content-center`}
                     >
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
                        **********************************************************/}
+                        <span className="lg:d-none font-bold attribut">Action :</span>
                       <div
                         className="mb-2"
                         data-toggle="tooltip"
@@ -771,7 +776,7 @@ function Liste_Employes() {
                        ********************** Pour modifier et archivé ************
                        **********************************************************/}
                       <div
-                        className={`flex justify-center items-center gap-2 ${
+                        className={`flex lg:justify-center justify-between items-center gap-2 ${
                           etat ? "" : "cacher"
                         }`}
                       >
@@ -834,7 +839,8 @@ function Liste_Employes() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Role :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")

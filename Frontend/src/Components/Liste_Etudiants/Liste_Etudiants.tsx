@@ -432,12 +432,12 @@ function Liste_Etudiants() {
         </div>
       </div>
       <div
-        className={`flex w-4/5 mt-48 lg:px-5 py-1 flex-col lg:drop-shadow-lg text-center lg:border relative box ${
+        className={`flex w-4/5 mt-48 lg:px-5 py-1 flex-col lg:drop-shadow-lg text-center lg:border relative box  ${
           chargement ? "" : "d-none"
         } ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"} `}
       >
         <div
-          className="lg:justify-start justify-center text-xl font-medium mt-4 space-x-2"
+          className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2 marginMedia"
           style={{ color: "#81CCB7" }}
         >
           <svg
@@ -506,10 +506,7 @@ function Liste_Etudiants() {
             className="border-2 border-gray-300 rounded-r-md p-2 w-56"
           />
         </div>
-        <Table
-          striped
-          className=" mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw "
-        >
+        <Table striped className="mt-3 md:mt-1 overflow-hidden flex-no-wrap">
           <thead>
             <tr className="desk">
               <th
@@ -647,7 +644,7 @@ function Liste_Etudiants() {
                 )
                 .map((user: any, position: any) => (
                   <tr className="flex flex-col flex-no wrap sm:table-row">
-                    <td className="border-2 border-gray-300 px-4 py-2 desk">
+                    <td className="border-2 border-gray-300 lg:px-4 py-2 desk">
                       {user.isPending ? (
                         <img
                           src={checked_on}
@@ -667,7 +664,10 @@ function Liste_Etudiants() {
                       )}
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                        <span className="lg:d-none font-bold attribut">
+                          Date :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -681,7 +681,8 @@ function Liste_Etudiants() {
                     </td>
 
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Prénom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -694,7 +695,8 @@ function Liste_Etudiants() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Nom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -707,7 +709,8 @@ function Liste_Etudiants() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Email :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -720,11 +723,12 @@ function Liste_Etudiants() {
                       </div>
                     </td>
                     <td
-                      className={`border-1  border-gray-300 px-4 py-2  d-flex justify-content-center`}
+                      className={`border-1  border-gray-300 px-4 py-2  d-flex justify-between lg:justify-content-center`}
                     >
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
                        **********************************************************/}
+                       <span className="lg:d-none font-bold attribut">Action :</span>
                       <div
                         className="mb-2"
                         data-toggle="tooltip"
@@ -752,7 +756,7 @@ function Liste_Etudiants() {
                        ********************** Pour modifier et archivé ************
                        **********************************************************/}
                       <div
-                        className={`flex justify-center items-center gap-2 ${
+                        className={`flex lg:justify-center justify-between items-center gap-2 ${
                           etat ? "" : "cacher"
                         }`}
                       >
@@ -815,7 +819,8 @@ function Liste_Etudiants() {
                       </div>
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex lg:justify-center justify-between items-center gap-2">
+                      <span className="lg:d-none font-bold attribut">Niveau :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -827,7 +832,9 @@ function Liste_Etudiants() {
                         </span>
                       </div>
                     </td>
+                    <br className='forMediaGap' />
                   </tr>
+                  
                 ))}
           </tbody>
         </Table>

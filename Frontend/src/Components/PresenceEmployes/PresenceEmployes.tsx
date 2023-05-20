@@ -143,10 +143,10 @@ export function PresenceEmployes() {
           </div>
           <input type="text" placeholder='Rechercher un email' onChange={(e) => search(e)} className="border-2 border-gray-300 rounded-r-md p-2 w-56" />
         </div>
-        <Table  className='mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw '>
+        <Table  className='mt-3 md:mt-1 overflow-hidden flex-no-wrap tbw'>
           <thead>
             <tr className='desk'>
-              <th className={`px-4 py-2 border-2 lg:border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
+              <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Email</th>
