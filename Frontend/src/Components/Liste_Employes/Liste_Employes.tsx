@@ -440,7 +440,6 @@ function Liste_Employes() {
         className={`flex w-4/5 mt-48 lg:px-5 py-1 flex-col lg:drop-shadow-lg text-center lg:border relative box ${
           chargement ? "" : "d-none"
         } ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"} `}
-       
       >
         <div
           className="flex lg:justify-start justify-center text-xl font-medium mt-4 space-x-2 marginMedia"
@@ -505,7 +504,7 @@ function Liste_Employes() {
               />
             </svg>
           </div>
-          
+
           <input
             onChange={(e) => search(e)}
             type="text"
@@ -515,7 +514,7 @@ function Liste_Employes() {
         </div>
         <Table striped className="mt-3">
           <thead>
-            <tr className='desk'>
+            <tr className="desk">
               <th
                 data-toggle="tooltip"
                 data-placement="top"
@@ -605,7 +604,7 @@ function Liste_Employes() {
           <tbody>
             {isLoading &&
               skeleton.map(() => (
-                <tr className='flex flex-col flex-no wrap sm:table-row'>
+                <tr className="flex flex-col flex-no wrap sm:table-row">
                   <td>
                     <p>
                       <Skeleton height={30} />
@@ -687,7 +686,15 @@ function Liste_Employes() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Date :</span>
+                        <span
+                          className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}
+                        >
+                          Date :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -702,7 +709,13 @@ function Liste_Employes() {
 
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Prénom :</span>
+                        <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
+                          Prénom :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -716,7 +729,13 @@ function Liste_Employes() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Nom :</span>
+                        <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
+                          Nom :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -730,7 +749,13 @@ function Liste_Employes() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Email :</span>
+                        <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
+                          Email :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -748,7 +773,13 @@ function Liste_Employes() {
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
                        **********************************************************/}
-                        <span className="lg:d-none font-bold attribut">Action :</span>
+                      <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
+                        Action :
+                      </span>
                       <div
                         className="mb-2"
                         data-toggle="tooltip"
@@ -840,7 +871,13 @@ function Liste_Employes() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Role :</span>
+                        <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
+                          Role :
+                        </span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -852,9 +889,8 @@ function Liste_Employes() {
                         </span>
                       </div>
                     </td>
-                    <br className='forMediaGap' />
+                    <br className="forMediaGap" />
                   </tr>
-               
                 ))}
           </tbody>
         </Table>

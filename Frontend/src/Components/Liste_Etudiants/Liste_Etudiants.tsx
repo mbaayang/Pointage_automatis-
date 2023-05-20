@@ -668,7 +668,11 @@ function Liste_Etudiants() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                        <span className="lg:d-none font-bold attribut">
+                        <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>
                           Date :
                         </span>
                         <span
@@ -685,7 +689,11 @@ function Liste_Etudiants() {
 
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Prénom :</span>
+                      <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>Prénom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -699,7 +707,11 @@ function Liste_Etudiants() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Nom :</span>
+                      <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>Nom :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -713,7 +725,11 @@ function Liste_Etudiants() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Email :</span>
+                      <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>Email :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
@@ -731,7 +747,11 @@ function Liste_Etudiants() {
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
                        **********************************************************/}
-                       <span className="lg:d-none font-bold attribut">Action :</span>
+                       <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>Action :</span>
                       <div
                         className="mb-2"
                         data-toggle="tooltip"
@@ -823,7 +843,11 @@ function Liste_Etudiants() {
                     </td>
                     <td className="border-2 border-gray-300 px-4 py-2">
                       <div className="flex lg:justify-center justify-between items-center gap-2">
-                      <span className="lg:d-none font-bold attribut">Niveau :</span>
+                      <span className={`lg:d-none font-bold attribut ${
+                            localStorage.getItem("night")
+                              ? "text-color-moon"
+                              : ""
+                          }`}>Niveau :</span>
                         <span
                           className={`${
                             localStorage.getItem("night")
