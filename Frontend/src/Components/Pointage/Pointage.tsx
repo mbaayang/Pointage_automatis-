@@ -31,8 +31,8 @@ const Pointage = () => {
   });
 
   return (
-    <div className="container container-costumer">
-      <div className="row gap-8">
+    <div className="container c">
+      <div className="row gap-8 forDevice">
         <div className="col">
           <div
             className={`d-flex justify-content-center ${

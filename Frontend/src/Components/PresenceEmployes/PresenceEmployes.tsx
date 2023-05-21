@@ -122,7 +122,7 @@ export function PresenceEmployes() {
           </div>
         </div>
       </div>
-      <div className={` xs:w-100 ls:flex lg:w-4/5 lg:px-5 lg:flex-col lg:drop-shadow-lg  lg:text-center lg:border lg:drop-border sm:px-0 box   bg-white ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}  >
+      <div className={` xs:w-100 ls:flex lg:w-4/5 lg:px-5 lg:flex-col lg:drop-shadow-lg  lg:text-center lg:border lg:drop-border sm:px-0 box ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}  >
         <div className='flex lg:justify-start justify-center text-xl  font-medium mt-4 space-x-2 ' style={{ color: '#81CCB7' }}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-7">
             <path strokeLinecap="round" strokeLinejoin="round"

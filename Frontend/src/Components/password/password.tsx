@@ -61,7 +61,7 @@ function Password() {
           setError("Le serveur ne repond pas, veillez réessayer plus tard")
         }
         setIsloading(false);
-      }, 8000);
+      }, 12000);
       setError("")
   };
 
