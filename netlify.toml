@@ -1,6 +1,6 @@
 [build]
   command = "./build.sh" # Commande de construction pour votre projet
-  publish = "./Frontend/build" # Dossier de construction pour votre projet React
+  publish = "./Frontend" # Dossier de construction pour votre projet React
 
 [build.environment]
   API_URL = "./Backend/src" # URL de votre API Nest
