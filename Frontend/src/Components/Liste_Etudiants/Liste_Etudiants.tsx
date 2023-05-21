@@ -742,7 +742,7 @@ function Liste_Etudiants() {
                       </div>
                     </td>
                     <td
-                      className={`border-1  border-gray-300 px-4 py-2  d-flex justify-between lg:justify-content-center`}
+                      className={`border-1  border-gray-300 px-4 py-2  d-flex justify-between lg:justify-center`}
                     >
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
