@@ -12,61 +12,31 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
           <span className="lg:d-none font-bold attribut">Date :</span>
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.date}
-          </span>
+          <span className={`${ localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.date}</span>
         </div>
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
-          <span className="lg:d-none font-bold attribut">Heure :</span>{" "}
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.heure}
-          </span>
+          <span className="lg:d-none font-bold attribut">Heure :</span>
+          <span className={`${ localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.heure}</span>
         </div>
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
           <span className="lg:d-none font-bold attribut">Prénom :</span>
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.etudiant.prenom}
-          </span>
+          <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.etudiant.prenom}</span>
         </div>
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
           <span className="lg:d-none font-bold attribut">Nom :</span>
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.etudiant.nom}
-          </span>
+          <span className={`${localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.etudiant.nom}</span>
         </div>
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
-          <span className="lg:d-none font-bold attribut">Email :</span>{" "}
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.etudiant.email}
-          </span>
+          <span className="lg:d-none font-bold attribut">Email :</span>
+          <span className={`${localStorage.getItem("night") ? "text-color-moon" : "" }`}>{data.etudiant.email}</span>
         </div>
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
@@ -86,13 +56,8 @@ const HistoryItem: React.FC<HistoryItemProps> = ({
       </td>
       <td className="border-2 border-gray-300 px-4 py-2">
         <div className="flex lg:justify-center justify-between flex-wrap items-center gap-2">
-          <span
-            className={`${
-              localStorage.getItem("night") ? "text-color-moon" : ""
-            }`}
-          >
-            {data.etat_retard}
-          </span>
+        <span className="lg:d-none font-bold attribut">Retard :</span>
+          <span className={`${ localStorage.getItem("night") ? "text-color-moon" : ""}`}>{data.etat_retard}</span>
         </div>
       </td>
       <tr className="forMediaGap" />
