@@ -44,7 +44,7 @@ function Liste_Etudiants() {
     setTimeout(() => {
       setChargement(true);
     }, 500);
-  }, []);
+  }, []);content
 
   const {
     register,
@@ -281,7 +281,7 @@ function Liste_Etudiants() {
       let x;
       for (let index = 0; index < tableau.length; index++) {
         x = tableau[index];
-        console.log(x);
+        //console.log(x);
         const headersList = {
           Accept: "*/*",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
