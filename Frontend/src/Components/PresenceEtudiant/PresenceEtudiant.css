@@ -2,3 +2,57 @@
     background-color: #81CCB7;
     color: #fff;
 }
+
+.box {
+    margin-left: 10%;
+    height: 600px;
+}
+.forMediaGap{
+    display: none;
+}
+.attribut{
+    display: none;
+}
+.nomClasse{
+    display: flex;
+}
+@media screen and (max-width:1000px){
+
+    .box{
+  
+        width: 100%;
+        box-shadow: none;
+        margin: 0;
+        border: none;
+        margin-left: 0%;
+        height: 600px;
+        overflow-X:scroll;
+        margin-top: -100px;
+      
+    }
+ 
+    .tbw{
+        width: 100px;
+        margin: auto;
+    }
+    .forSearch{
+        padding: 10px 0px;
+    }
+    
+}
+@media screen and (max-width:624px){
+    .desk{
+        display: none;
+      }
+      .forMediaGap{
+        display: flex;
+     
+      }
+      .attribut{
+        display: block;
+    }
+    .nomClasse{
+        display: none;
+    }
+}
+
