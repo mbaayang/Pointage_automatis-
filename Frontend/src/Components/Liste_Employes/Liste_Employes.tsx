@@ -768,7 +768,7 @@ function Liste_Employes() {
                       </div>
                     </td>
                     <td
-                      className={`border-1  border-gray-300 px-4 py-2 justify-between  d-flex lg:justify-content-center`}
+                      className={`border-1  border-gray-300 px-4 py-2 justify-between  d-flex lg:justify-center`}
                     >
                       {/**********************************************************
                        ********************** Pour déarchivé ***********************
