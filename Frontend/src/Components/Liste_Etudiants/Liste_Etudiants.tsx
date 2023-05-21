@@ -44,7 +44,7 @@ function Liste_Etudiants() {
     setTimeout(() => {
       setChargement(true);
     }, 500);
-  }, []);content
+  }, []);
 
   const {
     register,
