@@ -27,3 +27,21 @@ img{
 .left {
     background-color: #81ccb7; 
 }
+.c{
+    width: 50%;
+}
+@media screen and (max-width:1300px){
+    .c{
+        width: 100%;
+    }
+}
+@media screen and (max-width:763px){
+.c{
+    width: 100%;
+}
+.forDevice{
+ 
+    display: flex;
+    flex-direction: column;
+}
+}
