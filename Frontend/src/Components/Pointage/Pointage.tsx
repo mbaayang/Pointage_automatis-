@@ -29,7 +29,7 @@ const Pointage = () => {
     }),
       [mat];
   });
-  document.body.dataset.theme = localStorage.getItem("night")?.toString() //mode nuit
+  document.body.dataset.theme = localStorage.getItem("night")?.toString()
   return (
     
     <div className="container c">
