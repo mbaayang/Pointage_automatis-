@@ -29,7 +29,7 @@ const Pointage = () => {
     }),
       [mat];
   });
-
+  document.body.dataset.theme = localStorage.getItem("night")?.toString()
   return (
     <div className="container c">
       <div className="row gap-8 forDevice">
