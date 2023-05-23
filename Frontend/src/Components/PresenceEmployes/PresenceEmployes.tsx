@@ -94,9 +94,9 @@ export function PresenceEmployes() {
 
   return (
     <div>
-      <div className={`${!chargement ? "" : "d-none"} `}>
-        <div className="text-center" style={{ marginTop: "20%" }}>
-          <div role="status">
+      <div className={` ${!chargement ? "" : "d-none"} `}>
+        <div className="text-center " style={{ marginTop: "20%" }}>
+          <div role="status" >
             <svg
               aria-hidden="true"
               className="inline w-16 h-16 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -122,20 +122,20 @@ export function PresenceEmployes() {
           </div>
         </div>
       </div>
-      <div className={`flex w-4/5 px-5 py-1 flex-col drop-shadow-lg text-center border ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`} style={{ marginLeft: '10%', height: '600px' }}>
-        <div className='flex justify-start text-xl font-medium mt-4 space-x-2' style={{ color: '#81CCB7' }}>
+      <div className={` xs:w-100 ls:flex lg:w-4/5 lg:px-5 lg:flex-col lg:drop-shadow-lg  lg:text-center lg:border lg:drop-border sm:px-0 box ${chargement ? "" : "d-none"} ${localStorage.getItem("night") ? "bg-list-moon" : "bg-white"}`}  >
+        <div className='flex lg:justify-start justify-center text-xl  font-medium mt-4 space-x-2 ' style={{ color: '#81CCB7' }}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-7">
             <path strokeLinecap="round" strokeLinejoin="round"
               d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
           </svg>
           <Link to={"../presenceEmploye"}>
-            <span className='underline'> Liste présence </span>
+            <span className="lg:underline"> Liste présence </span>
           </Link>
           <Link to={"../historiqueEmploye"}>
             <span> Historiques </span>
           </Link>
         </div>
-        <div className="flex justify-end">
+        <div className="flex lg:justify-end justify-center forSearch">
           <div className='border py-2 px-1 text-white rounded-l-md' style={{ backgroundColor: '#81CCB7' }}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -145,7 +145,7 @@ export function PresenceEmployes() {
         </div>
         <Table striped className='mt-3'>
           <thead>
-            <tr>
+            <tr className='desk'>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Date</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Prenom</th>
               <th className={`px-4 py-2 border-2 border-gray-300 ${localStorage.getItem("night") ? "text-color-moon" : ""}`}>Nom</th>
@@ -158,7 +158,7 @@ export function PresenceEmployes() {
           {isLoading && skeleton
 
             .map(() => (
-              <tr >
+              <tr className='flex flex-col flex-no wrap sm:table-row'>
                 <td>
                   <p>
                     <Skeleton height={30} />

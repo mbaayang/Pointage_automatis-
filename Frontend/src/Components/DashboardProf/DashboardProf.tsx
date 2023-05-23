@@ -36,7 +36,7 @@ function DashboardProf() {
     return (
         <div className="container contenue">
             <div className="row">
-                <Link to="presenceEtudiant" className="col"
+                <Link to="presenceEtudiant" className="col colonne"
                     onClick={() => {
                         localStorage.removeItem("annee");
                         localStorage.setItem("annee", "1 ère année");
@@ -65,7 +65,7 @@ function DashboardProf() {
                         </div>
                     </div>
                 </Link>
-                <Link to="presenceEtudiant" className="col"
+                <Link to="presenceEtudiant" className="col colonne"
                     onClick={() => {
                         localStorage.removeItem("annee");
                         localStorage.setItem("annee", "2 ème année");
@@ -94,7 +94,7 @@ function DashboardProf() {
                         </div>
                     </div>
                 </Link>
-                <Link to="presenceEtudiant" className="col"
+                <Link to="presenceEtudiant" className="col colonne"
                     onClick={() => {
                         localStorage.removeItem("annee");
                         localStorage.setItem("annee", "3 ème année");

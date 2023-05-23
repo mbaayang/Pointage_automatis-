@@ -29,10 +29,10 @@ const Pointage = () => {
     }),
       [mat];
   });
-
+  document.body.dataset.theme = localStorage.getItem("night")?.toString()
   return (
-    <div className="container container-costumer">
-      <div className="row gap-8">
+    <div className="container c">
+      <div className="row gap-8 forDevice">
         <div className="col">
           <div
             className={`d-flex justify-content-center ${
@@ -99,14 +99,14 @@ const Pointage = () => {
                   bloquer == true ? "" : "cacher"
                 }`}
               >
-                accès refusé
+                Accès refusé
               </p>
               <p
                 className={`text-success none pt-3 ${
                   bloquer == false ? "" : "cacher"
                 }`}
               >
-                accès autorisé
+                Accès autorisé
               </p>
             </div>
           </div>

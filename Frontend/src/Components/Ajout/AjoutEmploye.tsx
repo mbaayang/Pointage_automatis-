@@ -193,7 +193,7 @@ function AjoutEmploye() {
                 )}
               </Form.Group>
               <Form.Group as={Col}>
-                <Form.Label>Confirmer mot de passe</Form.Label>
+                <Form.Label>Confirmation</Form.Label>
                 <InputGroup>
                   <Form.Control style={{ borderRight: 'none' }}
                     type={passwordConfirm}

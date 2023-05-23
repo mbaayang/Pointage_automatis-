@@ -11,7 +11,7 @@ function PageAdmin() {
   }
   return (
     <div className="bg-color" >
-      <div className="mt-48" style={{ marginTop: "12rem" }}>
+      <div className="forMT" >
         <Outlet />
       </div>
       <Header/>
