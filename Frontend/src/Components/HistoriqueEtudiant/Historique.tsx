@@ -198,9 +198,7 @@ export function HistoriqueEtudiant() {
     };
     pdfMake.createPdf(docDefinition).download("historique_etudiants.pdf");
     showSuccessAlert();
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    handleClose();
   };
 
   return (

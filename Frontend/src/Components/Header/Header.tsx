@@ -86,7 +86,7 @@ function Header() {
         if (res.message == "reussi") {
           setError("");
           showSuccessAlert();
-          reset();
+          handleClose();
         }
       });
   };
