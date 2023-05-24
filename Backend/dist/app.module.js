@@ -17,10 +17,12 @@ const employe_entity_1 = require("./employes/entities/employe.entity");
 const etudiant_module_1 = require("./etudiant/etudiant.module");
 const etudiant_entity_1 = require("./etudiant/entities/etudiant.entity");
 const presence_employes_module_1 = require("./presence_employes/presence_employes.module");
+const entre_sortie_entity_1 = require("./entre-sortie/entities/entre-sortie.entity");
 const presence_etudiants_module_1 = require("./presence_etudiants/presence_etudiants.module");
 const presence_employe_entity_1 = require("./presence_employes/entities/presence_employe.entity");
 const presence_etudiant_entity_1 = require("./presence_etudiants/entities/presence_etudiant.entity");
 const reset_module_1 = require("./reset/reset.module");
+const entre_sortie_module_1 = require("./entre-sortie/entre-sortie.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -33,7 +35,7 @@ AppModule = __decorate([
                 username: "root",
                 password: "",
                 database: "Pointage",
-                entities: [employe_entity_1.Employes, etudiant_entity_1.Etudiant, presence_employe_entity_1.PresenceEmploye, presence_etudiant_entity_1.PresenceEtudiant],
+                entities: [employe_entity_1.Employes, etudiant_entity_1.Etudiant, presence_employe_entity_1.PresenceEmploye, presence_etudiant_entity_1.PresenceEtudiant, entre_sortie_entity_1.EntreSortie],
                 synchronize: true,
             }),
             employes_module_1.EmployesModule,
@@ -42,6 +44,7 @@ AppModule = __decorate([
             presence_employes_module_1.PresenceEmployesModule,
             presence_etudiants_module_1.PresenceEtudiantsModule,
             reset_module_1.ResetModule,
+            entre_sortie_module_1.EntreSortieModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
