@@ -157,8 +157,8 @@ function Password() {
           </Button>
         </Form>
         <div className="text-center mt-5 text-lg">
-          <p> Ou bien ? 
-          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}>Se connecter </span>
+          <p>Ou bien ? 
+          <Link to="../"><span className="text-xl underline" style={{ color: "#306887" }}>  Se connecter</span>
           </Link></p>
         </div>
       </div>

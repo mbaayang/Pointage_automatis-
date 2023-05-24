@@ -8,10 +8,12 @@ import { Employes } from "./employes/entities/employe.entity";
 import { EtudiantModule } from './etudiant/etudiant.module';
 import { Etudiant } from './etudiant/entities/etudiant.entity';
 import { PresenceEmployesModule } from './presence_employes/presence_employes.module';
+import { EntreSortie } from './entre-sortie/entities/entre-sortie.entity';
 import { PresenceEtudiantsModule } from './presence_etudiants/presence_etudiants.module';
 import { PresenceEmploye } from "./presence_employes/entities/presence_employe.entity";
 import { PresenceEtudiant } from "./presence_etudiants/entities/presence_etudiant.entity";
 import { ResetModule } from './reset/reset.module';
+import { EntreSortieModule } from './entre-sortie/entre-sortie.module';
 
 
 @Module({
@@ -23,7 +25,7 @@ import { ResetModule } from './reset/reset.module';
       username: "root",
       password: "",
       database: "Pointage",
-      entities: [Employes, Etudiant, PresenceEmploye, PresenceEtudiant],
+      entities: [Employes, Etudiant, PresenceEmploye, PresenceEtudiant, EntreSortie],
       synchronize: true,
     }),
     EmployesModule,
@@ -32,6 +34,7 @@ import { ResetModule } from './reset/reset.module';
     PresenceEmployesModule,
     PresenceEtudiantsModule,
     ResetModule,
+    EntreSortieModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,3 +1,4 @@
+import { PresenceEmploye } from 'src/presence_employes/entities/presence_employe.entity';
 import { Injectable } from "@nestjs/common";
 import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from "ws";
@@ -6,7 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Employes} from "../employes/entities/employe.entity";
 import { Etudiant } from "src/etudiant/entities/etudiant.entity";
-import { PresenceEmploye } from "./entities/presence_employe.entity";
+import { EntreSortie } from "src/entre-sortie/entities/entre-sortie.entity";
 import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudiant.entity";
 
 
@@ -23,6 +24,7 @@ export class UsersGateway  {
   @InjectRepository(Etudiant) private etudiant: Repository<Etudiant>,
   @InjectRepository(PresenceEmploye) private presenceEmploye: Repository<PresenceEmploye>,
   @InjectRepository(PresenceEtudiant) private presenceEtudiant: Repository<PresenceEtudiant>,
+  @InjectRepository(EntreSortie) private entreSortie: Repository<EntreSortie>,
   ) 
   {
     this.serialPort = new SerialPort({
@@ -77,14 +79,37 @@ export class UsersGateway  {
         if(!presenceEmployes){
           await this.presenceEmploye.save(presenceEmp);
         }
-        else{
-          const sortie = {
-            id:presenceEmployes.id,
-            heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
+        else if(presenceEmployes){
+          const h = new Date().getHours();
+          const m = new Date().getMinutes();
+          if(h < 18){
+            const email = presenceEmployes.email;
+            const last = await this.entreSortie.findOne({ where: { email }, order: { id: 'DESC' }, });
+            console.log(last);
+            let nature = "sortie";
+            if(last?.nature == "sortie"){
+              nature = "entree"
+            }
+            else{
+              nature = "sortie"
+            }
+            const entresortie = {
+              date: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+              heure: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds(),
+              nature: nature,
+              email: result1.email,
+              employe: result1.id
+            }
+            await this.entreSortie.save(entresortie);
           }
-          await this.presenceEmploye.update(sortie.id,sortie);
-        }
-      
+          else if(h >= 18){
+            const sortie = {
+              id:presenceEmployes.id,
+              heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
+            }
+            await this.presenceEmploye.update(sortie.id,sortie);
+          }
+        }     
     }
     else if(result2 && result2.etat == false){
       this.server.emit('data', "Compte archivé");
