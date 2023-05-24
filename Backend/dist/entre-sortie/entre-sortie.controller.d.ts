@@ -5,7 +5,7 @@ export declare class EntreSortieController {
     private readonly entreSortieService;
     constructor(entreSortieService: EntreSortieService);
     create(createEntreSortieDto: CreateEntreSortieDto): string;
-    findAll(): string;
+    findAll(): Promise<import("./entities/entre-sortie.entity").EntreSortie[]>;
     findOne(id: string): string;
     update(id: string, updateEntreSortieDto: UpdateEntreSortieDto): string;
     remove(id: string): string;

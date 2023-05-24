@@ -82,7 +82,7 @@ export class UsersGateway  {
         else if(presenceEmployes){
           const h = new Date().getHours();
           const m = new Date().getMinutes();
-          if(h < 18){
+          if(h < 20){
             const email = presenceEmployes.email;
             const last = await this.entreSortie.findOne({ where: { email }, order: { id: 'DESC' }, });
             console.log(last);
@@ -102,7 +102,7 @@ export class UsersGateway  {
             }
             await this.entreSortie.save(entresortie);
           }
-          else if(h >= 18){
+          else if(h >= 20){
             const sortie = {
               id:presenceEmployes.id,
               heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
