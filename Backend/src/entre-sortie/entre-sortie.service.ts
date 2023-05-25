@@ -14,11 +14,11 @@ export class EntreSortieService {
   }
 
   findAll() {
-    return this.entreSortieRepository.find({relations: ['employe']});
+    return this.entreSortieRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} entreSortie`;
+    return this.entreSortieRepository.findOneBy({id});
   }
 
   update(id: number, updateEntreSortieDto: UpdateEntreSortieDto) {

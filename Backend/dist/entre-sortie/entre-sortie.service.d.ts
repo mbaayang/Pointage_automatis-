@@ -7,7 +7,7 @@ export declare class EntreSortieService {
     constructor(entreSortieRepository: Repository<EntreSortie>);
     create(createEntreSortieDto: CreateEntreSortieDto): string;
     findAll(): Promise<EntreSortie[]>;
-    findOne(id: number): string;
+    findOne(id: number): Promise<EntreSortie>;
     update(id: number, updateEntreSortieDto: UpdateEntreSortieDto): string;
     remove(id: number): string;
 }

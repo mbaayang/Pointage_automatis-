@@ -25,10 +25,10 @@ let EntreSortieService = class EntreSortieService {
         return 'This action adds a new entreSortie';
     }
     findAll() {
-        return this.entreSortieRepository.find({ relations: ['employe'] });
+        return this.entreSortieRepository.find();
     }
     findOne(id) {
-        return `This action returns a #${id} entreSortie`;
+        return this.entreSortieRepository.findOneBy({ id });
     }
     update(id, updateEntreSortieDto) {
         return `This action updates a #${id} entreSortie`;
