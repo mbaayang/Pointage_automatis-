@@ -9,6 +9,7 @@ import { Employes} from "../employes/entities/employe.entity";
 import { Etudiant } from "src/etudiant/entities/etudiant.entity";
 import { EntreSortie } from "src/entre-sortie/entities/entre-sortie.entity";
 import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudiant.entity";
+import { log } from 'console';
 
 
 
@@ -41,6 +42,8 @@ export class UsersGateway  {
     this.serialPort.on('data', (data: Buffer) => {
       const receivedValue = data.toString().trim();
       this.checkTables(receivedValue);
+     /*  console.log(receivedValue);
+       */
     });
   }
   private async checkTables(matricule: string): Promise<void> {
@@ -50,6 +53,7 @@ export class UsersGateway  {
     // Effectuez des opérations supplémentaires en fonction des résultats obtenus
     if (result1 && result1.etat == false){
       this.server.emit('data', "Compte archivé");
+      this.serialPort.write('2');
     }
     else if (result1 && result1.etat == true) {
       console.log('La valeur existe dans la table employés');
@@ -113,6 +117,7 @@ export class UsersGateway  {
     }
     else if(result2 && result2.etat == false){
       this.server.emit('data', "Compte archivé");
+      this.serialPort.write('2');
     }
     else if(result2 && result2.etat == true) {
       console.log('La valeur existe dans la table etudiants');
