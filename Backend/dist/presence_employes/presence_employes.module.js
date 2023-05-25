@@ -21,9 +21,17 @@ let PresenceEmployesModule = class PresenceEmployesModule {
 };
 PresenceEmployesModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([employe_entity_1.Employes, presence_employe_entity_1.PresenceEmploye, presence_etudiant_entity_1.PresenceEtudiant, etudiant_entity_1.Etudiant, entre_sortie_entity_1.EntreSortie]),],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([
+                employe_entity_1.Employes,
+                presence_employe_entity_1.PresenceEmploye,
+                presence_etudiant_entity_1.PresenceEtudiant,
+                etudiant_entity_1.Etudiant,
+                entre_sortie_entity_1.EntreSortie,
+            ]),
+        ],
         controllers: [presence_employes_controller_1.PresenceEmployesController],
-        providers: [employes_gateway_1.UsersGateway, presence_employes_service_1.PresenceEmployesService]
+        providers: [employes_gateway_1.UsersGateway, presence_employes_service_1.PresenceEmployesService],
     })
 ], PresenceEmployesModule);
 exports.PresenceEmployesModule = PresenceEmployesModule;

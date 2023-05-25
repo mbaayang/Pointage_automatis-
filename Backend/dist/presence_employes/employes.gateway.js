@@ -55,8 +55,8 @@ let UsersGateway = class UsersGateway {
             this.serialPort.write('2');
         }
         else if (result1 && result1.etat == true) {
-            console.log(...oo_oo(`46ba5497_0`, 'La valeur existe dans la table employés'));
-            console.log(...oo_oo(`46ba5497_1`, result1));
+            console.log(...oo_oo(`46d8bd12_0`, 'La valeur existe dans la table employés'));
+            console.log(...oo_oo(`46d8bd12_1`, result1));
             this.server.emit('data', result1);
             this.serialPort.write('1');
             const h = new Date().getHours();
@@ -85,10 +85,10 @@ let UsersGateway = class UsersGateway {
             else if (presenceEmployes) {
                 const h = new Date().getHours();
                 const m = new Date().getMinutes();
-                if (h < 18) {
+                if (h < 20) {
                     const email = presenceEmployes.email;
                     const last = await this.entreSortie.findOne({ where: { email }, order: { id: 'DESC' }, });
-                    console.log(...oo_oo(`46ba5497_2`, last));
+                    console.log(...oo_oo(`46d8bd12_2`, last));
                     let nature = "sortie";
                     if ((last === null || last === void 0 ? void 0 : last.nature) == "sortie") {
                         nature = "entree";
@@ -105,7 +105,7 @@ let UsersGateway = class UsersGateway {
                     };
                     await this.entreSortie.save(entresortie);
                 }
-                else if (h >= 18) {
+                else if (h >= 20) {
                     const sortie = {
                         id: presenceEmployes.id,
                         heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
@@ -119,8 +119,8 @@ let UsersGateway = class UsersGateway {
             this.serialPort.write('2');
         }
         else if (result2 && result2.etat == true) {
-            console.log(...oo_oo(`46ba5497_3`, 'La valeur existe dans la table etudiants'));
-            console.log(...oo_oo(`46ba5497_4`, result2));
+            console.log(...oo_oo(`46d8bd12_3`, 'La valeur existe dans la table etudiants'));
+            console.log(...oo_oo(`46d8bd12_4`, result2));
             this.server.emit('data', result2);
             this.serialPort.write('1');
             const h = new Date().getHours();
