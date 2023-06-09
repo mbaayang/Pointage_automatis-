@@ -179,10 +179,7 @@ useEffect(() => {
       };
       pdfMake.createPdf(docDefinition).download("historique_employes.pdf");
       showSuccessAlert();
-      setTimeout(() => {
-        window.location.reload();
-      }
-      , 2000);
+      handleClose();
     }
 
   return (

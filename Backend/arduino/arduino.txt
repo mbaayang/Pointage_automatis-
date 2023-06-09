@@ -1,6 +1,5 @@
 #include <SPI.h> // SPI
 #include <MFRC522.h> // RFID
-#include <IRremote.h>
 #include <Servo.h> 
 
 
@@ -33,10 +32,8 @@ void setup()
 void loop() 
 {
    unsigned char inChar = (unsigned char)Serial.read();
-  //Serial.println(inChar);
   monServo.write(0);
   if(inChar == '1'){
-    //digitalWrite(ventilateurPIN, LOW);
     monServo.write(180); 
     delay(3000);
     monServo.write(0); 
@@ -50,8 +47,6 @@ void loop()
   // Initialisé la boucle si aucun badge n'est présent 
   if ( !rfid.PICC_IsNewCardPresent())
     return;
-    //Serial.print('@');
-    //delay(1000);
 
   // Vérifier la présence d'un nouveau badge 
   if ( !rfid.PICC_ReadCardSerial())
@@ -70,7 +65,6 @@ void loop()
     Serial.print(nuidPICC[i], HEX);
   }
   delay(3000);
-  //Serial.print("@");
   Serial.println();
 
   // Re-Init RFID
@@ -79,7 +73,9 @@ void loop()
 }
 
 
-//1A92726
-//D3C27E2E
 //8033EF21
+//6061B721
+//70E38721
 //D328A01E
+//D3A67D2E
+//D3C27E2E

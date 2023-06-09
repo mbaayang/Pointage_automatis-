@@ -1,5 +1,5 @@
 import Form from "react-bootstrap/Form";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import "./Connexion.css";
 import { Button, InputGroup } from "react-bootstrap";
 import { useState } from "react";
@@ -45,7 +45,7 @@ function Connexion() {
           setError(res.message);
           setTimeout(() => {
             setError("");
-          }, 3000);
+          }, 5000);
         } else {
           localStorage.setItem("id", res.id);
           localStorage.setItem("token", res.access_token);

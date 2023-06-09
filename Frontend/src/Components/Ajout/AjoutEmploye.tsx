@@ -164,9 +164,9 @@ function AjoutEmploye() {
                 placeholder="Choisir un rôle"
                 {...register("role", { required: true, })}>
                 <option value="" > Choisir un rôle </option>
-                <option value="administrateur" className=" text-black">Admin</option>
-                <option value="professeur" className=" text-black"> Professeur</option>
-                <option value="vigil" className=" text-black"> Vigile</option>
+                <option value="administrateur" className=" text-black">administrateur</option>
+                <option value="professeur" className=" text-black"> professeur</option>
+                <option value="vigil" className=" text-black"> vigil</option>
               </Form.Select>
               {errors.role?.type === "required" && (
                 <p className="text-red-500">Ce champ est obliguatoire</p>
@@ -220,7 +220,7 @@ function AjoutEmploye() {
               <Form.Control type="file" placeholder="" accept="image/*" id="image"
                 {...register("image", { required: true, })} />
               {errors.image?.type === "required" && (
-                <p className="text-red-500">Ce champ est obligatoire</p>
+                <p className="text-red-600">Ce champ est obligatoire</p>
               )}
             </Form.Group>
             <Button

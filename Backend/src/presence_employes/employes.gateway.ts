@@ -9,13 +9,14 @@ import { Employes} from "../employes/entities/employe.entity";
 import { Etudiant } from "src/etudiant/entities/etudiant.entity";
 import { EntreSortie } from "src/entre-sortie/entities/entre-sortie.entity";
 import { PresenceEtudiant } from "src/presence_etudiants/entities/presence_etudiant.entity";
+import { log } from 'console';
 
 
 
 @WebSocketGateway({ cors: true })
 @Injectable()
 export class UsersGateway  {
-  private readonly serialPort: SerialPort;
+  /* private readonly serialPort: SerialPort;
   @WebSocketServer()
   public server: Server;
 
@@ -41,6 +42,8 @@ export class UsersGateway  {
     this.serialPort.on('data', (data: Buffer) => {
       const receivedValue = data.toString().trim();
       this.checkTables(receivedValue);
+      console.log(receivedValue);
+      
     });
   }
   private async checkTables(matricule: string): Promise<void> {
@@ -83,7 +86,7 @@ export class UsersGateway  {
         else if(presenceEmployes){
           const h = new Date().getHours();
           const m = new Date().getMinutes();
-          if(h < 18){
+          if(h < 20){
             const email = presenceEmployes.email;
             const last = await this.entreSortie.findOne({ where: { email }, order: { id: 'DESC' }, });
             console.log(last);
@@ -103,7 +106,7 @@ export class UsersGateway  {
             }
             await this.entreSortie.save(entresortie);
           }
-          else if(h >= 18){
+          else if(h >= 20){
             const sortie = {
               id:presenceEmployes.id,
               heure_sortie: new Date().getHours() + ':' + new Date().getMinutes() + ':'+  new Date().getSeconds()
@@ -147,8 +150,5 @@ export class UsersGateway  {
         }
         return;
     }
-    /* else if(!result1 && !result2){
-      this.server.emit('data', "inexistant");
-    } */
-  }
+  } */
 }
